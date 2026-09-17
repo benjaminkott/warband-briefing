@@ -8,8 +8,8 @@ character.
 **Warband Briefing only reads.** It reads the SavedVariables files of addons
 you already have, merges them for each character and shows the result. It
 needs no Blizzard account, no API key and no internet connection. The
-companion addon in `addon/` is optional; without it, the app works, only
-without the vault rewards and what else only the client knows.
+companion addon in `addon/` is its own source. SavedInstances is optional;
+with it, the app also shows the characters the companion has not seen.
 
 ## Installation
 
@@ -34,13 +34,14 @@ usual paths. If it does not, set **Settings → WoW folder**.
 
 ## Data sources
 
-| Addon                                     | Supplies                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **SavedInstances**                        | Every character it has seen: level, class, item level, M+ score, keystone, **all M+ runs of the week with dungeon name, time, and score**, **all three rows of the Great Vault**, raid and dungeon lockouts with boss counts, currency amounts, completed weekly quests, **weekly activities with partial progress** ("Void Assaults 40 %", "Prey 1/4"), XP and rested XP for alts, zone and last boss, account-wide weeklies                    |
-| **Warband Briefing Companion** (optional) | The Great Vault as the client sees it: **reward and item level for each slot**, the weekly reset of the realm to the second, **best run for each dungeon**, gear with **sockets and upgrade track**, renown for each faction, professions with concentration, active calendar events, **the bags, and the bank and the warband bank at each visit to the bank**, the gold of the warband bank and the guild banks, auctions and mail. See below. |
+| Addon                          | Supplies                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Warband Briefing Companion** | The Great Vault as the client sees it: **reward and item level for each slot**, the weekly reset of the realm to the second, **best run for each dungeon**, gear with **sockets and upgrade track**, renown for each faction, professions with concentration, active calendar events, **the bags, and the bank and the warband bank at each visit to the bank**, the gold of the warband bank and the guild banks, auctions and mail. See below. |
+| **SavedInstances** (optional)  | Every character it has seen: level, class, item level, M+ score, keystone, **all M+ runs of the week with dungeon name, time, and score**, **all three rows of the Great Vault**, raid and dungeon lockouts with boss counts, currency amounts, completed weekly quests, **weekly activities with partial progress** ("Void Assaults 40 %", "Prey 1/4"), XP and rested XP for alts, zone and last boss, account-wide weeklies                    |
 
-SavedInstances is common. If you have it, you see your alts at once. The app watches the SavedVariables files and reads them again as soon
-as WoW writes them: at **logout** and at `/reload`. While WoW runs, a notice
+SavedInstances is common. If you have it, you see your alts at once. The
+app watches the SavedVariables files and reads them again as soon as WoW
+writes them: at **logout** and at `/reload`. While WoW runs, a notice
 says that the app shows the last logout.
 
 ### The companion addon

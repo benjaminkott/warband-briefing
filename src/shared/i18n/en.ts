@@ -457,10 +457,10 @@ export const en: Record<TranslationKey, string> = {
 
   'source.companion.label': 'Warband Briefing Companion',
   'source.companion.description':
-    'The optional addon of this app. It is the only source that knows the contents of the Great Vault: the item level and the reward for each slot. It also reports the exact weekly reset of the realm. Once installed, the app keeps it at its own version.',
+    'The addon of this app. It is the only source that knows the contents of the Great Vault: the item level and the reward for each slot. It also reports the exact weekly reset of the realm. Once installed, the app keeps it at its own version.',
   'source.savedinstances.label': 'SavedInstances',
   'source.savedinstances.description':
-    'A common community addon. It supplies every character it has seen, with item level, M+ score, keystone, currencies, and lockouts.',
+    'A common community addon, optional. It supplies every character it has seen, with item level, M+ score, keystone, currencies, and lockouts.',
 
   'area.identity': 'Character data',
   'area.vault': 'Great Vault',

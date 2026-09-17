@@ -465,10 +465,10 @@ export const de = {
 
   'source.companion.label': 'Warband Briefing Companion',
   'source.companion.description':
-    'Das eigene Addon dieser App, optional. Die einzige Quelle, die weiß, was in der Großen Schatzkammer liegt — Itemlevel und Belohnung pro Fach — und die den Wochenreset des Realms exakt meldet. Einmal installiert, hält die App es selbst auf ihrem Stand.',
+    'Das eigene Addon dieser App. Die einzige Quelle, die weiß, was in der Großen Schatzkammer liegt — Itemlevel und Belohnung pro Fach — und die den Wochenreset des Realms exakt meldet. Einmal installiert, hält die App es selbst auf ihrem Stand.',
   'source.savedinstances.label': 'SavedInstances',
   'source.savedinstances.description':
-    'Weit verbreitetes Community-Addon. Liefert alle Charaktere, die es je gesehen hat — inklusive Item-Level, M+-Score, Schlüsselstein, Währungen und Lockouts.',
+    'Weit verbreitetes Community-Addon, optional. Liefert alle Charaktere, die es je gesehen hat — inklusive Item-Level, M+-Score, Schlüsselstein, Währungen und Lockouts.',
 
   'area.identity': 'Charakterdaten',
   'area.vault': 'Schatzkammer',
