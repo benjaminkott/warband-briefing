@@ -1,0 +1,1228 @@
+{
+  "summary": {
+    "characters": 7556085600,
+    "warband": 12500000000,
+    "guilds": [
+      {
+        "name": "Nachtwache",
+        "money": 3184000000
+      }
+    ],
+    "total": 23240085600,
+    "byAccount": [
+      {
+        "account": "WOW1",
+        "characters": 6473085600,
+        "warband": 12500000000,
+        "guilds": [
+          {
+            "name": "Nachtwache",
+            "money": 3184000000
+          }
+        ],
+        "total": 22157085600
+      },
+      {
+        "account": "WOW2",
+        "characters": 1083000000,
+        "warband": 0,
+        "guilds": [],
+        "total": 1083000000
+      }
+    ]
+  },
+  "history": [
+    {
+      "at": "2026-06-14T18:00:00.000Z",
+      "characters": 3800000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 18284000000,
+      "accounts": {
+        "WOW1": 17201000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-15T18:00:00.000Z",
+      "characters": 3895000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 18379000000,
+      "accounts": {
+        "WOW1": 17296000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-16T18:00:00.000Z",
+      "characters": 3990000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 18474000000,
+      "accounts": {
+        "WOW1": 17391000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-17T18:00:00.000Z",
+      "characters": 4085000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 18569000000,
+      "accounts": {
+        "WOW1": 17486000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-18T18:00:00.000Z",
+      "characters": 4180000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 18664000000,
+      "accounts": {
+        "WOW1": 17581000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-19T18:00:00.000Z",
+      "characters": 4275000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 18759000000,
+      "accounts": {
+        "WOW1": 17676000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-20T18:00:00.000Z",
+      "characters": 4370000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 18854000000,
+      "accounts": {
+        "WOW1": 17771000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-21T18:00:00.000Z",
+      "characters": 4465000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 18949000000,
+      "accounts": {
+        "WOW1": 17866000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-22T18:00:00.000Z",
+      "characters": 4560000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19044000000,
+      "accounts": {
+        "WOW1": 17961000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-23T18:00:00.000Z",
+      "characters": 4655000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19139000000,
+      "accounts": {
+        "WOW1": 18056000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-24T18:00:00.000Z",
+      "characters": 4750000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19234000000,
+      "accounts": {
+        "WOW1": 18151000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-25T18:00:00.000Z",
+      "characters": 4845000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19329000000,
+      "accounts": {
+        "WOW1": 18246000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-26T18:00:00.000Z",
+      "characters": 4940000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19424000000,
+      "accounts": {
+        "WOW1": 18341000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-27T18:00:00.000Z",
+      "characters": 5035000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19519000000,
+      "accounts": {
+        "WOW1": 18436000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-28T18:00:00.000Z",
+      "characters": 5130000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19614000000,
+      "accounts": {
+        "WOW1": 18531000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-29T18:00:00.000Z",
+      "characters": 5225000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19709000000,
+      "accounts": {
+        "WOW1": 18626000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-06-30T18:00:00.000Z",
+      "characters": 5320000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19804000000,
+      "accounts": {
+        "WOW1": 18721000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-01T18:00:00.000Z",
+      "characters": 5415000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19899000000,
+      "accounts": {
+        "WOW1": 18816000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-02T18:00:00.000Z",
+      "characters": 5510000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 19994000000,
+      "accounts": {
+        "WOW1": 18911000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-03T18:00:00.000Z",
+      "characters": 5605000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20089000000,
+      "accounts": {
+        "WOW1": 19006000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-04T18:00:00.000Z",
+      "characters": 5700000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20184000000,
+      "accounts": {
+        "WOW1": 19101000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-05T18:00:00.000Z",
+      "characters": 5795000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20279000000,
+      "accounts": {
+        "WOW1": 19196000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-06T18:00:00.000Z",
+      "characters": 5890000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20374000000,
+      "accounts": {
+        "WOW1": 19291000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-07T18:00:00.000Z",
+      "characters": 5985000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20469000000,
+      "accounts": {
+        "WOW1": 19386000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-08T18:00:00.000Z",
+      "characters": 6080000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20564000000,
+      "accounts": {
+        "WOW1": 19481000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-09T18:00:00.000Z",
+      "characters": 6175000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20659000000,
+      "accounts": {
+        "WOW1": 19576000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-10T18:00:00.000Z",
+      "characters": 6270000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20754000000,
+      "accounts": {
+        "WOW1": 19671000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-11T18:00:00.000Z",
+      "characters": 6365000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20849000000,
+      "accounts": {
+        "WOW1": 19766000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-12T18:00:00.000Z",
+      "characters": 6460000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 20944000000,
+      "accounts": {
+        "WOW1": 19861000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-13T18:00:00.000Z",
+      "characters": 6555000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21039000000,
+      "accounts": {
+        "WOW1": 19956000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-14T18:00:00.000Z",
+      "characters": 6650000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21134000000,
+      "accounts": {
+        "WOW1": 20051000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-15T18:00:00.000Z",
+      "characters": 6745000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21229000000,
+      "accounts": {
+        "WOW1": 20146000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-16T18:00:00.000Z",
+      "characters": 6840000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21324000000,
+      "accounts": {
+        "WOW1": 20241000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-17T18:00:00.000Z",
+      "characters": 6935000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21419000000,
+      "accounts": {
+        "WOW1": 20336000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-18T18:00:00.000Z",
+      "characters": 7030000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21514000000,
+      "accounts": {
+        "WOW1": 20431000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-19T18:00:00.000Z",
+      "characters": 7125000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21609000000,
+      "accounts": {
+        "WOW1": 20526000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-20T18:00:00.000Z",
+      "characters": 7220000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21704000000,
+      "accounts": {
+        "WOW1": 20621000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-21T18:00:00.000Z",
+      "characters": 7315000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21799000000,
+      "accounts": {
+        "WOW1": 20716000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-22T18:00:00.000Z",
+      "characters": 7410000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21894000000,
+      "accounts": {
+        "WOW1": 20811000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-23T18:00:00.000Z",
+      "characters": 7505000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 21989000000,
+      "accounts": {
+        "WOW1": 20906000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-24T18:00:00.000Z",
+      "characters": 7600000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22084000000,
+      "accounts": {
+        "WOW1": 21001000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-25T18:00:00.000Z",
+      "characters": 7695000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22179000000,
+      "accounts": {
+        "WOW1": 21096000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-26T18:00:00.000Z",
+      "characters": 7790000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22274000000,
+      "accounts": {
+        "WOW1": 21191000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-27T18:00:00.000Z",
+      "characters": 7885000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22369000000,
+      "accounts": {
+        "WOW1": 21286000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-28T18:00:00.000Z",
+      "characters": 7980000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22464000000,
+      "accounts": {
+        "WOW1": 21381000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-29T18:00:00.000Z",
+      "characters": 8075000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22559000000,
+      "accounts": {
+        "WOW1": 21476000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-30T18:00:00.000Z",
+      "characters": 8170000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22654000000,
+      "accounts": {
+        "WOW1": 21571000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-07-31T18:00:00.000Z",
+      "characters": 8265000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22749000000,
+      "accounts": {
+        "WOW1": 21666000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-01T18:00:00.000Z",
+      "characters": 8360000000,
+      "warband": 11300000000,
+      "guilds": 3184000000,
+      "total": 22844000000,
+      "accounts": {
+        "WOW1": 21761000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-02T18:00:00.000Z",
+      "characters": 8455000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24139000000,
+      "accounts": {
+        "WOW1": 23056000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-03T18:00:00.000Z",
+      "characters": 8550000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24234000000,
+      "accounts": {
+        "WOW1": 23151000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-04T18:00:00.000Z",
+      "characters": 8645000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24329000000,
+      "accounts": {
+        "WOW1": 23246000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-05T18:00:00.000Z",
+      "characters": 8740000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24424000000,
+      "accounts": {
+        "WOW1": 23341000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-06T18:00:00.000Z",
+      "characters": 8835000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24519000000,
+      "accounts": {
+        "WOW1": 23436000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-07T18:00:00.000Z",
+      "characters": 8930000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24614000000,
+      "accounts": {
+        "WOW1": 23531000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-08T18:00:00.000Z",
+      "characters": 9025000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24709000000,
+      "accounts": {
+        "WOW1": 23626000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-09T18:00:00.000Z",
+      "characters": 9120000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24804000000,
+      "accounts": {
+        "WOW1": 23721000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-10T18:00:00.000Z",
+      "characters": 9215000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24899000000,
+      "accounts": {
+        "WOW1": 23816000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-11T18:00:00.000Z",
+      "characters": 9310000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 24994000000,
+      "accounts": {
+        "WOW1": 23911000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-12T18:00:00.000Z",
+      "characters": 9405000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25089000000,
+      "accounts": {
+        "WOW1": 24006000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-13T18:00:00.000Z",
+      "characters": 9500000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25184000000,
+      "accounts": {
+        "WOW1": 24101000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-14T18:00:00.000Z",
+      "characters": 9595000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25279000000,
+      "accounts": {
+        "WOW1": 24196000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-15T18:00:00.000Z",
+      "characters": 9690000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25374000000,
+      "accounts": {
+        "WOW1": 24291000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-16T18:00:00.000Z",
+      "characters": 9785000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25469000000,
+      "accounts": {
+        "WOW1": 24386000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-17T18:00:00.000Z",
+      "characters": 9880000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25564000000,
+      "accounts": {
+        "WOW1": 24481000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-18T18:00:00.000Z",
+      "characters": 9975000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25659000000,
+      "accounts": {
+        "WOW1": 24576000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-19T18:00:00.000Z",
+      "characters": 10070000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25754000000,
+      "accounts": {
+        "WOW1": 24671000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-20T18:00:00.000Z",
+      "characters": 10165000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25849000000,
+      "accounts": {
+        "WOW1": 24766000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-21T18:00:00.000Z",
+      "characters": 10260000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 25944000000,
+      "accounts": {
+        "WOW1": 24861000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-22T18:00:00.000Z",
+      "characters": 10355000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 26039000000,
+      "accounts": {
+        "WOW1": 24956000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-23T18:00:00.000Z",
+      "characters": 10450000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 26134000000,
+      "accounts": {
+        "WOW1": 25051000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-24T18:00:00.000Z",
+      "characters": 10545000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 26229000000,
+      "accounts": {
+        "WOW1": 25146000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-25T18:00:00.000Z",
+      "characters": 10640000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 26324000000,
+      "accounts": {
+        "WOW1": 25241000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-26T18:00:00.000Z",
+      "characters": 10735000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 26419000000,
+      "accounts": {
+        "WOW1": 25336000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-27T18:00:00.000Z",
+      "characters": 10830000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 26514000000,
+      "accounts": {
+        "WOW1": 25431000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-28T18:00:00.000Z",
+      "characters": 10925000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 26609000000,
+      "accounts": {
+        "WOW1": 25526000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-29T18:00:00.000Z",
+      "characters": 11020000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 26704000000,
+      "accounts": {
+        "WOW1": 25621000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-30T18:00:00.000Z",
+      "characters": 12915000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 28599000000,
+      "accounts": {
+        "WOW1": 27516000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-08-31T18:00:00.000Z",
+      "characters": 12860000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 28544000000,
+      "accounts": {
+        "WOW1": 27461000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-01T18:00:00.000Z",
+      "characters": 12955000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 28639000000,
+      "accounts": {
+        "WOW1": 27556000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-02T18:00:00.000Z",
+      "characters": 13050000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 28734000000,
+      "accounts": {
+        "WOW1": 27651000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-03T18:00:00.000Z",
+      "characters": 13145000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 28829000000,
+      "accounts": {
+        "WOW1": 27746000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-04T18:00:00.000Z",
+      "characters": 13240000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 28924000000,
+      "accounts": {
+        "WOW1": 27841000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-05T18:00:00.000Z",
+      "characters": 13335000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 29019000000,
+      "accounts": {
+        "WOW1": 27936000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-06T18:00:00.000Z",
+      "characters": 13430000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 29114000000,
+      "accounts": {
+        "WOW1": 28031000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-07T18:00:00.000Z",
+      "characters": 13525000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 29209000000,
+      "accounts": {
+        "WOW1": 28126000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-08T18:00:00.000Z",
+      "characters": 13620000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 29304000000,
+      "accounts": {
+        "WOW1": 28221000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-09T18:00:00.000Z",
+      "characters": 13715000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 29399000000,
+      "accounts": {
+        "WOW1": 28316000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-10T18:00:00.000Z",
+      "characters": 13810000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 29494000000,
+      "accounts": {
+        "WOW1": 28411000000,
+        "WOW2": 1083000000
+      }
+    },
+    {
+      "at": "2026-09-11T18:00:00.000Z",
+      "characters": 13905000000,
+      "warband": 12500000000,
+      "guilds": 3184000000,
+      "total": 29589000000,
+      "accounts": {
+        "WOW1": 28506000000,
+        "WOW2": 1083000000
+      }
+    }
+  ],
+  "warbandBanks": [
+    {
+      "account": "WOW1",
+      "updatedAt": "2026-09-10T20:15:00.000Z",
+      "tabs": [
+        {
+          "name": "Reiter 1",
+          "slots": 98,
+          "free": 91,
+          "items": [
+            {
+              "itemId": 212283,
+              "name": "Flask of Alchemical Chaos",
+              "count": 18,
+              "quality": 3,
+              "category": "consumable",
+              "itemLevel": null,
+              "tooltip": [
+                {
+                  "left": "Flask of Alchemical Chaos",
+                  "right": null,
+                  "leftColor": "0070dd",
+                  "rightColor": null
+                },
+                {
+                  "left": "Item Level 80",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "Use: Increases your highest secondary stat by 2,825 for 1 hour. This effect changes to your highest stat every 60 sec. Persists through death.",
+                  "right": null,
+                  "leftColor": "00ff00",
+                  "rightColor": null
+                },
+                {
+                  "left": "",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "Requires Level 71",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "Sell Price: 3 75",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                }
+              ],
+              "craftTier": 3
+            },
+            {
+              "itemId": 212265,
+              "name": "Tempered Potion",
+              "count": 55,
+              "quality": 3,
+              "category": "consumable",
+              "itemLevel": null,
+              "craftTier": 2
+            },
+            {
+              "itemId": 212244,
+              "name": "Algari Healing Potion",
+              "count": 40,
+              "quality": 2,
+              "category": "consumable",
+              "itemLevel": null,
+              "craftTier": 3
+            },
+            {
+              "itemId": 222720,
+              "name": "Feast of the Divine Day",
+              "count": 6,
+              "quality": 3,
+              "category": "consumable",
+              "itemLevel": null,
+              "craftTier": 3
+            },
+            {
+              "itemId": 212241,
+              "name": "Crystallized Augment Rune",
+              "count": 3,
+              "quality": 4,
+              "category": "consumable",
+              "itemLevel": null
+            },
+            {
+              "itemId": 213196,
+              "name": "Vial of Kaheti Oils",
+              "count": 12,
+              "quality": 2,
+              "category": "enhancement",
+              "itemLevel": null,
+              "craftTier": 3
+            },
+            {
+              "itemId": 220187,
+              "name": "Algari Mana Oil",
+              "count": 15,
+              "quality": 2,
+              "category": "enhancement",
+              "itemLevel": null,
+              "craftTier": 2
+            }
+          ]
+        },
+        {
+          "name": "Reiter 2",
+          "slots": 98,
+          "free": 92,
+          "items": [
+            {
+              "itemId": 219902,
+              "name": "Mycobloom",
+              "count": 1000,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "tooltip": [
+                {
+                  "left": "Mycobloom",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "Crafting Reagent",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "Sell Price: 45",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                }
+              ],
+              "craftTier": 1
+            },
+            {
+              "itemId": 210796,
+              "name": "Luredrop",
+              "count": 820,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 2
+            },
+            {
+              "itemId": 215137,
+              "name": "Ironclaw Ore",
+              "count": 640,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 2
+            },
+            {
+              "itemId": 210936,
+              "name": "Weavercloth",
+              "count": 900,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 1
+            },
+            {
+              "itemId": 222801,
+              "name": "Gloom Chitin",
+              "count": 130,
+              "quality": 2,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 2
+            },
+            {
+              "itemId": 224828,
+              "name": "Null Stone",
+              "count": 9,
+              "quality": 3,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 3
+            }
+          ]
+        },
+        {
+          "name": "Reiter 3",
+          "slots": 98,
+          "free": 98,
+          "items": []
+        }
+      ]
+    }
+  ]
+}

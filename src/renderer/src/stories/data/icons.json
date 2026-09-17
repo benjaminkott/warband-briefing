@@ -1,0 +1,56 @@
+{
+  "item": {
+    "212000": "inv_helmet_03",
+    "212001": "inv_jewelry_necklace_03",
+    "212002": "inv_shoulder_02",
+    "212003": "inv_chest_plate04",
+    "212004": "inv_pants_03",
+    "212005": "inv_boots_plate_01",
+    "212006": "inv_jewelry_ring_03",
+    "212007": "inv_jewelry_ring_03",
+    "212008": "inv_sword_04",
+    "259085": "inv_misc_rune_01",
+    "222720": "inv_misc_food_15",
+    "222730": "inv_misc_food_15",
+    "219902": "inv_misc_herb_01",
+    "210796": "inv_misc_herb_02",
+    "210805": "inv_polearm_2h_arathor_c_01",
+    "224072": "inv_misc_gem_pearl_04",
+    "226263": "icon_treasuremap",
+    "228942": "inv_misc_enchantedpearl",
+    "221756": "inv_enchant_shardprismaticlarge",
+    "211296": "inv_misc_gem_diamond_01",
+    "212663": "inv_misc_gem_topaz_02",
+    "213196": "inv_alchemy_potion_01",
+    "220187": "inv_potion_51",
+    "215137": "inv_ore_iron_01",
+    "219926": "inv_misc_monsterscales_17",
+    "218713": "inv_misc_drum_01",
+    "223160": "inv_misc_key_04",
+    "212664": "inv_misc_gem_sapphire_02",
+    "210814": "inv_misc_dust_02",
+    "223513": "inv_misc_gem_pearl_04",
+    "199756": "inv_sword_04",
+    "224828": "inv_misc_gem_diamond_01",
+    "210936": "inv_misc_bag_10",
+    "222801": "inv_misc_monsterclaw_01"
+  },
+  "currency": {
+    "3444": "inv_misc_gem_topaz_02",
+    "3445": "inv_misc_gem_sapphire_02",
+    "3509": "inv_misc_dust_02",
+    "3356": "inv_misc_gem_diamond_01",
+    "3008": "inv_valorstone_base",
+    "3418": "inv_misc_gem_diamond_01"
+  },
+  "recipe": {
+    "430619": "inv_alchemy_70_flask01",
+    "430620": "inv_misc_bag_10"
+  },
+  "profession": {
+    "164": "ui_profession_blacksmithing",
+    "171": "ui_profession_alchemy",
+    "186": "inv_ore_iron_01",
+    "197": "inv_misc_bag_10"
+  }
+}

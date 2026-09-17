@@ -1,0 +1,6 @@
+out/
+storybook-static/
+custom-elements.json
+package-lock.json
+*.tsbuildinfo
+addon/

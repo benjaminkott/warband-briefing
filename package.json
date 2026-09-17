@@ -1,0 +1,108 @@
+{
+  "name": "warband-briefing",
+  "version": "0.1.0-beta.1",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev --watch",
+    "start": "electron-vite preview",
+    "build": "npm run addon && electron-vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "dist": "npm run addon && electron-vite build && electron-builder --win --dir",
+    "dist:installer": "npm run addon && electron-vite build && electron-builder --win",
+    "addon": "node scripts/sync-addon-version.mjs",
+    "version": "npm run addon && git add addon/WarbandBriefing/WarbandBriefing.toc",
+    "test": "vitest run",
+    "release": "npm run addon && electron-vite build && electron-builder --win --publish always",
+    "storybook": "npm run cem && storybook dev -p 6006 --no-open",
+    "build-storybook": "npm run cem && storybook build",
+    "cem": "cem analyze",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "license": "ISC",
+  "description": "Shows the weekly tasks of all WoW characters. Reads the SavedVariables of installed addons and merges them for each character.",
+  "dependencies": {
+    "@lit/context": "^1.1.6",
+    "electron-updater": "^6.8.9",
+    "lit": "^3.3.3"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@material-symbols/svg-400": "^0.47.2",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/addon-vitest": "^10.6.0",
+    "@storybook/web-components-vite": "^10.6.0",
+    "@types/node": "^26.5.0",
+    "@vitest/browser-playwright": "^4.1.11",
+    "@vitest/coverage-v8": "^4.1.11",
+    "electron": "^44.2.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "playwright": "^1.63.0",
+    "playwright-core": "^1.63.0",
+    "prettier": "^3.9.6",
+    "storybook": "^10.6.0",
+    "typescript": "^7.0.2",
+    "vite": "^7.3.6",
+    "vitest": "^4.1.11"
+  },
+  "type": "module",
+  "build": {
+    "appId": "de.warbandbriefing.app",
+    "productName": "Warband Briefing",
+    "copyright": "Warband Briefing",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "addon",
+        "to": "addon"
+      }
+    ],
+    "artifactName": "WarbandBriefing-Setup-${version}.${ext}",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "benjaminkott",
+        "repo": "warband-briefing"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Warband Briefing",
+      "deleteAppDataOnUninstall": false,
+      "differentialPackage": true
+    }
+  },
+  "author": {
+    "name": "Benjamin Kott",
+    "email": "benjamin.kott@outlook.com"
+  },
+  "customElements": "custom-elements.json",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benjaminkott/warband-briefing.git"
+  },
+  "homepage": "https://github.com/benjaminkott/warband-briefing"
+}

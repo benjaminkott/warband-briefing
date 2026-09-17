@@ -1,0 +1,77 @@
+{
+  "region": "eu",
+  "wowPath": "C:\\Program Files (x86)\\World of Warcraft\\_retail_",
+  "hiddenKeys": [],
+  "hiddenAccounts": [],
+  "autoRefreshMinutes": 5,
+  "weeklyQuests": [
+    {
+      "id": 93909,
+      "label": "Midnight: Weekly",
+      "pool": [93766, 93767, 93769, 93889, 93890, 93891, 93892, 93909, 93910, 93911, 93912, 93913, 94457, 95842, 95843, 96727, 98232]
+    },
+    {
+      "id": 93751,
+      "label": "Dungeon Weekly",
+      "pool": [93751, 93752, 93753, 93754, 93755, 93756, 93757, 93758, 98220]
+    },
+    {
+      "id": 96995,
+      "label": "Turn Back the Surge"
+    },
+    {
+      "id": 94446,
+      "label": "A Nightmarish Task"
+    },
+    {
+      "id": 95901,
+      "label": "Alchemy Services Requested",
+      "profession": 171
+    }
+  ],
+  "trackedCurrencies": [3444, 3445, 3509],
+  "goals": [
+    {
+      "id": "vaultSlots-6",
+      "kind": "vaultSlots",
+      "target": 6
+    },
+    {
+      "id": "mythicRuns-4",
+      "kind": "mythicRuns",
+      "target": 4
+    },
+    {
+      "id": "vaultSlots-3-blackhand-mirella",
+      "kind": "vaultSlots",
+      "target": 3,
+      "characters": ["blackhand-mirella"]
+    }
+  ],
+  "minLevel": 10,
+  "language": "system",
+  "theme": "system",
+  "enabledSources": {},
+  "customTasks": [],
+  "customTicks": {},
+  "updateSource": {
+    "kind": "github",
+    "repo": "benjaminkott/warband-briefing"
+  },
+  "autoUpdate": true,
+  "autoStart": false,
+  "onClose": "quit",
+  "catalogUpdates": false,
+  "gameIcons": true,
+  "wowheadTooltips": true,
+  "display": {},
+  "eveningMinutes": 90,
+  "supplyMinimums": {},
+  "taskSkips": {
+    "blackhand-sylvara": ["vault:raid", "currency:3445", "weekly:93909"],
+    "blackhand-mirella": ["weekly:93751", "weekly:93909"],
+    "blackhand-thorgrim": ["weekly:93909"]
+  },
+  "resolvedLocale": "de",
+  "trackedFactions": [2772, 2770, 2710, 2696, 2744, 2712, 2713]
+}

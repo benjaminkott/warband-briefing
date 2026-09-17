@@ -1,0 +1,58 @@
+{
+  "idle": {
+    "supported": true,
+    "currentVersion": "0.1.0",
+    "checking": false,
+    "available": false,
+    "latestVersion": null,
+    "releaseNotes": null,
+    "downloading": false,
+    "percent": 0,
+    "downloaded": false,
+    "lastCheckedAt": "2026-09-11T15:00:00.000Z",
+    "error": null,
+    "sourceLabel": "GitHub"
+  },
+  "available": {
+    "supported": true,
+    "currentVersion": "0.1.0",
+    "checking": false,
+    "available": true,
+    "latestVersion": "0.2.0",
+    "releaseNotes": "Lit",
+    "downloading": false,
+    "percent": 0,
+    "downloaded": false,
+    "lastCheckedAt": "2026-09-11T15:00:00.000Z",
+    "error": null,
+    "sourceLabel": "GitHub"
+  },
+  "downloading": {
+    "supported": true,
+    "currentVersion": "0.1.0",
+    "checking": false,
+    "available": true,
+    "latestVersion": "0.2.0",
+    "releaseNotes": "Lit",
+    "downloading": true,
+    "percent": 62,
+    "downloaded": false,
+    "lastCheckedAt": "2026-09-11T15:00:00.000Z",
+    "error": null,
+    "sourceLabel": "GitHub"
+  },
+  "ready": {
+    "supported": true,
+    "currentVersion": "0.1.0",
+    "checking": false,
+    "available": true,
+    "latestVersion": "0.2.0",
+    "releaseNotes": "Lit",
+    "downloading": false,
+    "percent": 100,
+    "downloaded": true,
+    "lastCheckedAt": "2026-09-11T15:00:00.000Z",
+    "error": null,
+    "sourceLabel": "GitHub"
+  }
+}

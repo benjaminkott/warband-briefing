@@ -1,0 +1,2006 @@
+{
+  "now": "2026-09-11T18:00:00.000Z",
+  "resetAt": "2026-09-09T15:00:00.000Z",
+  "nextResetAt": "2026-09-16T15:00:00.000Z",
+  "untilReset": "4d 21h",
+  "maxLevel": 90,
+  "accounts": ["WOW1", "WOW2"],
+  "characters": [
+    {
+      "key": "blackhand-auriel",
+      "realm": "Blackhand",
+      "realmSlug": "blackhand",
+      "region": "eu",
+      "className": "Paladin",
+      "classToken": "PALADIN",
+      "spec": "Retribution",
+      "level": 90,
+      "itemLevel": 676,
+      "faction": "Horde",
+      "guild": "Nachtwache",
+      "money": 4128054400,
+      "mythicRating": 2841,
+      "playedTotal": 1842000,
+      "playedLevel": 96400,
+      "keystone": {
+        "name": "The Dawnbreaker",
+        "level": 14
+      },
+      "mythicRuns": [
+        {
+          "dungeon": "Ara-Kara, City of Echoes",
+          "mapChallengeModeId": 503,
+          "level": 13,
+          "completed": true,
+          "durationSec": 1772,
+          "score": 318,
+          "completedAt": "2026-09-10T12:00:00.000Z"
+        },
+        {
+          "dungeon": "The Dawnbreaker",
+          "mapChallengeModeId": 505,
+          "level": 12,
+          "completed": true,
+          "durationSec": 1752,
+          "score": 301,
+          "completedAt": "2026-09-10T14:00:00.000Z"
+        },
+        {
+          "dungeon": "Cinderbrew Meadery",
+          "mapChallengeModeId": 506,
+          "level": 12,
+          "completed": false,
+          "durationSec": 2190,
+          "score": 282,
+          "completedAt": "2026-09-10T16:00:00.000Z"
+        },
+        {
+          "dungeon": "Priory of the Sacred Flame",
+          "mapChallengeModeId": 499,
+          "level": 11,
+          "completed": true,
+          "durationSec": 1732,
+          "score": 288,
+          "completedAt": "2026-09-11T12:00:00.000Z"
+        }
+      ],
+      "vault": [
+        {
+          "category": "raid",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 2,
+              "level": 2,
+              "rewardItemLevel": 672,
+              "unlocked": true,
+              "difficultyId": 15
+            },
+            {
+              "threshold": 4,
+              "progress": 4,
+              "level": 2,
+              "rewardItemLevel": 672,
+              "unlocked": true,
+              "difficultyId": 15
+            },
+            {
+              "threshold": 6,
+              "progress": 4,
+              "level": 2,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 2
+        },
+        {
+          "category": "dungeon",
+          "slots": [
+            {
+              "threshold": 1,
+              "progress": 1,
+              "level": 13,
+              "rewardItemLevel": 678,
+              "unlocked": true,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 4,
+              "level": 13,
+              "rewardItemLevel": 678,
+              "unlocked": true,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 4,
+              "level": 13,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 2
+        },
+        {
+          "category": "world",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 2,
+              "level": 8,
+              "rewardItemLevel": 665,
+              "unlocked": true,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 2,
+              "level": 8,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 2,
+              "level": 8,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 1
+        }
+      ],
+      "lockouts": [
+        {
+          "name": "Liberation of Undermine",
+          "difficultyId": 15,
+          "difficulty": "Heroic",
+          "isRaid": true,
+          "maxPlayers": 20,
+          "defeated": 4,
+          "total": 8,
+          "bosses": ["Vexie", "Cauldron of Carnage", "Rik Reverb", "Stix Bunkjunker"],
+          "resetsAt": "2026-09-16T15:00:00.000Z"
+        },
+        {
+          "name": "Ara-Kara, City of Echoes",
+          "difficultyId": 23,
+          "difficulty": "Mythic",
+          "isRaid": false,
+          "maxPlayers": 5,
+          "defeated": 3,
+          "total": 3,
+          "bosses": [],
+          "resetsAt": "2026-09-12T10:00:00.000Z"
+        }
+      ],
+      "worldBosses": [
+        {
+          "name": "Gobfather",
+          "defeated": true
+        }
+      ],
+      "currencies": [
+        {
+          "id": 3444,
+          "name": "Champion Mistcrest",
+          "quantity": 62,
+          "max": 90,
+          "earnedThisWeek": 62,
+          "weeklyMax": 90
+        },
+        {
+          "id": 3445,
+          "name": "Hero Mistcrest",
+          "quantity": 90,
+          "max": 90,
+          "earnedThisWeek": 90,
+          "weeklyMax": 90
+        },
+        {
+          "id": 3509,
+          "name": "Tidal Spark Dust",
+          "quantity": 1240,
+          "max": null,
+          "earnedThisWeek": null,
+          "weeklyMax": null
+        },
+        {
+          "id": 3356,
+          "name": "Untainted Mana-Crystals",
+          "quantity": 318,
+          "max": null,
+          "earnedThisWeek": null,
+          "weeklyMax": null
+        }
+      ],
+      "weeklies": [
+        {
+          "id": 93751,
+          "label": "Voidscar Arena",
+          "pool": [93751, 93752, 93753, 93754, 93755, 93756, 93757, 93758, 98220],
+          "done": true
+        },
+        {
+          "id": 93909,
+          "label": "Midnight: Vaults of Atal'Utek",
+          "gear": true,
+          "pool": [93766, 93767, 93769, 93889, 93890, 93891, 93892, 93909, 93910, 93911, 93912, 93913, 94457, 95842, 95843, 96727, 98232],
+          "done": false,
+          "ready": true,
+          "progress": {
+            "fulfilled": 4,
+            "required": 4,
+            "text": "4/4"
+          }
+        },
+        {
+          "id": 96995,
+          "label": "Turn Back the Surge",
+          "done": false,
+          "progress": {
+            "fulfilled": 2,
+            "required": 4,
+            "text": "2/4"
+          }
+        },
+        {
+          "id": 94446,
+          "label": "A Nightmarish Task",
+          "done": false
+        }
+      ],
+      "activities": [
+        {
+          "key": "zone-weekly",
+          "label": "Purging the Vaults",
+          "done": false,
+          "ready": false,
+          "progress": {
+            "fulfilled": 40,
+            "required": 100,
+            "text": "40%"
+          },
+          "questIds": [95520]
+        }
+      ],
+      "dungeonBests": [
+        {
+          "mapChallengeModeId": 503,
+          "name": "Ara-Kara, City of Echoes",
+          "level": 13,
+          "inTime": true,
+          "score": 318,
+          "durationSec": 1640
+        },
+        {
+          "mapChallengeModeId": 505,
+          "name": "The Dawnbreaker",
+          "level": 12,
+          "inTime": true,
+          "score": 301,
+          "durationSec": 1720
+        },
+        {
+          "mapChallengeModeId": 506,
+          "name": "Cinderbrew Meadery",
+          "level": 12,
+          "inTime": false,
+          "score": 282,
+          "durationSec": 2190
+        },
+        {
+          "mapChallengeModeId": 499,
+          "name": "Priory of the Sacred Flame",
+          "level": 11,
+          "inTime": true,
+          "score": 288,
+          "durationSec": 1590
+        },
+        {
+          "mapChallengeModeId": 502,
+          "name": "The Rookery",
+          "level": 11,
+          "inTime": true,
+          "score": 290,
+          "durationSec": 1505
+        },
+        {
+          "mapChallengeModeId": 375,
+          "name": "Mists of Tirna Scithe",
+          "level": 10,
+          "inTime": true,
+          "score": 271,
+          "durationSec": 1480
+        }
+      ],
+      "raidProgress": [
+        {
+          "id": 1273,
+          "name": "Nerub-ar Palace",
+          "bosses": [
+            { "id": 3010, "name": "Ulgrax", "kills": {} },
+            { "id": 3011, "name": "The Bloodbound Horror", "kills": {} },
+            { "id": 3012, "name": "Sikran", "kills": {} },
+            { "id": 3013, "name": "Rasha'nan", "kills": {} },
+            { "id": 3014, "name": "Broodtwister Ovi'nax", "kills": {} },
+            { "id": 3015, "name": "Nexus-Princess Ky'veza", "kills": {} },
+            { "id": 3016, "name": "The Silken Court", "kills": {} },
+            { "id": 3017, "name": "Queen Ansurek", "kills": {} }
+          ]
+        },
+        {
+          "id": 1296,
+          "name": "Liberation of Undermine",
+          "bosses": [
+            { "id": 3001, "name": "Vexie und die Geargrinders", "kills": { "17": 1, "14": 4, "15": 6, "16": 2 } },
+            { "id": 3002, "name": "Cauldron of Carnage", "kills": { "14": 4, "15": 6, "16": 2 } },
+            { "id": 3003, "name": "Rik Reverb", "kills": { "14": 4, "15": 5, "16": 1 } },
+            { "id": 3004, "name": "Stix Bunkjunker", "kills": { "14": 3, "15": 5 } },
+            { "id": 3005, "name": "Sprocketmonger Lockenstock", "kills": { "14": 3, "15": 4 } },
+            { "id": 3006, "name": "Der einarmige Bandit", "kills": { "14": 3, "15": 3 } },
+            { "id": 3007, "name": "Mug'Zee", "kills": { "14": 2, "15": 1 } },
+            { "id": 3008, "name": "Chrom-König Gallywix", "kills": { "14": 1 } }
+          ]
+        }
+      ],
+      "gear": [
+        {
+          "slot": 1,
+          "itemId": 212000,
+          "name": "Crown of Consuming Radiance",
+          "itemLevel": 678,
+          "enchantId": null,
+          "sockets": 1,
+          "gems": 1,
+          "track": "Hero 4/6",
+          "quality": 4,
+          "tooltip": [
+            {
+              "left": "Crown of Consuming Radiance",
+              "right": null,
+              "leftColor": "a335ee",
+              "rightColor": null
+            },
+            {
+              "left": "Item Level 678",
+              "right": null,
+              "leftColor": "ffd100",
+              "rightColor": null
+            },
+            {
+              "left": "Binds when picked up",
+              "right": null,
+              "leftColor": null,
+              "rightColor": null
+            },
+            {
+              "left": "Head",
+              "right": "Plate",
+              "leftColor": null,
+              "rightColor": null
+            },
+            {
+              "left": "+1,204 Armor",
+              "right": null,
+              "leftColor": null,
+              "rightColor": null
+            },
+            {
+              "left": "+2,180 Intellect",
+              "right": null,
+              "leftColor": null,
+              "rightColor": null
+            },
+            {
+              "left": "+8,904 Stamina",
+              "right": null,
+              "leftColor": null,
+              "rightColor": null
+            },
+            {
+              "left": "+1,020 Haste",
+              "right": null,
+              "leftColor": "00ff00",
+              "rightColor": null
+            },
+            {
+              "left": "+860 Mastery",
+              "right": null,
+              "leftColor": "00ff00",
+              "rightColor": null
+            },
+            {
+              "left": "Prismatic Socket",
+              "right": null,
+              "leftColor": "ffd100",
+              "rightColor": null
+            },
+            {
+              "left": "",
+              "right": null,
+              "leftColor": null,
+              "rightColor": null
+            },
+            {
+              "left": "Upgrade Level: Hero 4/6",
+              "right": null,
+              "leftColor": "ffd100",
+              "rightColor": null
+            },
+            {
+              "left": "Durability 100 / 100",
+              "right": null,
+              "leftColor": null,
+              "rightColor": null
+            },
+            {
+              "left": "Requires Level 80",
+              "right": null,
+              "leftColor": null,
+              "rightColor": null
+            },
+            {
+              "left": "Sell Price: 84 53 12",
+              "right": null,
+              "leftColor": null,
+              "rightColor": null
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "itemId": 212001,
+          "name": "Chain of the Lightbringer",
+          "itemLevel": 675,
+          "enchantId": null,
+          "sockets": 1,
+          "gems": 0,
+          "track": "Hero 3/6",
+          "quality": 4
+        },
+        {
+          "slot": 3,
+          "itemId": 212002,
+          "name": "Pauldrons of Consuming Radiance",
+          "itemLevel": 672,
+          "enchantId": null,
+          "sockets": null,
+          "gems": 0,
+          "track": "Hero 2/6",
+          "quality": 4
+        },
+        {
+          "slot": 5,
+          "itemId": 212003,
+          "name": "Breastplate of Consuming Radiance",
+          "itemLevel": 678,
+          "enchantId": 7364,
+          "sockets": null,
+          "gems": 0,
+          "track": "Hero 4/6",
+          "quality": 4
+        },
+        {
+          "slot": 7,
+          "itemId": 212004,
+          "name": "Greaves of Consuming Radiance",
+          "itemLevel": 672,
+          "enchantId": 7601,
+          "sockets": null,
+          "gems": 0,
+          "track": "Hero 2/6",
+          "quality": 4
+        },
+        {
+          "slot": 8,
+          "itemId": 212005,
+          "name": "Sabatons of the Vigil",
+          "itemLevel": 668,
+          "enchantId": 0,
+          "sockets": null,
+          "gems": 0,
+          "track": "Champion 8/8",
+          "quality": 4
+        },
+        {
+          "slot": 11,
+          "itemId": 212006,
+          "name": "Ring of the Radiant Dawn",
+          "itemLevel": 675,
+          "enchantId": 7340,
+          "sockets": 1,
+          "gems": 1,
+          "track": "Hero 3/6",
+          "quality": 4
+        },
+        {
+          "slot": 12,
+          "itemId": 212007,
+          "name": "Seal of the Poisoned Pact",
+          "itemLevel": 665,
+          "enchantId": 0,
+          "sockets": 1,
+          "gems": 1,
+          "track": "Champion 6/8",
+          "quality": 4
+        },
+        {
+          "slot": 16,
+          "itemId": 212008,
+          "name": "Blade of the Ascended Light",
+          "itemLevel": 681,
+          "enchantId": 7448,
+          "sockets": null,
+          "gems": 0,
+          "track": "Myth 1/6",
+          "quality": 4
+        }
+      ],
+      "renown": [
+        {
+          "factionId": 2710,
+          "name": "Silvermoon Court",
+          "level": 25,
+          "current": 0,
+          "max": 0,
+          "maxed": true,
+          "paragon": {
+            "current": 1800,
+            "max": 2500,
+            "rewardPending": false
+          }
+        },
+        {
+          "factionId": 2696,
+          "name": "Amani Tribe",
+          "level": 25,
+          "current": 0,
+          "max": 0,
+          "maxed": true,
+          "paragon": {
+            "current": 2500,
+            "max": 2500,
+            "rewardPending": true
+          }
+        },
+        {
+          "factionId": 2704,
+          "name": "Hara'ti",
+          "level": 18,
+          "current": 1200,
+          "max": 2500,
+          "maxed": false
+        },
+        {
+          "factionId": 2699,
+          "name": "The Singularity",
+          "level": 12,
+          "current": 300,
+          "max": 2500,
+          "maxed": false
+        },
+        {
+          "factionId": 2772,
+          "name": "Zul'jarra's Forces",
+          "level": 9,
+          "current": 2000,
+          "max": 2500,
+          "maxed": false
+        },
+        {
+          "factionId": 2770,
+          "name": "Slayer's Duellum",
+          "level": 3,
+          "maxLevel": 6,
+          "current": 250,
+          "max": 500,
+          "maxed": false,
+          "kind": "reputation"
+        },
+        {
+          "factionId": 2744,
+          "name": "Valeera Sanguinar",
+          "level": 5,
+          "maxLevel": 12,
+          "current": 900,
+          "max": 1500,
+          "maxed": false,
+          "kind": "reputation"
+        },
+        {
+          "factionId": 2712,
+          "name": "Blood Knights",
+          "level": 6,
+          "maxLevel": 6,
+          "current": 0,
+          "max": 0,
+          "maxed": true,
+          "kind": "reputation"
+        },
+        {
+          "factionId": 2713,
+          "name": "Farstriders",
+          "level": 2,
+          "maxLevel": 6,
+          "current": 100,
+          "max": 500,
+          "maxed": false,
+          "kind": "reputation"
+        }
+      ],
+      "xp": null,
+      "zone": "Undermine",
+      "lastActivity": {
+        "name": "Stix Bunkjunker",
+        "at": "2026-09-10T22:00:00.000Z"
+      },
+      "auctions": {
+        "count": 14,
+        "nextExpiresAt": "2026-09-12T03:00:00.000Z"
+      },
+      "mailCount": 3,
+      "bagSpace": {
+        "free": 4,
+        "total": 152
+      },
+      "professions": [
+        {
+          "name": "Blacksmithing",
+          "skillLineId": 164,
+          "skill": 92,
+          "maxSkill": 100,
+          "concentration": {
+            "current": 640,
+            "max": 1000
+          },
+          "knowledge": 8
+        },
+        {
+          "name": "Mining",
+          "skillLineId": 186,
+          "skill": 100,
+          "maxSkill": 100,
+          "concentration": null,
+          "knowledge": null
+        }
+      ],
+      "updatedAt": "2026-09-11T17:20:00.000Z",
+      "weeklyUpdatedAt": "2026-09-11T17:20:00.000Z",
+      "vaultRewardWaiting": false,
+      "stale": false,
+      "accountName": "WOW1",
+      "accounts": ["WOW1"],
+      "sources": [
+        {
+          "id": "companion",
+          "labelKey": "source.companion.label",
+          "updatedAt": "2026-09-11T17:20:00.000Z"
+        },
+        {
+          "id": "savedinstances",
+          "labelKey": "source.savedinstances.label",
+          "updatedAt": "2026-09-11T16:00:00.000Z"
+        }
+      ],
+      "provenance": {
+        "identity": "companion",
+        "vault": "companion",
+        "runs": "savedinstances",
+        "lockouts": "savedinstances",
+        "currencies": "companion",
+        "weeklies": "savedinstances",
+        "gear": "companion",
+        "renown": "companion",
+        "bags": "companion"
+      },
+      "name": "Auriel",
+      "bags": {
+        "name": null,
+        "slots": 132,
+        "free": 108,
+        "items": [
+          {
+            "itemId": 6948,
+            "name": "Hearthstone",
+            "count": 1,
+            "quality": 1,
+            "category": "misc",
+            "itemLevel": null,
+            "tooltip": [
+              {
+                "left": "Hearthstone",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Binds when picked up",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Unique",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Use: Returns you to Dornogal. Speak to an Innkeeper in a different place to change your home location. (30 Min Cooldown)",
+                "right": null,
+                "leftColor": "00ff00",
+                "rightColor": null
+              }
+            ]
+          },
+          {
+            "itemId": 241322,
+            "name": "Flask of the Magisters",
+            "count": 3,
+            "quality": 3,
+            "category": "consumable",
+            "itemLevel": null,
+            "tooltip": [
+              {
+                "left": "Flask of the Magisters",
+                "right": null,
+                "leftColor": "0070dd",
+                "rightColor": null
+              },
+              {
+                "left": "Item Level 80",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Use: Increases your Intellect by 12,000 for 1 hour. Persists through death. (3 Sec Cooldown)",
+                "right": null,
+                "leftColor": "00ff00",
+                "rightColor": null
+              },
+              {
+                "left": "",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Requires Level 80",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Sell Price: 5 12",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              }
+            ],
+            "craftTier": 3
+          },
+          {
+            "itemId": 241309,
+            "name": "Light's Potential",
+            "count": 12,
+            "quality": 3,
+            "category": "consumable",
+            "itemLevel": null
+          },
+          {
+            "itemId": 241305,
+            "name": "Silvermoon Health Potion",
+            "count": 5,
+            "quality": 2,
+            "category": "consumable",
+            "itemLevel": null
+          },
+          {
+            "itemId": 259085,
+            "name": "Void-Touched Augment Rune",
+            "count": 1,
+            "quality": 4,
+            "category": "consumable",
+            "itemLevel": null
+          },
+          {
+            "itemId": 222720,
+            "name": "Feast of the Divine Day",
+            "count": 2,
+            "quality": 3,
+            "category": "consumable",
+            "itemLevel": null,
+            "craftTier": 3
+          },
+          {
+            "itemId": 222730,
+            "name": "Sizzling Honey Roast",
+            "count": 14,
+            "quality": 2,
+            "category": "consumable",
+            "itemLevel": null,
+            "craftTier": 2
+          },
+          {
+            "itemId": 219902,
+            "name": "Mycobloom",
+            "count": 46,
+            "quality": 1,
+            "category": "tradeskill",
+            "itemLevel": null,
+            "craftTier": 1
+          },
+          {
+            "itemId": 210796,
+            "name": "Luredrop",
+            "count": 38,
+            "quality": 1,
+            "category": "tradeskill",
+            "itemLevel": null,
+            "craftTier": 2
+          },
+          {
+            "itemId": 210805,
+            "name": "Arathor's Spear",
+            "count": 7,
+            "quality": 1,
+            "category": "tradeskill",
+            "itemLevel": null,
+            "craftTier": 3
+          },
+          {
+            "itemId": 224072,
+            "name": "Weathered Harbinger Crest",
+            "count": 1,
+            "quality": 3,
+            "category": "misc",
+            "itemLevel": null
+          },
+          {
+            "itemId": 226263,
+            "name": "Delver's Bounty",
+            "count": 1,
+            "quality": 3,
+            "category": "quest",
+            "itemLevel": null
+          },
+          {
+            "itemId": 228942,
+            "name": "Radiant Echo",
+            "count": 4,
+            "quality": 2,
+            "category": "consumable",
+            "itemLevel": null
+          },
+          {
+            "itemId": 221756,
+            "name": "Fractured Spark of Omens",
+            "count": 1,
+            "quality": 4,
+            "category": "enhancement",
+            "itemLevel": null
+          },
+          {
+            "itemId": 211296,
+            "name": "Spark of Omens",
+            "count": 1,
+            "quality": 4,
+            "category": "enhancement",
+            "itemLevel": null
+          },
+          {
+            "itemId": 212663,
+            "name": "Runed Harbinger Crest",
+            "count": 1,
+            "quality": 3,
+            "category": "misc",
+            "itemLevel": null
+          },
+          {
+            "itemId": 213196,
+            "name": "Vial of Kaheti Oils",
+            "count": 4,
+            "quality": 2,
+            "category": "enhancement",
+            "itemLevel": null,
+            "craftTier": 3
+          },
+          {
+            "itemId": 220187,
+            "name": "Algari Mana Oil",
+            "count": 6,
+            "quality": 2,
+            "category": "enhancement",
+            "itemLevel": null,
+            "craftTier": 2
+          },
+          {
+            "itemId": 215137,
+            "name": "Ironclaw Ore",
+            "count": 20,
+            "quality": 1,
+            "category": "tradeskill",
+            "itemLevel": null,
+            "craftTier": 2
+          },
+          {
+            "itemId": 219926,
+            "name": "Nerubian Chitin",
+            "count": 3,
+            "quality": 1,
+            "category": "tradeskill",
+            "itemLevel": null,
+            "craftTier": 1
+          },
+          {
+            "itemId": 191343,
+            "name": "Wretched Fang",
+            "count": 8,
+            "quality": 0,
+            "category": "misc",
+            "itemLevel": null
+          },
+          {
+            "itemId": 191344,
+            "name": "Torn Sail",
+            "count": 2,
+            "quality": 0,
+            "category": "misc",
+            "itemLevel": null
+          },
+          {
+            "itemId": 228733,
+            "name": "Restored Coffer Key",
+            "count": 3,
+            "quality": 3,
+            "category": "misc",
+            "itemLevel": null
+          },
+          {
+            "itemId": 228636,
+            "name": "Coffer Key Shard",
+            "count": 55,
+            "quality": 2,
+            "category": "misc",
+            "itemLevel": null
+          }
+        ]
+      },
+      "bank": [
+        {
+          "name": "Tab 1",
+          "slots": 98,
+          "free": 90,
+          "items": [
+            {
+              "itemId": 241322,
+              "name": "Flask of the Magisters",
+              "count": 20,
+              "quality": 3,
+              "category": "consumable",
+              "itemLevel": null,
+              "tooltip": [
+                {
+                  "left": "Flask of the Magisters",
+                  "right": null,
+                  "leftColor": "0070dd",
+                  "rightColor": null
+                },
+                {
+                  "left": "Item Level 80",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "Use: Increases your Intellect by 12,000 for 1 hour. Persists through death. (3 Sec Cooldown)",
+                  "right": null,
+                  "leftColor": "00ff00",
+                  "rightColor": null
+                },
+                {
+                  "left": "",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "Requires Level 80",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "Sell Price: 5 12",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                },
+                {
+                  "left": "",
+                  "right": null,
+                  "leftColor": null,
+                  "rightColor": null
+                }
+              ],
+              "craftTier": 3
+            },
+            {
+              "itemId": 241309,
+              "name": "Light's Potential",
+              "count": 40,
+              "quality": 3,
+              "category": "consumable",
+              "itemLevel": null
+            },
+            {
+              "itemId": 222730,
+              "name": "Sizzling Honey Roast",
+              "count": 60,
+              "quality": 2,
+              "category": "consumable",
+              "itemLevel": null,
+              "craftTier": 2
+            },
+            {
+              "itemId": 259085,
+              "name": "Void-Touched Augment Rune",
+              "count": 1,
+              "quality": 4,
+              "category": "consumable",
+              "itemLevel": null
+            },
+            {
+              "itemId": 221756,
+              "name": "Fractured Spark of Omens",
+              "count": 2,
+              "quality": 4,
+              "category": "enhancement",
+              "itemLevel": null
+            },
+            {
+              "itemId": 224072,
+              "name": "Weathered Harbinger Crest",
+              "count": 12,
+              "quality": 3,
+              "category": "misc",
+              "itemLevel": null
+            },
+            {
+              "itemId": 218713,
+              "name": "Ancient Nerubian Idol",
+              "count": 1,
+              "quality": 4,
+              "category": "quest",
+              "itemLevel": null
+            },
+            {
+              "itemId": 223160,
+              "name": "Warband Bank Deed",
+              "count": 1,
+              "quality": 2,
+              "category": "misc",
+              "itemLevel": null
+            }
+          ]
+        },
+        {
+          "name": "Tab 2",
+          "slots": 98,
+          "free": 94,
+          "items": [
+            {
+              "itemId": 212664,
+              "name": "Gilded Harbinger Crest",
+              "count": 3,
+              "quality": 4,
+              "category": "misc",
+              "itemLevel": null
+            },
+            {
+              "itemId": 210814,
+              "name": "Artisan's Acuity",
+              "count": 1,
+              "quality": 3,
+              "category": "misc",
+              "itemLevel": null
+            },
+            {
+              "itemId": 223513,
+              "name": "Blackhand Heirloom Blade",
+              "count": 1,
+              "quality": 5,
+              "category": "weapon",
+              "itemLevel": 642
+            },
+            {
+              "itemId": 199756,
+              "name": "Coat of Many Stitches",
+              "count": 1,
+              "quality": 3,
+              "category": "armor",
+              "itemLevel": 619
+            }
+          ]
+        },
+        {
+          "name": "Reagents",
+          "slots": 98,
+          "free": 90,
+          "items": [
+            {
+              "itemId": 219902,
+              "name": "Mycobloom",
+              "count": 400,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 1
+            },
+            {
+              "itemId": 210796,
+              "name": "Luredrop",
+              "count": 380,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 2
+            },
+            {
+              "itemId": 210805,
+              "name": "Arathor's Spear",
+              "count": 220,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 3
+            },
+            {
+              "itemId": 215137,
+              "name": "Ironclaw Ore",
+              "count": 160,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 2
+            },
+            {
+              "itemId": 219926,
+              "name": "Nerubian Chitin",
+              "count": 90,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 1
+            },
+            {
+              "itemId": 224828,
+              "name": "Null Stone",
+              "count": 4,
+              "quality": 3,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 3
+            },
+            {
+              "itemId": 210936,
+              "name": "Weavercloth",
+              "count": 210,
+              "quality": 1,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 1
+            },
+            {
+              "itemId": 222801,
+              "name": "Gloom Chitin",
+              "count": 55,
+              "quality": 2,
+              "category": "tradeskill",
+              "itemLevel": null,
+              "craftTier": 2
+            }
+          ]
+        }
+      ],
+      "cooldowns": [
+        {
+          "recipeId": 430619,
+          "name": "Transmute: Awakened Fire",
+          "readyAt": 0,
+          "charges": null,
+          "maxCharges": null,
+          "seenAt": "2026-09-11T17:20:00.000Z"
+        },
+        {
+          "recipeId": 430620,
+          "name": "Meticulous Weaving",
+          "readyAt": "2026-09-15T15:00:00.000Z",
+          "charges": 0,
+          "maxCharges": 1,
+          "seenAt": "2026-09-11T17:20:00.000Z"
+        }
+      ]
+    },
+    {
+      "key": "blackhand-mirella",
+      "realm": "Blackhand",
+      "realmSlug": "blackhand",
+      "region": "eu",
+      "className": "Priest",
+      "classToken": "PRIEST",
+      "spec": "Shadow",
+      "level": 90,
+      "itemLevel": 661,
+      "faction": "Alliance",
+      "guild": null,
+      "money": 421000000,
+      "mythicRating": 1986,
+      "playedTotal": 1842000,
+      "playedLevel": 96400,
+      "keystone": {
+        "name": "The Rookery",
+        "level": 9
+      },
+      "mythicRuns": [],
+      "vault": [
+        {
+          "category": "raid",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 6,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 0
+        },
+        {
+          "category": "dungeon",
+          "slots": [
+            {
+              "threshold": 1,
+              "progress": 1,
+              "level": 9,
+              "rewardItemLevel": 662,
+              "unlocked": true,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 1,
+              "level": 9,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 1,
+              "level": 9,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 1
+        },
+        {
+          "category": "world",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 0
+        }
+      ],
+      "lockouts": [],
+      "worldBosses": [],
+      "currencies": [
+        {
+          "id": 3444,
+          "name": "Champion Mistcrest",
+          "quantity": 18,
+          "max": 90,
+          "earnedThisWeek": 18,
+          "weeklyMax": 90
+        }
+      ],
+      "weeklies": [
+        {
+          "id": 93751,
+          "label": "Voidscar Arena",
+          "pool": [93751, 93752, 93753, 93754, 93755, 93756, 93757, 93758, 98220],
+          "done": false
+        },
+        {
+          "id": 96995,
+          "label": "Turn Back the Surge",
+          "done": false
+        }
+      ],
+      "activities": [],
+      "dungeonBests": [],
+      "raidProgress": [],
+      "gear": [],
+      "renown": [],
+      "xp": null,
+      "zone": "Dornogal",
+      "lastActivity": null,
+      "auctions": null,
+      "mailCount": 0,
+      "bagSpace": {
+        "free": 42,
+        "total": 152
+      },
+      "professions": [
+        {
+          "name": "Tailoring",
+          "skillLineId": 197,
+          "skill": 100,
+          "maxSkill": 100,
+          "concentration": {
+            "current": 1000,
+            "max": 1000
+          },
+          "knowledge": null
+        }
+      ],
+      "updatedAt": "2026-09-11T13:00:00.000Z",
+      "weeklyUpdatedAt": "2026-09-11T13:00:00.000Z",
+      "vaultRewardWaiting": true,
+      "stale": false,
+      "accountName": "WOW1",
+      "accounts": ["WOW1"],
+      "sources": [
+        {
+          "id": "companion",
+          "labelKey": "source.companion.label",
+          "updatedAt": "2026-09-11T17:20:00.000Z"
+        },
+        {
+          "id": "savedinstances",
+          "labelKey": "source.savedinstances.label",
+          "updatedAt": "2026-09-11T16:00:00.000Z"
+        }
+      ],
+      "provenance": {
+        "identity": "companion",
+        "vault": "companion",
+        "runs": "savedinstances",
+        "lockouts": "savedinstances",
+        "currencies": "companion",
+        "weeklies": "savedinstances",
+        "gear": "companion",
+        "renown": "companion",
+        "bags": "companion"
+      },
+      "name": "Mirella",
+      "bags": {
+        "name": null,
+        "slots": 100,
+        "free": 95,
+        "items": [
+          {
+            "itemId": 6948,
+            "name": "Hearthstone",
+            "count": 1,
+            "quality": 1,
+            "category": "misc",
+            "itemLevel": null,
+            "tooltip": [
+              {
+                "left": "Hearthstone",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Binds when picked up",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Unique",
+                "right": null,
+                "leftColor": null,
+                "rightColor": null
+              },
+              {
+                "left": "Use: Returns you to Dornogal. Speak to an Innkeeper in a different place to change your home location. (30 Min Cooldown)",
+                "right": null,
+                "leftColor": "00ff00",
+                "rightColor": null
+              }
+            ]
+          },
+          {
+            "itemId": 241309,
+            "name": "Light's Potential",
+            "count": 2,
+            "quality": 3,
+            "category": "consumable",
+            "itemLevel": null
+          },
+          {
+            "itemId": 222730,
+            "name": "Sizzling Honey Roast",
+            "count": 5,
+            "quality": 2,
+            "category": "consumable",
+            "itemLevel": null,
+            "craftTier": 2
+          },
+          {
+            "itemId": 219902,
+            "name": "Mycobloom",
+            "count": 12,
+            "quality": 1,
+            "category": "tradeskill",
+            "itemLevel": null,
+            "craftTier": 1
+          },
+          {
+            "itemId": 191343,
+            "name": "Wretched Fang",
+            "count": 3,
+            "quality": 0,
+            "category": "misc",
+            "itemLevel": null
+          }
+        ]
+      },
+      "bank": [],
+      "cooldowns": []
+    },
+    {
+      "key": "blackhand-thorgrim",
+      "realm": "Blackhand",
+      "realmSlug": "blackhand",
+      "region": "eu",
+      "className": "Warrior",
+      "classToken": "WARRIOR",
+      "spec": "Fury",
+      "level": 74,
+      "itemLevel": 402,
+      "faction": "Horde",
+      "guild": "Nachtwache",
+      "money": 84000000,
+      "mythicRating": null,
+      "playedTotal": 214000,
+      "playedLevel": 3100,
+      "keystone": null,
+      "mythicRuns": [],
+      "vault": [
+        {
+          "category": "raid",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 6,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 0
+        },
+        {
+          "category": "dungeon",
+          "slots": [
+            {
+              "threshold": 1,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 0
+        },
+        {
+          "category": "world",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 0
+        }
+      ],
+      "lockouts": [],
+      "worldBosses": [],
+      "currencies": [],
+      "weeklies": [],
+      "activities": [],
+      "dungeonBests": [],
+      "raidProgress": [],
+      "gear": [],
+      "renown": [],
+      "xp": {
+        "xp": 412000,
+        "xpMax": 980000,
+        "rested": 300000
+      },
+      "zone": "Isle of Dorn",
+      "lastActivity": null,
+      "auctions": null,
+      "mailCount": 0,
+      "bagSpace": {
+        "free": 42,
+        "total": 152
+      },
+      "professions": [],
+      "updatedAt": "2026-09-10T12:00:00.000Z",
+      "weeklyUpdatedAt": "2026-09-10T12:00:00.000Z",
+      "vaultRewardWaiting": false,
+      "stale": false,
+      "accountName": "WOW1",
+      "accounts": ["WOW1"],
+      "sources": [
+        {
+          "id": "companion",
+          "labelKey": "source.companion.label",
+          "updatedAt": "2026-09-11T17:20:00.000Z"
+        },
+        {
+          "id": "savedinstances",
+          "labelKey": "source.savedinstances.label",
+          "updatedAt": "2026-09-11T16:00:00.000Z"
+        }
+      ],
+      "provenance": {
+        "identity": "companion",
+        "vault": "companion",
+        "runs": "savedinstances",
+        "lockouts": "savedinstances",
+        "currencies": "companion",
+        "weeklies": "savedinstances",
+        "gear": "companion",
+        "renown": "companion"
+      },
+      "name": "Thorgrim",
+      "bags": null,
+      "bank": [],
+      "cooldowns": []
+    },
+    {
+      "key": "blackhand-sylvara",
+      "realm": "Blackhand",
+      "realmSlug": "blackhand",
+      "region": "eu",
+      "className": "Druid",
+      "classToken": "DRUID",
+      "spec": "Balance",
+      "level": 90,
+      "itemLevel": 664,
+      "faction": "Horde",
+      "guild": "Nachtwache",
+      "money": 963000000,
+      "mythicRating": 2205,
+      "playedTotal": 1842000,
+      "playedLevel": 96400,
+      "keystone": {
+        "name": "Cinderbrew Meadery",
+        "level": 10
+      },
+      "mythicRuns": [],
+      "vault": [
+        {
+          "category": "raid",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 2,
+              "level": 1,
+              "rewardItemLevel": 658,
+              "unlocked": true,
+              "difficultyId": 15
+            },
+            {
+              "threshold": 4,
+              "progress": 2,
+              "level": 1,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 6,
+              "progress": 2,
+              "level": 1,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 1
+        },
+        {
+          "category": "dungeon",
+          "slots": [
+            {
+              "threshold": 1,
+              "progress": 1,
+              "level": 10,
+              "rewardItemLevel": 665,
+              "unlocked": true,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 4,
+              "level": 10,
+              "rewardItemLevel": 665,
+              "unlocked": true,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 4,
+              "level": 10,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 2
+        },
+        {
+          "category": "world",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 2,
+              "level": 8,
+              "rewardItemLevel": 652,
+              "unlocked": true,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 4,
+              "level": 8,
+              "rewardItemLevel": 652,
+              "unlocked": true,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 4,
+              "level": 8,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 2
+        }
+      ],
+      "lockouts": [],
+      "worldBosses": [],
+      "currencies": [],
+      "weeklies": [],
+      "activities": [],
+      "dungeonBests": [],
+      "raidProgress": [],
+      "gear": [],
+      "renown": [],
+      "xp": null,
+      "zone": "Dornogal",
+      "lastActivity": null,
+      "auctions": null,
+      "mailCount": 0,
+      "bagSpace": {
+        "free": 42,
+        "total": 152
+      },
+      "professions": [],
+      "updatedAt": "2026-09-08T15:00:00.000Z",
+      "weeklyUpdatedAt": "2026-09-08T15:00:00.000Z",
+      "vaultRewardWaiting": false,
+      "stale": true,
+      "accountName": "WOW2",
+      "accounts": ["WOW2"],
+      "sources": [
+        {
+          "id": "companion",
+          "labelKey": "source.companion.label",
+          "updatedAt": "2026-09-11T17:20:00.000Z"
+        },
+        {
+          "id": "savedinstances",
+          "labelKey": "source.savedinstances.label",
+          "updatedAt": "2026-09-11T16:00:00.000Z"
+        }
+      ],
+      "provenance": {
+        "identity": "companion",
+        "vault": "companion",
+        "runs": "savedinstances",
+        "lockouts": "savedinstances",
+        "currencies": "companion",
+        "weeklies": "savedinstances",
+        "gear": "companion",
+        "renown": "companion"
+      },
+      "name": "Sylvara",
+      "bags": null,
+      "bank": [],
+      "cooldowns": []
+    },
+    {
+      "key": "blackhand-kaelthar",
+      "realm": "Blackhand",
+      "realmSlug": "blackhand",
+      "region": "eu",
+      "className": "Evoker",
+      "classToken": "EVOKER",
+      "spec": "Devastation",
+      "level": 90,
+      "itemLevel": 641,
+      "faction": "Horde",
+      "guild": "Nachtwache",
+      "money": 120000000,
+      "mythicRating": 1402,
+      "playedTotal": 1842000,
+      "playedLevel": 96400,
+      "keystone": null,
+      "mythicRuns": [],
+      "vault": [
+        {
+          "category": "raid",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 6,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 0
+        },
+        {
+          "category": "dungeon",
+          "slots": [
+            {
+              "threshold": 1,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 0
+        },
+        {
+          "category": "world",
+          "slots": [
+            {
+              "threshold": 2,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 4,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            },
+            {
+              "threshold": 8,
+              "progress": 0,
+              "level": 0,
+              "rewardItemLevel": null,
+              "unlocked": false,
+              "difficultyId": null
+            }
+          ],
+          "unlockedCount": 0
+        }
+      ],
+      "lockouts": [],
+      "worldBosses": [],
+      "currencies": [],
+      "weeklies": [],
+      "activities": [],
+      "dungeonBests": [],
+      "raidProgress": [],
+      "gear": [],
+      "renown": [],
+      "xp": null,
+      "zone": "Dornogal",
+      "lastActivity": null,
+      "auctions": null,
+      "mailCount": 0,
+      "bagSpace": {
+        "free": 42,
+        "total": 152
+      },
+      "professions": [],
+      "updatedAt": "2026-08-28T15:00:00.000Z",
+      "weeklyUpdatedAt": "2026-08-28T15:00:00.000Z",
+      "vaultRewardWaiting": false,
+      "stale": true,
+      "accountName": "WOW2",
+      "accounts": ["WOW2"],
+      "sources": [
+        {
+          "id": "companion",
+          "labelKey": "source.companion.label",
+          "updatedAt": "2026-09-11T17:20:00.000Z"
+        },
+        {
+          "id": "savedinstances",
+          "labelKey": "source.savedinstances.label",
+          "updatedAt": "2026-09-11T16:00:00.000Z"
+        }
+      ],
+      "provenance": {
+        "identity": "companion",
+        "vault": "companion",
+        "runs": "savedinstances",
+        "lockouts": "savedinstances",
+        "currencies": "companion",
+        "weeklies": "savedinstances",
+        "gear": "companion",
+        "renown": "companion"
+      },
+      "name": "Kaelthar",
+      "bags": null,
+      "bank": [],
+      "cooldowns": []
+    }
+  ]
+}

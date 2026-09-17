@@ -1,0 +1,4362 @@
+:root {
+  /* Today's WoW interface, not the 2004 one: neutral graphite panels, gold used
+     sparingly for what matters, soft edges instead of carved bronze. */
+  --bg: #141414;
+  --bg-raised: #1c1c1d;
+  --bg-sunken: #171718;
+  --bg-input: #111112;
+  --bg-hover: #262628;
+  /* What floats over the page - a tooltip - is lighter than any panel under
+     it, so its box stands off the rows it covers. */
+  --bg-float: #2b2b2e;
+  /* A whisper over a raised surface: a hover, or the fill of a chip that is
+     done and no longer news. */
+  --bg-lift: rgba(255, 255, 255, 0.04);
+  --border: #2a2a2c;
+  --border-strong: #3d3d40;
+  --border-hover: #505053;
+  --text: #eae8e3;
+  --text-dim: #a6a49e;
+  --text-faint: #75736d;
+  --accent: #e0b86a;
+  --accent-bright: #f6d798;
+  /* The accent at three strengths: a tint under a figure, a fill behind a
+     chip, a line around it. Every gold wash in the app is one of these. */
+  --accent-faint: rgba(224, 184, 106, 0.08);
+  --accent-soft: rgba(224, 184, 106, 0.16);
+  --accent-line: rgba(224, 184, 106, 0.45);
+  /* The four severities (`severity.ts`), one family each of the same four
+     slots: the mark, the ink on a wash, the wash, the line. A notice, a chip
+     and a step cell in `warn` take these and nothing else, so one state is
+     one colour wherever it shows. `info` is the neutral look - the panel's
+     own greys - so it is spelled once, in terms of them. */
+  --info: var(--text-faint);
+  --info-text: var(--text-dim);
+  --info-soft: var(--bg-sunken);
+  --info-line: var(--border-strong);
+  --ok: #4ec46a;
+  --ok-text: #9ae6a8;
+  --ok-soft: rgba(78, 196, 106, 0.1);
+  --ok-line: rgba(78, 196, 106, 0.4);
+  --warn: #e0a83c;
+  --warn-text: #f0cf85;
+  --warn-soft: rgba(224, 168, 60, 0.1);
+  --warn-line: rgba(224, 168, 60, 0.4);
+  --danger: #e05252;
+  --danger-text: #ffb3ae;
+  --danger-soft: rgba(224, 82, 82, 0.12);
+  --danger-line: rgba(224, 82, 82, 0.4);
+  /* The filled danger button: its pressed fill and the text on it. */
+  --danger-strong: #b83f3f;
+  --on-danger: #ffffff;
+  --gold: #f2c96b;
+  /* The keystone colour, and its fill and line for the chips that carry a key. */
+  --key: #b98cf0;
+  --key-bright: #d6bdf8;
+  --key-soft: rgba(185, 140, 240, 0.1);
+  --key-line: rgba(185, 140, 240, 0.35);
+  /* The two faction colours as the game paints them, toned to the palette. */
+  --alliance: #5b9bf5;
+  --horde: #e0524f;
+  /* Text on the accent: the primary button, the checkbox's tick. */
+  --on-accent: #201a0c;
+  /* A card whose week is over: a faded gold, not a fault. */
+  --stale-line: #4a3c18;
+  --stale-bg: #1c1a14;
+  --stale-row: rgba(224, 168, 60, 0.04);
+  --slot-track: rgba(255, 255, 255, 0.05);
+  --scroll-thumb: #323235;
+  --scroll-thumb-hover: #454548;
+  /* The surface of a tooltip as the game draws it. The client's colours
+     for a tooltip's lines - the green of an effect, the yellow of a bonus,
+     the white of a stat - are made for the game's dark tooltip, so this
+     surface stays dark in the light theme too. */
+  --game-tip-bg: #101018;
+  --game-tip-line: #3a3a4a;
+  --game-tip-text: #eae8e3;
+  --game-tip-text-dim: #a6a49e;
+  /* Blizzard's class colours, keyed by the class token. The light theme
+     darkens the ones that vanish on a light ground - white, yellow, mint. */
+  --class-deathknight: #c41e3a;
+  --class-demonhunter: #a330c9;
+  --class-druid: #ff7c0a;
+  --class-evoker: #33937f;
+  --class-hunter: #aad372;
+  --class-mage: #3fc7eb;
+  --class-monk: #00ff98;
+  --class-paladin: #f48cba;
+  --class-priest: #ffffff;
+  --class-rogue: #fff468;
+  --class-shaman: #0070dd;
+  --class-warlock: #8788ee;
+  --class-warrior: #c69b6d;
+
+  /* One font for the whole app; figures only ever differ by their digits. */
+  --font-ui: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Cascadia Mono', Consolas, 'Courier New', monospace;
+
+  /* The type scale. Every size in the app comes from here - nothing in
+     between - so a label is a label wherever it turns up. */
+  --fs-micro: 13px;
+  --fs-tiny: 14px;
+  --fs-base: 15px;
+  --fs-body: 16px;
+  --fs-title: 20px;
+  --fs-name: 24px;
+  --fs-figure: 30px;
+  --fs-figure-lg: 36px;
+
+  /* Three line heights: none for a figure that is its own box, tight for a
+     name or a heading, text for what runs over lines. */
+  --lh-none: 1;
+  --lh-tight: 1.2;
+  --lh-text: 1.5;
+
+  /* Two trackings: caps for a small label in capitals, tight for a large
+     figure whose digits stand too far apart at their size. */
+  --track-caps: 0.06em;
+  --track-tight: -0.01em;
+
+  /* The spacing scale. Every distance in the app is one of these - a page
+     whose gaps are 6, 7, 9, 10, 13 and 14 reads as unaligned however
+     carefully each box was placed. The half step is for the inside of a
+     mark: a badge's inset, the gap between two lines of one entry. */
+  --s0: 2px;
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 20px;
+  --s6: 24px;
+  --s7: 32px;
+  --s8: 48px;
+  --s9: 64px;
+  /* Between two boxes, and inside one. The same everywhere, so a boundary
+     between cards measures the same as a boundary inside a card times two. */
+  --gap: var(--s3);
+  --pad: var(--s4);
+  /* Inside a full-size box - a settings panel, a card's head band. */
+  --pad-lg: var(--s5);
+
+  /* Controls share one height, so a row of them lines up without nudging.
+     The heights sit on the spacing scale, so a control beside a box of
+     the scale is flush with it. */
+  --control-h: 36px;
+  --control-h-sm: 32px;
+  --control-h-xs: 24px;
+  --control-px: var(--s3);
+  --control-gap: var(--s2);
+
+  /* Every chip on a card is the same object - one height, one padding, one
+     gap between neighbours - so a lockout, a goal and a state word line up
+     wherever they end up beside each other. Only the colour says which kind
+     it is. */
+  --chip-h: 28px;
+  --chip-h-sm: 24px;
+  --chip-px: var(--s3);
+  --chip-gap: var(--s2);
+
+  /* The icon scale. An icon in a line of text has no size of its own - it is
+     the size of the text. These are for an icon that stands apart from a
+     line: a control's mark, a panel's head, the medallion of an empty state. */
+  --icon-xs: 12px;
+  --icon-sm: 14px;
+  --icon-md: 16px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+
+  /* A list that would run for a hundred lines - a bank tab - stops here and
+     scrolls; a search stands above it for the line that matters. */
+  --list-h: 360px;
+
+  /* The vault grid, named once so the header bar can stop where the slot
+     tiles stop instead of running past them. Slot width and height are fixed,
+     not content-driven: the vault is a 3x3 grid in the game and it has to be
+     the same 3x3 grid on every page, whatever a tile happens to say. */
+  --vault-slot-w: 172px;
+  --vault-slot-h: 62px;
+  --vault-col-gap: var(--s2);
+  --vault-row-gap: var(--s3);
+  --vault-slots-w: calc(3 * var(--vault-slot-w) + 2 * var(--vault-col-gap));
+
+  /* The app's top bar: chrome, deliberately a shade above the page. */
+  --bar-bg: #1c1c1d;
+
+  /* The page ground, named so the sticky toolbar can paint the very same
+     thing. It has to stay a viewport-fixed background wherever it is used -
+     see .toolbar - or the two copies drift apart. */
+  --page-bg: radial-gradient(130% 90% at 50% -10%, #202021 0%, transparent 65%), var(--bg);
+
+  /* The scroll area's own inset, named once: the sticky toolbar bleeds out
+     over it, so both have to agree on the number. */
+  --content-pad-x: var(--s6);
+  --content-pad-y: var(--s6);
+
+  /* Three radii, and the pill: a panel, a control, a mark inside one. */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-xs: 4px;
+  --radius-pill: 999px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-lift: 0 6px 22px rgba(0, 0, 0, 0.55);
+  color-scheme: dark;
+}
+
+/* The light theme: the same tokens, on paper instead of graphite. The gold
+   goes darker so it still reads as an accent on a pale ground, the class
+   colours that were made for a dark client are toned to it, and everything
+   that was a whisper of white becomes a whisper of black. The shell sets
+   data-theme from the setting, or from the system when it says so. */
+:root[data-theme='light'] {
+  --bg: #f3f1ec;
+  --bg-raised: #ffffff;
+  --bg-sunken: #ebe8e1;
+  --bg-input: #ffffff;
+  --bg-hover: #e7e3db;
+  --bg-float: #ffffff;
+  --bg-lift: rgba(0, 0, 0, 0.04);
+  --border: #dcd8cf;
+  --border-strong: #c9c4b9;
+  --border-hover: #aaa498;
+  --text: #1e1c19;
+  --text-dim: #5e5a53;
+  --text-faint: #8c877d;
+  --accent: #9a6b12;
+  --accent-bright: #7a540c;
+  --accent-faint: rgba(154, 107, 18, 0.08);
+  --accent-soft: rgba(154, 107, 18, 0.14);
+  --accent-line: rgba(154, 107, 18, 0.45);
+  --ok: #1f8a3b;
+  --ok-text: #1e6a32;
+  --ok-soft: rgba(31, 138, 59, 0.1);
+  --ok-line: rgba(31, 138, 59, 0.4);
+  --warn: #b0741a;
+  --warn-text: #7a4f0c;
+  --warn-soft: rgba(176, 116, 26, 0.1);
+  --warn-line: rgba(176, 116, 26, 0.4);
+  --danger: #c43b3b;
+  --danger-text: #8a2a2a;
+  --danger-soft: rgba(196, 59, 59, 0.1);
+  --danger-line: rgba(196, 59, 59, 0.4);
+  --danger-strong: #a83232;
+  --gold: #a8731a;
+  --key: #6f43c4;
+  --key-bright: #5a3399;
+  --key-soft: rgba(111, 67, 196, 0.1);
+  --key-line: rgba(111, 67, 196, 0.35);
+  --alliance: #2f6fd0;
+  --horde: #c93f3c;
+  --on-accent: #ffffff;
+  --stale-line: #d9c99a;
+  --stale-bg: #f7f3e8;
+  --stale-row: rgba(176, 116, 26, 0.06);
+  --slot-track: rgba(0, 0, 0, 0.06);
+  --scroll-thumb: #cfcac0;
+  --scroll-thumb-hover: #b5afa3;
+  --class-hunter: #6c9a32;
+  --class-mage: #1b8fb0;
+  --class-monk: #0a9a5c;
+  --class-paladin: #d0508f;
+  --class-priest: #6b6b6b;
+  --class-rogue: #a89a1e;
+  --class-warrior: #8f6a40;
+  --bar-bg: #ffffff;
+  --page-bg: radial-gradient(130% 90% at 50% -10%, #ffffff 0%, transparent 65%), var(--bg);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-lift: 0 6px 22px rgba(0, 0, 0, 0.14);
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* The elements render into the light DOM and each one is the box its class
+   describes - `<wt-hint class="hint">` is the .hint. A custom element
+   has no display of its own, so every element says on connect what its root
+   used to be (see WtElement.hostDisplay); these rules come first so a class
+   of the stylesheet's own - a flex row, a grid - wins. "contents" is for an
+   element that only wraps a control it cannot be itself: a button, a label.
+   The provider wraps stories only and must not be a box at all. */
+.wt-block {
+  display: block;
+}
+
+.wt-inline {
+  display: inline;
+}
+
+/* A table row whose cells are its light DOM children, so the sheet's
+   column rules reach them; wt-table slots it beside its own wt-row. */
+.wt-table-row {
+  display: table-row;
+}
+
+.wt-contents,
+wt-i18n-provider {
+  display: contents;
+}
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--fs-body);
+  line-height: var(--lh-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-line);
+}
+
+h1,
+h2,
+h3 {
+  font-family: inherit;
+  font-weight: 600;
+  line-height: var(--lh-tight);
+}
+
+a {
+  color: var(--accent);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-tiny);
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: var(--s0) var(--s1);
+}
+
+/* The default scrollbar is the loudest thing on a dark screen. */
+::-webkit-scrollbar {
+  width: var(--s3);
+  height: var(--s3);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border: 3px solid var(--bg);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
+}
+
+/* ---------- text ---------- */
+
+.muted {
+  color: var(--text-dim);
+}
+
+.faint {
+  color: var(--text-faint);
+}
+
+.tiny {
+  font-size: var(--fs-tiny);
+}
+
+/* A word in a severity's ink, its icon in the severity's mark: "ready"
+   beside the warning triangle, "enchanted" beside the tick. The class is
+   named after the token it sets, so `.warn-text` is `--warn-text` wherever
+   it is raised - on the panel's ground or on the severity's wash - and a
+   lone icon with the class is the mark. The next step's open and claim
+   tones are the warning pair under their own name. */
+.info-text {
+  color: var(--info-text);
+}
+
+.ok-text {
+  color: var(--ok-text);
+}
+
+.warn-text,
+.step-open,
+.step-claim {
+  color: var(--warn-text);
+}
+
+.danger-text {
+  color: var(--danger-text);
+}
+
+.info-text .icon,
+.icon.info-text {
+  color: var(--info);
+}
+
+.ok-text .icon,
+.icon.ok-text {
+  color: var(--ok);
+}
+
+.warn-text .icon,
+.icon.warn-text,
+.step-open .icon,
+.step-claim .icon {
+  color: var(--warn);
+}
+
+.danger-text .icon,
+.icon.danger-text {
+  color: var(--danger);
+}
+
+/* Uppercase caption. One rule, so every label in the app matches: the
+   toolbar's field labels, the tiles' captions, every table head, every panel
+   heading. The size steps down one notch where the caption sits in a dense
+   table or over a block inside a card. */
+.label,
+.week-label,
+.char-table th,
+.dash-head h2,
+.group-title,
+.matrix th {
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--text-faint);
+}
+
+.matrix th {
+  font-size: var(--fs-micro);
+}
+
+/* Figures read as figures: same digits everywhere they are compared. */
+.num,
+.count-label,
+.table-vault-count,
+.reset-pill strong,
+.slot-main,
+.matrix,
+.tile-vault,
+.tile-figures,
+.chart-tick,
+.chart-tip-value,
+.panel-index,
+.detail-bar-value,
+.detail-figure-value,
+.week-label .count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- icons ---------- */
+
+/* The leaves - the logo, a class glyph, a brand mark - are hosts around
+   one svg or img. The host is the box the stylesheet addresses and sits
+   in the line the way the drawing did; the drawing fills it, so the host
+   is exactly the drawing's size and not a line box around it. The icon
+   says the same in its own shadow root (Icon.ts), so it holds inside a
+   chip as well. */
+.brand-logo > svg,
+.class-glyph > img,
+.brand-mark > img {
+  display: block;
+}
+
+/* The button says "reading…" - the icon should look like it. */
+.icon.spin {
+  animation: spin 1.1s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- controls ---------- */
+
+button,
+input,
+textarea {
+  font-family: inherit;
+  font-size: var(--fs-base);
+}
+
+/* One height for every control, so a button, a field and a select in one
+   row stand level. The sizes set it, and each control takes it as its box.
+   The mark's size is the element's to match. */
+button,
+input,
+.select-trigger {
+  --box-h: var(--control-h);
+}
+
+button.sm,
+input.sm,
+.select-trigger.sm {
+  --box-h: var(--control-h-sm);
+  padding: 0 var(--s2);
+  font-size: var(--fs-base);
+}
+
+button.xs,
+input.xs,
+.select-trigger.xs {
+  --box-h: var(--control-h-xs);
+  padding: 0 var(--s1);
+  font-size: var(--fs-tiny);
+  border-radius: var(--radius-xs);
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--control-gap);
+  min-height: var(--box-h);
+  color: var(--text-dim);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--control-px);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    border-color 0.12s,
+    color 0.12s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+button:focus-visible,
+input:focus-visible,
+.brand-link > a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent-bright);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--accent-bright);
+  color: var(--on-accent);
+}
+
+button.danger {
+  background: var(--danger);
+  border-color: var(--danger-strong);
+  color: var(--on-danger);
+  font-weight: 600;
+}
+
+button.danger:hover:not(:disabled) {
+  background: var(--danger-strong);
+  color: var(--on-danger);
+}
+
+/* Quiet: no box. Comes after the tones so it takes their colour and drops their fill. */
+button.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-faint);
+  font-weight: inherit;
+}
+
+button.ghost:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+button.ghost.primary {
+  color: var(--accent);
+}
+
+button.ghost.primary:hover:not(:disabled) {
+  color: var(--accent-bright);
+  background: var(--accent-soft);
+}
+
+/* A destructive row action: quiet until it is aimed at. */
+button.ghost.danger:hover:not(:disabled) {
+  color: var(--danger-text);
+  background: var(--danger-soft);
+}
+
+/* A mark alone: the square of its size, which a full flex row does not shrink. */
+button.icon-button {
+  padding: 0;
+  width: var(--box-h);
+  flex: none;
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-faint);
+}
+
+button.icon-button:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+input {
+  color: var(--text);
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  height: var(--box-h);
+  padding: 0 var(--control-px);
+  width: 100%;
+  transition:
+    border-color 0.12s,
+    background 0.12s;
+}
+
+input::placeholder {
+  color: var(--text-faint);
+}
+
+input:hover:not(:disabled) {
+  border-color: var(--border-hover);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+input:disabled {
+  opacity: 0.5;
+}
+
+/* Spinners on a level field are three pixels of target area - the keyboard and
+   the digits do the job. */
+input[type='number'] {
+  appearance: textfield;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+input[type='checkbox'] {
+  appearance: none;
+  flex: 0 0 auto;
+  width: var(--s4);
+  height: var(--s4);
+  padding: 0;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-input);
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+input[type='checkbox']::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: transform 0.1s ease-out;
+  background: var(--on-accent);
+  clip-path: polygon(14% 44%, 0 60%, 40% 100%, 100% 18%, 84% 0%, 39% 68%);
+}
+
+input[type='checkbox']:checked {
+  background: var(--accent);
+  border-color: var(--accent-bright);
+}
+
+input[type='checkbox']:checked::before {
+  transform: scale(1);
+}
+
+input[type='checkbox']:hover:not(:disabled) {
+  border-color: var(--border-hover);
+}
+
+/* A tick that cannot be taken away - the last account standing - is a fact,
+   not a faded choice: it keeps its colour, only the cursor says so. */
+input[type='checkbox']:disabled:checked {
+  opacity: 1;
+  cursor: default;
+}
+
+input[type='checkbox']:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* A segmented switch: a strip of ghost buttons in a sunken frame, one of
+   them lit. The tab bar, the filters and the gold ranges are all this. */
+.segmented {
+  display: flex;
+  padding: var(--s0);
+  gap: var(--s0);
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.segmented button {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-dim);
+  padding: 0 var(--s3);
+  gap: var(--s2);
+}
+
+/* The lit state. */
+.segmented button.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  color: var(--accent-bright);
+}
+
+/* ---------- select ---------- */
+
+/* The platform draws the native option list itself - white, square and
+   nothing like the app around it - and no CSS on `option` reaches it. So the
+   dropdown is ours: a trigger cut from the same cloth as the inputs beside it,
+   and a menu built from the same parts as the other popovers. */
+.select {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+}
+
+.select-trigger {
+  width: 100%;
+  justify-content: space-between;
+  height: var(--box-h);
+  color: var(--text);
+  background: var(--bg-input);
+  border-color: var(--border-strong);
+}
+
+.select-trigger:hover:not(:disabled) {
+  background: var(--bg-input);
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+.select-trigger.open {
+  border-color: var(--accent);
+}
+
+/* The value takes the squeeze, so a long account name never pushes the
+   chevron off the control. */
+.select-value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--control-gap);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.select-value .icon {
+  color: var(--text-faint);
+}
+
+.select-caret {
+  color: var(--text-dim);
+  transition: transform 0.12s;
+}
+
+.select-trigger.open .select-caret {
+  transform: rotate(180deg);
+}
+
+/* Viewport-positioned: the menu belongs to the button, not to whatever
+   scroll box or panel the button happens to sit in. */
+.select-menu {
+  position: fixed;
+  z-index: 60;
+  overflow-y: auto;
+  padding: var(--s1);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lift);
+  outline: none;
+}
+
+/* One row of a menu: the select's options and the picker's checkboxes are
+   the same row. */
+.select-option,
+.popover-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s2);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-base);
+  color: var(--text-dim);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.select-option .icon,
+.popover-row .icon {
+  color: var(--text-faint);
+}
+
+/* One highlight for hover and for the arrow keys - the menu never shows two
+   candidates at once. */
+.select-option.active,
+.popover-row.active,
+.popover-row:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.select-option.picked {
+  color: var(--accent-bright);
+}
+
+.select-option.picked .icon {
+  color: var(--accent);
+}
+
+.select-option-label {
+  flex: 1;
+}
+
+.select-tick {
+  margin-left: var(--s2);
+}
+
+/* ---------- layout ---------- */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  padding: var(--s3) var(--s6);
+  border-bottom: 1px solid var(--border);
+  background: var(--bar-bg);
+  flex: 0 0 auto;
+  /* The window is frameless, so this bar is the title bar: dragging it moves
+     the window, a double-click maximises. Every control on it opts out again
+     below, or the buttons would drag instead of click. */
+  -webkit-app-region: drag;
+  user-select: none;
+  /* The bar's own stacking context, over the content: the search's list
+     hangs down over the view, and a sticky toolbar there would otherwise
+     paint across it. */
+  position: relative;
+  z-index: 30;
+}
+
+.topbar button,
+.topbar input,
+.topbar .search-hits,
+.topbar .reset-pill {
+  -webkit-app-region: no-drag;
+}
+
+/* The two steps along the trail sit where a browser keeps them: left of
+   the tabs, small, and greyed at either end rather than gone - a button
+   that comes and goes would move the tabs. */
+.trail-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+}
+
+/* Every control on the bar is the same object: one height, one padding,
+   one corner - the buttons' own. The reset figure is not a button, and its
+   sunken fill says so - it does not need a different shape on top. */
+.topbar .reset-pill {
+  height: var(--control-h);
+  padding: 0 var(--control-px);
+  border-radius: var(--radius-sm);
+}
+
+/* The window controls sit flush at the right edge of the bar, where the OS
+   would have drawn them, but in the app's own idiom: quiet ghost buttons that
+   colour on hover, close in the warning red. They are taller than the other
+   controls so they look like part of the frame and not like another action. */
+.window-controls {
+  display: flex;
+  align-self: stretch;
+  margin: calc(-1 * var(--s3)) calc(-1 * var(--s6)) calc(-1 * var(--s3)) var(--s2);
+  border-left: 1px solid var(--border);
+}
+
+.window-controls > wt-button > button {
+  min-height: 0;
+  height: auto;
+  width: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-dim);
+}
+
+.window-controls > wt-button > button:hover {
+  background: var(--bg-hover);
+  border-color: transparent;
+  color: var(--text);
+}
+
+.window-controls > wt-button > button:active {
+  background: var(--border-strong);
+}
+
+/* Flush against the window edge: an outline outside the button would be cut off. */
+.window-controls > wt-button > button:focus-visible {
+  outline-offset: -2px;
+}
+
+/* Close is the danger tone, but quiet like the other two until it is aimed at. */
+.window-controls > wt-button > button.danger:hover {
+  background: var(--danger);
+  color: var(--on-danger);
+}
+
+.window-controls > wt-button > button.danger:active {
+  background: var(--danger-strong);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-right: var(--s1);
+}
+
+.brand h1 {
+  font-size: var(--fs-title);
+  margin: 0;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.brand-logo {
+  display: block;
+  color: var(--accent);
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* The bar has to fit the narrowest window the main process allows (760px).
+   It gives up in stages, least useful first: the read timestamp and the
+   evenings before the reset go (the overview repeats the one, the tooltip
+   and the board keep the other), then the words on the action controls (each keeps
+   its icon and a tooltip), then the tab labels, last the name beside the
+   mark. The mark, the two steps, the reset figure and the window controls
+   never go - they are what makes it the title bar. The search field is
+   elastic, 150px at the least; at the narrowest stage it folds to its mark,
+   and the focus opens it again in place of the tabs. The stages are queries
+   on the bar's own width, not the viewport's, so a story can show them one
+   under the other. A query sees the bar's content box: the window's width
+   less the bar's padding (48px). Each threshold is the measured width the
+   stage above it needs with the update button on and the search at its
+   least, the widest case. The six tabs with their labels need 1454px of
+   it: the default window (1320px) shows the tabs as marks. */
+.topbar {
+  container: topbar / inline-size;
+}
+
+@container topbar (max-width: 2110px) {
+  .topbar .last-read,
+  .topbar .reset-evenings {
+    display: none;
+  }
+}
+
+@container topbar (max-width: 1738px) {
+  .topbar .action-label,
+  .topbar .reset-label {
+    display: none;
+  }
+
+  /* Without its words a control is a mark alone: the square, as an icon button. */
+  .topbar > wt-button > button {
+    width: var(--box-h);
+    padding: 0;
+    flex: none;
+  }
+}
+
+@container topbar (max-width: 1454px) {
+  .topbar .tab-label {
+    display: none;
+  }
+
+  .tabs button {
+    width: var(--box-h);
+    padding: 0;
+  }
+}
+
+@container topbar (max-width: 1061px) {
+  .brand h1 {
+    display: none;
+  }
+}
+
+@container topbar (max-width: 900px) {
+  .topbar {
+    gap: var(--s3);
+  }
+
+  /* The spacer costs two gaps for nothing; the reset figure's own margin
+     pushes the right-hand group over instead. */
+  .topbar .spacer {
+    display: none;
+  }
+
+  .topbar .reset-pill {
+    margin-left: auto;
+  }
+
+  /* The field folds to the square of its mark, the placeholder gone with
+     the room for it. */
+  .topbar .search:not(:focus-within) {
+    flex: 0 0 var(--control-h);
+    min-width: 0;
+  }
+
+  .topbar .search:not(:focus-within) input::placeholder {
+    color: transparent;
+  }
+
+  /* Opened by the focus, the field takes the tabs' room: a player who types
+     is not about to click a tab, and the keys still switch them. */
+  .topbar:has(.search:focus-within) .tabs {
+    display: none;
+  }
+}
+
+.last-read {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  white-space: nowrap;
+}
+
+.reset-pill {
+  background: var(--bg-sunken);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  border: 1px solid var(--border-strong);
+  font-size: var(--fs-base);
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.reset-pill .icon {
+  color: var(--text-faint);
+}
+
+/* The evenings after the hours: the figure the player counts in. */
+.reset-evenings {
+  color: var(--text-faint);
+}
+
+.reset-pill strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  /* No top padding of its own: a scroll container's padding sits inside the
+     scrollport, so anything up there would scroll past the sticky toolbar.
+     The first block carries the inset instead. */
+  padding: 0 var(--content-pad-x) var(--s7);
+}
+
+.content > :first-child {
+  margin-top: var(--content-pad-y);
+}
+
+/* ---------- cards ---------- */
+
+/* The one raised box in the app: a character card, a figure tile, a roster
+   tile, a settings panel, the table's frame. Each of those says what goes
+   inside; the surface itself - ground, edge, corner, shadow - is said here
+   once, so the boxes read as one family and a change to the edge is one
+   change. The surface is `wt-card`; an element that is a card extends it
+   and adds its own class beside `card`. */
+.card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  color: var(--text);
+}
+
+/* A card that leads somewhere - a tile that opens a character, a figure
+   that opens a view, a card head that unfolds. Same box as every other
+   card; only the cursor and the hover say it is a way in, and every way in
+   says it the same. Some of these are a plain box with a button's role,
+   not a <button>, so the pointer, the transition and the focus ring the
+   control rule would have given them are said here. */
+.card-link {
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    border-color 0.12s,
+    box-shadow 0.12s;
+}
+
+.card-link:hover:not(:disabled),
+.card-link:focus-visible {
+  background: var(--bg-hover);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-lift);
+  outline: none;
+}
+
+/* On hover, the edge lights up in a sweep out of the top left corner. The
+   colour is the class colour when the card has one, or the accent. The
+   sweep runs the full length of the top edge and the left edge alike: solid
+   over the near part, thinned out but still that colour over the rest, gone
+   at the far corners. It is an ellipse the size of the
+   box, not an angle: an angled gradient on a wide, flat card is all width,
+   so it paints the whole left edge and then fades left to right along the
+   top - which does not read as diagonal. It is an overlay ring, masked
+   to the one pixel of the edge (the padding box cut out of the border box),
+   so the corners stay round and the content is not covered. `inset: 0`
+   would put the ring inside the card's own border, one pixel in - a second
+   ring beside the first - so it is pulled out by the border's width and
+   lies on the border itself. The card is a stacking context and the ring
+   is below zero in it: over the card's own border, under everything the
+   card holds. A positioned child that reaches out of the card - the tip
+   over a vault ring - would otherwise lie under the ring, which is drawn
+   after the children, and the edge would cut through its text. */
+.card-link {
+  position: relative;
+  isolation: isolate;
+}
+
+.card-link::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    ellipse 100% 100% at 0 0,
+    var(--class-color, var(--accent)) 0%,
+    var(--class-color, var(--accent)) 40%,
+    color-mix(in srgb, var(--class-color, var(--accent)) 50%, transparent) 80%,
+    transparent 100%
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s;
+}
+
+.card-link:hover:not(:disabled)::after,
+.card-link:focus-visible::after {
+  opacity: 1;
+}
+
+/* ---------- the figure tiles ---------- */
+
+/* Every tile is the same box: a grid of equal tracks, not a flex row where
+   each one takes whatever its own number happens to need. */
+.summary-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--gap);
+  margin-bottom: var(--s4);
+}
+
+/* The one state of a figure tile that recolours its surface. It is the
+   sheet's rule, not the tile's: `.card` sets the border here, and a rule
+   of the tile's own root would lose to it. */
+
+/* A reward already earned is lost at the reset - the one thing on a figure
+   tile that is urgent rather than merely open, so the whole box says it, the
+   way the character tile does. */
+wt-stat-tile[claim] {
+  border-color: var(--warn-line);
+  background: var(--warn-soft);
+}
+
+/* ---------- toolbar ---------- */
+
+/* A control strip like the top bar, not a fade: rows sliding underneath have
+   to disappear behind an edge instead of ghosting through a gradient. */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  flex-wrap: wrap;
+  /* Full bleed over the scroll area's side inset, so nothing slides past the
+     bar's left or right edge either. */
+  margin: 0 calc(-1 * var(--content-pad-x)) var(--s4);
+  padding: var(--s3) var(--content-pad-x);
+  /* The page's own ground, painted again and anchored to the viewport exactly
+     as the body's is - so the bar covers the rows sliding under it while
+     staying invisible against everything around it. A flat colour cannot do
+     that: the page carries a gradient. */
+  background: var(--page-bg);
+  background-attachment: fixed;
+  border-bottom: 1px solid var(--border);
+}
+
+/* A toolbar that opens the scroll area gives the first block's inset back:
+   it rests where it sticks, its own padding under the top bar, instead of
+   dropping by the inset the moment the rows scroll back to the top. */
+.content > :first-child > .toolbar:first-child {
+  margin-top: calc(-1 * var(--content-pad-y));
+}
+
+/* The one elastic item in the bar: it takes whatever the fixed controls leave
+   over and gives it back first, so the row only wraps once even the search
+   field has run out of room. */
+.search {
+  position: relative;
+  flex: 1 1 210px;
+  /* Elastic downwards only - a search field the width of half the window
+     would just look lost. */
+  max-width: 340px;
+  min-width: 150px;
+}
+
+/* The field is laid out like a button with a mark: the control's inset,
+   the mark, the control's gap, then the words. */
+.search input {
+  padding-left: calc(var(--control-px) + var(--icon-sm) + var(--control-gap));
+  padding-right: calc(var(--control-px) + var(--icon-sm) + var(--control-gap));
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--control-px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  color: var(--text-faint);
+  pointer-events: none;
+  transition: color 0.12s;
+}
+
+.search:has(input:focus) .search-icon,
+.search:has(input:not(:placeholder-shown)) .search-icon {
+  color: var(--text-dim);
+}
+
+/* The clear mark sits inside the field, at its right edge. */
+.search > wt-button > button {
+  position: absolute;
+  right: var(--s1);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* The hits hang under the field, wider than it: a row names a character
+   and the realm, or an item and where it sits, and neither fits the
+   field's width. The list scrolls before it reaches the foot of the window. */
+.search > .search-hits {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  max-width: 560px;
+  max-height: 70vh;
+  overflow-y: auto;
+  user-select: none;
+}
+
+/* A caption over each kind of hit, and the figure of what the caps left
+   out, in the same quiet voice. */
+.search-group {
+  padding: var(--s2) var(--s2) var(--s1);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  white-space: nowrap;
+}
+
+/* What Enter does with the row the arrows stand on. */
+.search-foot {
+  margin-top: var(--s1);
+  padding: var(--s2) var(--s2) var(--s1);
+  border-top: 1px solid var(--border);
+}
+
+.search-hit {
+  color: var(--text);
+}
+
+.search-hit > .hit-mark {
+  flex: none;
+}
+
+/* The words of a row in two lines: the name, and under it where or who. */
+.hit-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: var(--lh-tight);
+}
+
+.hit-main > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The open task that matched, where the name did not: the reason the row is on the list. */
+.hit-note {
+  font-style: italic;
+}
+
+/* A select inside the inline field group: the group draws the frame, so the
+   trigger gives its own up and sits in the group's padding. The select is a
+   child of the group in the light DOM, so the rule reaches it from here. */
+wt-field-group[inline] .select {
+  width: auto;
+  min-width: 0;
+}
+
+wt-field-group[inline] .select-trigger,
+wt-field-group[inline] .select-trigger:hover:not(:disabled) {
+  width: auto;
+  height: calc(var(--control-h) - 2 * var(--s1));
+  min-height: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: var(--fs-base);
+  color: var(--text);
+}
+
+wt-field-group[inline][size='sm'] .select-trigger {
+  height: calc(var(--control-h-sm) - 2 * var(--s1));
+}
+
+/* The tooltips' layer: the whole window, over everything, and no target for
+   the pointer itself - what is under it stays hoverable. The layer's tip is
+   placed in window coordinates by `wt-tip-layer`. */
+.tip-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+}
+
+/* A tooltip: the floating tip in the reading size of the page, breaking its
+   lines where the text does (a run's tip lists the affixes one under the
+   other) and wrapping the long ones. It fades in rather than popping. */
+.hover-tip {
+  max-width: 320px;
+  font-size: var(--fs-base);
+  line-height: var(--lh-text);
+  white-space: pre-line;
+  animation: tip-in 120ms ease-out;
+}
+
+/* The tip of an item as the game draws it: the game's dark surface under
+   the client's colours, wrapping where a description runs long. The lines
+   are `wt-game-tip` inside; the surface is the tip's, so the whole box is
+   dark, not a dark block on the app's tip. */
+.game-tip {
+  max-width: none;
+  background: var(--game-tip-bg);
+  border-color: var(--game-tip-line);
+  color: var(--game-tip-text);
+  white-space: normal;
+}
+
+@keyframes tip-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.popover {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--s2));
+  left: 0;
+  min-width: 230px;
+  padding: var(--s2);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lift);
+}
+
+/* One group with an auto margin rather than a spacer element: when the
+   toolbar wraps, the count and the view switch stay together, on the right
+   of whichever line they end up on. */
+.toolbar-end {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-left: auto;
+}
+
+.count-label {
+  white-space: nowrap;
+  font-size: var(--fs-base);
+}
+
+/* ---------- chips ---------- */
+
+/* What a vault row is still short of. */
+.gap-note {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: var(--fs-tiny);
+}
+
+/* Says why the vault below it is drawn empty. */
+.claim-note {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s2);
+  font-size: var(--fs-base);
+}
+
+.vault-note {
+  white-space: nowrap;
+  padding-left: var(--s0);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.derived-mark {
+  color: var(--text-faint);
+  margin-left: var(--s1);
+  cursor: help;
+}
+
+/* What a vault slot pays (`wt-reward`), the way the roster row sets a
+   figure: the level with its unit small beside it, then the gain over the
+   character in the accent. The evening's plan, a task line and a grid cell
+   all carry it. */
+.reward {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s3);
+  font-size: var(--fs-base);
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.reward-unit {
+  margin-left: var(--s1);
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+  letter-spacing: var(--track-caps);
+}
+
+.reward-gain {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* The next step's colours, shared by the card band, the tile and the roster
+   row: open and claim in the warning pair (see the text rules), done quiet
+   with a green mark, a levelling character out of the way. */
+.step-done {
+  color: var(--text-dim);
+}
+
+.step-done .icon {
+  color: var(--ok);
+}
+
+.step-claim {
+  font-weight: 600;
+}
+
+.step-quiet {
+  color: var(--text-faint);
+}
+
+/* ---------- identity ---------- */
+
+.medallion {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  font-weight: 700;
+  letter-spacing: var(--track-caps);
+  line-height: var(--lh-none);
+  color: var(--medallion-color);
+  border: 1px solid var(--medallion-color);
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.09), rgba(0, 0, 0, 0.4));
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+.medallion-art {
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.45);
+}
+
+.class-glyph {
+  display: block;
+}
+
+/* The crafting tier's mark (`wt-craft-tier`): a small box, the drawing fills it. */
+.craft-tier {
+  display: inline-block;
+  width: var(--s4);
+  height: var(--s3);
+  vertical-align: middle;
+}
+
+.craft-tier > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The game's class icon lies over the drawing and covers it once it is
+   there; until then, or where it never comes, the drawing shows. */
+.medallion > .game-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.class-glyph > img {
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+/* The game's own icon of a thing (`wt-game-icon`): the host is the box in
+   the size the place gives it, the picture fills it. A square with the
+   game's rounding, so it reads as the icon the tooltip in the game shows. */
+.game-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: var(--icon-size, 1em);
+  height: var(--icon-size, 1em);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  vertical-align: -0.2em;
+}
+
+.game-icon > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The square before the picture: the look of an empty field, no motion -
+   thirty of them in a table would be noise. The medallion has its own
+   drawing under the icon and needs no square. */
+.game-icon.loading {
+  background: var(--bg-input);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.medallion > .game-icon.loading {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* A character's name is the way to the character's page wherever it
+   stands: a `wt-button` with the `char-open` class, the class colour on the
+   host and `wt-open-character` on the click. It is a button for the
+   keyboard's sake, but drawn as the name it replaces: the same type, the
+   same class colour, no box around it. The size is the text's around it;
+   a place that sets its own (`card-name`, `matrix-char`) does so on top. */
+.char-open > button {
+  display: inline;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.char-open > button:hover:not(:disabled) {
+  background: transparent;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--class-color, currentColor);
+}
+
+/* The line under the name: spec, class, realm, faction and guild behind the
+   same dot. The card sets it a notch smaller than the page. */
+.identity-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s2);
+  color: var(--text-dim);
+}
+
+.card-sub {
+  font-size: var(--fs-tiny);
+}
+
+.detail-sub {
+  font-size: var(--fs-base);
+}
+
+.identity-sep {
+  color: var(--text-faint);
+}
+
+/* Faction and guild sit in the sub-line beside spec and realm; the faction's
+   dot is the one bit of colour in it, so Horde and Alliance read apart at a
+   glance without a word being read. */
+.faction-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  white-space: nowrap;
+}
+
+.faction-dot {
+  width: var(--s2);
+  height: var(--s2);
+  border-radius: 50%;
+  background: var(--text-faint);
+}
+
+.faction-tag.alliance .faction-dot {
+  background: var(--alliance);
+}
+
+.faction-tag.horde .faction-dot {
+  background: var(--horde);
+}
+
+.guild-tag {
+  white-space: nowrap;
+}
+
+/* Where the character is and what sits in its bags, as a row of marks with
+   words: the card's foot and the page's hero band both draw it. */
+.meta-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--text-faint);
+}
+
+.meta-line > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  white-space: nowrap;
+}
+
+/* The places a character is looked up, as a strip of marks. */
+.char-links {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  flex-basis: 100%;
+}
+
+/* One site as a tile: a `wt-ext-link` with the `brand-link` class and the
+   site's colour in `--brand` on the host; the link inside is the box, the
+   site's own mark its content. */
+.brand-link > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-h-sm);
+  height: var(--control-h-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-sunken);
+  color: var(--text-faint);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 0.12s,
+    background 0.12s,
+    transform 0.12s;
+}
+
+.brand-link > a:hover {
+  border-color: var(--brand, var(--border-hover));
+  background: var(--bg-hover);
+  transform: translateY(-1px);
+}
+
+.brand-link .brand-mark {
+  display: block;
+  opacity: 0.88;
+  transition: opacity 0.12s;
+}
+
+/* The site icons are square artwork, not line glyphs: round them so they
+   read as app icons inside the tile rather than as pasted-in stamps. */
+.brand-link .brand-mark > img {
+  border-radius: var(--radius-xs);
+  object-fit: contain;
+}
+
+.brand-link > a:hover .brand-mark {
+  opacity: 1;
+}
+
+/* ---------- character cards ---------- */
+
+.char-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* The card is the band: mark, who, the four figures, the errand, the way
+   in. One line, the figures at fixed columns so they line up down the
+   roster. The chevron is pinned to the band's right edge rather than laid
+   out as a grid column: a column's position drifts with whatever the other
+   columns take, and the one thing every band must share is where that
+   chevron sits. */
+.char-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--s8) minmax(200px, 1.3fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s4);
+  padding: var(--s4) var(--s9) var(--s4) var(--pad-lg);
+  overflow: hidden;
+}
+
+/* The class stripe down the left edge stays the class's colour when the
+   card's hover recolours the rest of the edge. */
+.char-card,
+.char-card.card-link:hover {
+  border-left: 3px solid var(--class-color, var(--border-strong));
+}
+
+.char-card.hidden-char,
+.char-table tbody tr.hidden-char {
+  opacity: 0.45;
+}
+
+/* Levelling characters have nothing to do this week - they stay readable, but
+   they do not compete with the roster that does. */
+.char-card.levelling {
+  opacity: 0.62;
+  border-left-color: var(--border);
+}
+
+.char-card.levelling:hover {
+  opacity: 1;
+}
+
+/* Only a snapshot nobody can read anything out of any more steps back like
+   this. A character simply not played since the reset is an ordinary Wednesday
+   and is left looking like every other card. */
+.char-card.stale {
+  border-color: var(--stale-line);
+  background: var(--stale-bg);
+}
+
+/* A reward already earned is lost at the next reset - the one card on the
+   screen with something that cannot wait, so it is lit rather than dimmed. */
+.char-card.claim {
+  border-color: var(--warn-line);
+  background: linear-gradient(var(--warn-soft), var(--warn-soft)), var(--bg-raised);
+}
+
+.card-titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  min-width: 0;
+}
+
+/* The name and its state chip. The chip wraps under the name when the two
+   do not fit side by side: the name is what the player reads first, so it
+   must not be the thing that gives way. */
+.card-name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s1) var(--s2);
+  min-width: 0;
+}
+
+.card-name > button {
+  font-size: var(--fs-name);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Four figures, each a number over its unit, at the same four columns on
+   every card. The columns are fixed widths, not content-sized: a column
+   that grows with "2.242" on one card and "661" on the next would put the
+   score at a different place on every band. The unit says what the number
+   is; nobody has to remember which of three bare numbers is the score. */
+.card-figures {
+  display: grid;
+  grid-template-columns: 100px 136px 96px 64px;
+  gap: var(--s6);
+  align-items: start;
+}
+
+.card-figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s0);
+  min-width: 0;
+}
+
+.card-figure-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-size: var(--fs-figure);
+  font-weight: 600;
+  line-height: var(--lh-none);
+  letter-spacing: var(--track-tight);
+  white-space: nowrap;
+}
+
+.card-figure-of {
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+.card-figure-trend {
+  font-size: var(--fs-tiny);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.card-figure-unit {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  height: var(--s4);
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+  letter-spacing: var(--track-caps);
+}
+
+/* The trend after the unit, filling the rest of the column: the unit stays
+   at the column's left edge with or without a trend, and every line of the
+   same figure is the same width down the roster. Named through the unit so
+   it wins over the sparkline's own size, set further down. */
+.card-figure-unit .sparkline {
+  flex: 1 1 0;
+  width: 0;
+  height: var(--s4);
+}
+
+/* The keystone (`wt-keystone`): the level in the key colour, the dungeon's
+   initials small and quiet beside it; the place sets their distance. */
+.keystone {
+  color: var(--key);
+}
+
+.keystone-dungeon {
+  color: var(--text-dim);
+}
+
+.card-key > .keystone-dungeon {
+  margin-left: var(--s2);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  letter-spacing: var(--track-caps);
+}
+
+/* The errand, in words, in the colour of how urgent it is - only while the
+   card is closed, where it stands for the whole body. It starts at the
+   column's left edge, so its icons line up down the roster. */
+.card-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  justify-self: start;
+  min-width: 0;
+  max-width: 100%;
+  font-size: var(--fs-base);
+  white-space: nowrap;
+}
+
+/* The words in a span of their own: a bare text node in a flex box cannot
+   take an ellipsis. */
+.card-step > .step-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The season's token in the band's top right corner: the game's icon and
+   the count, in the quiet ink - a thing to glance at, not one of the four
+   figures the player compares. */
+.card-token {
+  position: absolute;
+  top: var(--s3);
+  right: var(--s4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: var(--fs-tiny);
+  color: var(--text-dim);
+}
+
+/* The way in sits at the band's right edge. */
+.char-card > wt-button > button {
+  position: absolute;
+  top: 50%;
+  right: var(--s4);
+  transform: translateY(-50%);
+  color: var(--text-faint);
+}
+
+/* A row the character's role does not work on: drawn, so the vault is
+   whole, but quiet - it is not a chore, and nothing counts it. */
+.vault-row.off {
+  opacity: 0.45;
+}
+
+/* The band measures its own box, not the window: the list of rows and the
+   one-character panel are both a band's container, and a narrow one lays
+   the band in two rows - who and the step, then the figures. */
+.char-grid,
+.dash-solo-character {
+  container: band / inline-size;
+}
+
+@container band (max-width: 1040px) {
+  .char-card {
+    grid-template-columns: var(--s8) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+  }
+
+  .card-figures {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s3);
+  }
+
+  .card-step {
+    grid-column: 2;
+  }
+}
+
+/* ---------- table view ---------- */
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.char-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-base);
+}
+
+.char-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: left;
+  padding: var(--s3);
+  background: var(--bg-sunken);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.char-table th.num {
+  text-align: right;
+}
+
+.char-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.char-table th.sortable:hover {
+  color: var(--text-dim);
+}
+
+.char-table th.sorted {
+  color: var(--text);
+}
+
+/* The head's words, and where the column sorts, the button they are: no
+   box of its own, the cell is the target. */
+.th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+}
+
+button.th-inner {
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+button.th-inner:hover:not(:disabled) {
+  background: none;
+  border-color: transparent;
+  color: var(--text-dim);
+}
+
+.sort-caret {
+  color: var(--accent);
+}
+
+/* The sortable columns admit it on hover, without a permanent row of arrows. */
+.sort-hint {
+  opacity: 0;
+  color: var(--text-faint);
+  transition: opacity 0.12s;
+}
+
+.char-table th.sortable:hover .sort-hint {
+  opacity: 1;
+}
+
+.char-table td {
+  padding: var(--s2) var(--s3);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.char-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.char-table tbody tr:hover {
+  background: var(--bg-lift);
+}
+
+.char-table tbody tr.stale td {
+  background: var(--stale-row);
+}
+
+.char-table tbody tr.claim td {
+  background: var(--warn-soft);
+}
+
+.char-table tr.levelling td {
+  color: var(--text-faint);
+}
+
+.char-table .num {
+  text-align: right;
+}
+
+.table-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.table-name > button {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-note {
+  flex: 0 0 auto;
+}
+
+/* A figure and the way it moved this month, on one line; the arrow takes
+   the trend colours and stays out of the digits' alignment. */
+.table-figure {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+}
+
+/* Something still to do in this cell. */
+.table-open {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+}
+
+.table-vault {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 96px;
+}
+
+.table-vault-count {
+  color: var(--text-dim);
+}
+
+.table-vault wt-bar {
+  flex: 1;
+  margin-top: 0;
+}
+
+.table-links {
+  display: flex;
+  gap: var(--s0);
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.char-table tr:hover .table-links,
+.table-links:focus-within {
+  opacity: 1;
+}
+
+.table-links .brand-link > a {
+  width: var(--control-h-xs);
+  height: var(--control-h-xs);
+}
+
+/* ---------- panels and settings ---------- */
+
+/* A list of switches stood on end: the segmented control's entries without
+   its frame, the lit one the same, the label left-aligned so the icons make
+   a column. The settings page keeps its sections in one. */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s0);
+}
+
+.nav button {
+  justify-content: flex-start;
+  width: 100%;
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-dim);
+  padding: 0 var(--s3);
+  gap: var(--s2);
+}
+
+.nav button.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  color: var(--accent-bright);
+}
+
+/* The settings page: the section list down the left, the open section's
+   panels beside it. The list is sticky at the page's own inset, so it stays
+   in reach while a long section scrolls; the grid row is as tall as the
+   panels, which is what gives it room to stick in. */
+.settings {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: var(--s6);
+  align-items: start;
+}
+
+.settings > .nav {
+  position: sticky;
+  top: var(--content-pad-y);
+}
+
+/* Not enough room for a column of its own: the list becomes a row above
+   the panels and scrolls away with them. */
+@media (max-width: 860px) {
+  .settings {
+    grid-template-columns: 1fr;
+    gap: var(--s4);
+  }
+
+  .settings > .nav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .settings > .nav button {
+    width: auto;
+  }
+}
+
+.panel {
+  padding: var(--pad-lg) var(--s6);
+  margin-bottom: var(--s4);
+  max-width: 900px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s2);
+}
+
+.panel-head h2 {
+  margin: 0;
+  font-size: var(--fs-title);
+  color: var(--text);
+}
+
+/* A figure behind the title - what the plan takes of the evening - in
+   the quiet type of a caption's note; the control of a titled head at
+   the far end, where every panel keeps its control. */
+.panel-head-note {
+  margin-left: var(--s1);
+  font-size: var(--fs-tiny);
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.panel-head > .panel-head-control {
+  margin-left: auto;
+}
+
+/* The step number carries the setup order, the icon says what the step is. */
+.panel-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--s7);
+  height: var(--s7);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-sunken);
+  color: var(--accent);
+}
+
+.panel-index {
+  margin-left: auto;
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  letter-spacing: var(--track-caps);
+  color: var(--text-faint);
+}
+
+.panel > p {
+  margin: 0 0 var(--s4);
+  color: var(--text-dim);
+  font-size: var(--fs-base);
+  line-height: var(--lh-text);
+  max-width: 72ch;
+}
+
+.row {
+  display: flex;
+  gap: var(--s2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.row input,
+.row .select {
+  width: auto;
+}
+
+.input-grow {
+  flex: 2 1 220px;
+}
+
+.input-small {
+  flex: 0 0 120px;
+}
+
+.input-tiny {
+  flex: 0 0 90px;
+}
+
+.hint {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  margin: var(--s3) 0 0;
+  font-size: var(--fs-tiny);
+  color: var(--text-faint);
+  line-height: var(--lh-text);
+  max-width: 72ch;
+}
+
+.hint .icon {
+  margin-top: var(--s0);
+}
+
+.check-row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  cursor: pointer;
+}
+
+/* A lookup link riding on a figure: quiet until hovered, glyph tucked
+   against the number so the pair reads as one token. The class is the
+   host's, with `faint tiny` for its type; the link inside is the token. */
+.ext-link > a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  color: inherit;
+  text-decoration: none;
+}
+
+.ext-link > a:hover {
+  color: var(--accent-bright);
+  text-decoration: underline;
+}
+
+/* A notice that closes a panel or a source row has nothing below it to space;
+   one that follows a form spaces itself off the form instead. The notice's
+   box is its own stylesheet; its place in the parent is the parent's rule. */
+.panel wt-notice {
+  margin: var(--s4) 0 0;
+}
+
+.panel > wt-notice:first-child {
+  margin-top: 0;
+}
+
+/* The shell's notices stand above the view as the first block of the
+   scroll area; the view under them keeps a section's distance, once. */
+.content > .notices > wt-notice:last-child {
+  margin-bottom: 0;
+}
+
+.content > .notices + * {
+  margin-top: var(--s4);
+}
+
+wt-notice[banner] button {
+  margin-left: auto;
+}
+
+.update-progress {
+  flex: 1;
+  min-width: 120px;
+  margin-top: 0;
+}
+
+/* An entry of a list inside a panel: a sunken box, so it reads as one
+   item under the panel's head and not as a card of its own. */
+.entry {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s3) var(--s4);
+  margin-bottom: var(--s2);
+  background: var(--bg-sunken);
+}
+
+.entry.off {
+  opacity: 0.5;
+}
+
+.entry-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  flex-wrap: wrap;
+}
+
+.entry-name {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-weight: 600;
+  font-size: var(--fs-body);
+}
+
+/* The body is one column with one gap: the status line, the text, the
+   chips, a notice, the action. Each keeps the same distance to the next,
+   so none of them sets a margin here. The status line is here, not in the
+   head, so it stays in the same place at every width. In the head, it
+   wraps under the control when the badge takes the room. */
+.entry-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  margin-top: var(--s2);
+  padding-left: calc(var(--s4) + var(--s2));
+}
+
+.entry-body p {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-text);
+}
+
+.entry-body wt-notice,
+.entry-body .hint {
+  margin: 0;
+}
+
+/* The action is a button, not a line of the text. Its distance to the
+   chips is one step larger than the distance from the chips to the text. */
+.entry-action {
+  margin-top: var(--s1);
+}
+
+/* A page that is only its empty state - the board without a roster, the
+   gold tab without a read, the fresh install - shows the box in the middle
+   of the page, not at its top. The scroll area becomes a column and the
+   box, or the view that holds nothing but the box, floats on auto margins:
+   they centre it while it fits and fall to zero when it does not, so a
+   small window still scrolls to the top of it. The inset moves from the
+   first child's margin to the area's padding, where an auto margin cannot
+   eat it; nothing sticky is on an empty page. */
+.content:has(> wt-empty-state:only-child),
+.content:has(> :only-child > wt-empty-state:only-child) {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--content-pad-y);
+}
+
+.content > wt-empty-state:only-child,
+.content > :only-child:has(> wt-empty-state:only-child) {
+  margin-block: auto;
+}
+
+.content > :only-child > wt-empty-state:only-child {
+  margin-block: 0;
+}
+
+/* The button under the sentence: a row of the empty state's children. */
+wt-empty-state .row {
+  justify-content: center;
+  margin-top: var(--s4);
+}
+
+ol.steps {
+  display: inline-block;
+  text-align: left;
+  line-height: var(--lh-text);
+  padding-left: var(--s6);
+  margin: var(--s2) 0 0;
+}
+
+ol.steps > li + li {
+  margin-top: var(--s1);
+}
+
+/* The sentence before the steps: what the app shows once they are done. */
+.setup-intro {
+  margin: 0 0 var(--s3);
+}
+
+/* The cells of the settings' plain table. The table and its head are
+   wt-table's own stylesheet; the cells are its light DOM children, so
+   their rules are here, keyed on the tag. */
+wt-table wt-cell {
+  text-align: left;
+  padding: var(--s2);
+  border-bottom: 1px solid var(--border);
+}
+
+wt-table wt-row:last-child wt-cell,
+wt-table wt-quest-row:last-child wt-cell {
+  border-bottom: none;
+}
+
+wt-table .row-action {
+  width: 44px;
+  text-align: right;
+}
+
+/* A quest's name stays on one line; the characters' boxes wrap instead. */
+wt-table .col-quest {
+  white-space: nowrap;
+}
+
+wt-table .col-id {
+  width: 110px;
+}
+
+/* The items that count as a supply: names under the group's word, one
+   flask beside the next, each a link with the game's tooltip on it. */
+.supply-items {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--s3);
+  row-gap: var(--s1);
+  margin-top: var(--s1);
+}
+
+/* The keys column is as wide as its longest stroke; the words take the rest. */
+wt-table .col-keys {
+  width: 1%;
+  white-space: nowrap;
+}
+
+/* A key cap: the code style, raised by the edge under it so it reads as a key. */
+.keys kbd {
+  font-family: var(--font-mono);
+  font-size: var(--fs-tiny);
+  line-height: var(--lh-none);
+  display: inline-block;
+  padding: var(--s1) var(--s2);
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-xs);
+}
+
+.keys .keys-plus,
+.keys-or {
+  color: var(--text-faint);
+  font-size: var(--fs-tiny);
+  margin: 0 var(--s1);
+}
+
+/* The keyboard guide: a way is a heading and its steps, each step the key
+   in a column of its own and the words beside it, so the eye runs down
+   the keys and reads the words it needs. */
+.guide-way {
+  margin-bottom: var(--s5);
+}
+
+.guide-way h3 {
+  margin: 0 0 var(--s2);
+  font-size: var(--fs-base);
+}
+
+.guide-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-steps li {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  gap: var(--s3);
+  align-items: baseline;
+  padding: var(--s1) 0;
+  color: var(--text-dim);
+  max-width: 72ch;
+}
+
+.guide-keys {
+  white-space: nowrap;
+}
+
+/* One row per character, full width: the mark, the name and the switch
+   in columns of their own at the right - so the eye runs
+   down a column of names and a column of ticks, never across a ragged grid. */
+.char-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s0);
+}
+
+.char-toggle {
+  display: grid;
+  grid-template-columns: var(--s6) minmax(0, 1fr) 118px auto;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s2);
+  border-radius: var(--radius-sm);
+}
+
+/* The head row: the same columns, a hairline under it, no hover. */
+.char-toggle-head {
+  margin-bottom: var(--s1);
+  padding-bottom: var(--s2);
+  border-bottom: 1px solid var(--border);
+}
+
+.char-toggle-head:hover {
+  background: transparent;
+}
+
+.char-toggle:hover {
+  background: var(--bg-lift);
+}
+
+.char-toggle.off {
+  opacity: 0.5;
+}
+
+/* A box with its short word on a character's row: the roster switch. */
+.char-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: var(--fs-tiny);
+  color: var(--text-dim);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.char-switch.off {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.char-toggle-name {
+  font-weight: 500;
+  font-size: var(--fs-base);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A checkbox list that stays readable at any panel width: as many columns as
+   fit, never a single long column of short labels. The tracks stay when a
+   group has fewer entries than columns (`auto-fill`), so the boxes of every
+   group in a panel sit on the same lines. */
+/* A label can take two lines. The box sits on the first one, not in the
+   middle of the row, so a column of boxes stays a column. */
+wt-check-grid .check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+wt-check-grid .check-row input[type='checkbox'] {
+  margin-top: calc((var(--lh-text) * 1em - var(--s4)) / 2);
+}
+
+/* A section of a panel (wt-group, its own stylesheet): a larger gap
+   between two groups than between the parts of one. */
+wt-group + wt-group,
+wt-group + wt-field-group {
+  margin-top: var(--s4);
+}
+
+/* One step brighter than the caption rule: the note beside the title is
+   faint too, and two faint texts on one line make the title vanish. */
+.group-title {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+/* ---------- gold and bank views ---------- */
+
+.gold-view,
+.bank-view {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The view's own header row: what is being looked at, and over what window. */
+.view-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+  margin-bottom: var(--s4);
+}
+
+.view-title {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  color: var(--accent);
+}
+
+.view-title h2 {
+  margin: 0;
+  font-size: var(--fs-title);
+  color: var(--text);
+}
+
+/* The range picker sits where the toolbar's view switch does elsewhere. */
+.view-bar .last-read {
+  margin-left: auto;
+}
+
+.gold-panel {
+  max-width: none;
+}
+
+/* Two columns under the chart: the short lists - the parts, the accounts -
+   stacked on one side, the character list, as long as the roster, on the
+   other. A narrow window stacks them all. */
+.gold-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: var(--s4);
+  align-items: start;
+}
+
+.gold-side {
+  display: grid;
+  gap: var(--s4);
+}
+
+/* ---- the chart ---- */
+
+/* One chart for every stepped figure - gold, item level, rating. The colour
+   comes in from the chart's own style; the gold is only the default. */
+.step-chart {
+  --chart-color: var(--gold);
+  position: relative;
+  width: 100%;
+  margin-top: var(--s2);
+}
+
+.step-chart svg {
+  display: block;
+  /* The crosshair follows the pointer; the browser must not pan instead. */
+  touch-action: none;
+}
+
+.chart-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.chart-tick {
+  fill: var(--text-faint);
+  font-size: var(--fs-micro);
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--chart-color);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.chart-area {
+  stroke: none;
+}
+
+/* A reading gets a ring in the surface colour, so two close ones stay two. */
+.chart-dot {
+  fill: var(--chart-color);
+  stroke: var(--bg-raised);
+  stroke-width: 2;
+}
+
+.chart-cursor line {
+  stroke: var(--border-hover);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.chart-cursor circle {
+  fill: var(--chart-color);
+  stroke: var(--bg-raised);
+  stroke-width: 2;
+}
+
+.chart-tip-value {
+  color: var(--chart-color);
+}
+
+.chart-tip-time {
+  color: var(--text-faint);
+  font-size: var(--fs-micro);
+}
+
+/* The small stepped line in a card figure: the same shape as the chart,
+   without axis, ticks or dots. It fills the box it is given; the place
+   that shows it sets the size. */
+.sparkline {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sparkline-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.sparkline-area {
+  stroke: none;
+}
+
+/* ---------- compact panels ---------- */
+
+/* The dashboard and the character page are built from these: a box a
+   notch tighter than a settings panel, with a caption line instead of a
+   title. A column, not a block, so whatever it holds can take the height. */
+.dash-panel {
+  display: flex;
+  flex-direction: column;
+  max-width: none;
+  margin: 0;
+  padding: var(--pad);
+}
+
+.dash-panel > .dash-head,
+.dash-panel > .dash-foot {
+  flex: 0 0 auto;
+}
+
+.dash-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s3);
+  color: var(--accent);
+}
+
+.dash-head h2 {
+  margin: 0;
+}
+
+/* A note rides on the caption line in quieter type; a mark whose tooltip
+   says how to read the panel; an aside - a count or a total - at the far end. */
+.dash-head-note {
+  margin-left: var(--s1);
+  font-size: var(--fs-tiny);
+  color: var(--text-faint);
+}
+
+.dash-head-hint {
+  margin-left: var(--s0);
+  color: var(--text-faint);
+  cursor: help;
+}
+
+.dash-head-aside {
+  margin-left: auto;
+  font-size: var(--fs-tiny);
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.dash-foot {
+  margin: var(--s3) 0 0;
+}
+
+.dash-panel > p {
+  margin: 0 0 var(--s3);
+}
+
+.panel-empty {
+  margin: 0;
+}
+
+/* The sentence and the way to the sources on one line, the button at the
+   sentence's size rather than the control's. */
+.panel-empty.wt-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s1) var(--s3);
+}
+
+.panel-empty button {
+  min-height: 0;
+  font-size: inherit;
+}
+
+/* Placement on the character page's twelve-column grid; `dash-fit` sizes a
+   panel by what it holds rather than by its neighbour. */
+.dash-c4 {
+  grid-column: span 4;
+}
+
+.dash-c6 {
+  grid-column: span 6;
+}
+
+.dash-c12 {
+  grid-column: 1 / -1;
+}
+
+.dash-fit {
+  align-self: start;
+}
+
+/* ---------- the dashboard ---------- */
+
+/* A column of rows, each as tall as it needs: figures, the roster, the week,
+   the season's bests. */
+.dash {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  padding-bottom: var(--s2);
+}
+
+/* The board's column spaces its rows; the toolbar's own margin would double it. */
+.dash > .toolbar {
+  margin-bottom: 0;
+}
+
+/* As many figures as are switched on, all the same width. */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--gap);
+}
+
+/* Panels side by side on one row, each as wide as its content needs. */
+.dash-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gap);
+}
+
+/* One character on the board: the character with its vault on the left,
+   its list on the right, the list the wider of the two. */
+.dash-solo > .dash-solo-character {
+  flex: 2 1 320px;
+  gap: var(--s3);
+}
+
+.dash-solo > wt-detail-tasks {
+  flex: 3 1 420px;
+}
+
+/* ---- the character tiles ---- */
+
+/* As many as fit, all the same size: the roster is compared across, so a tile
+   that grew with its content would make the wrong character stand out.
+   auto-fit, not auto-fill: a row with fewer tiles than columns lets the tiles
+   grow into the space rather than leaving empty tracks beside them. */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(188px, 1fr));
+  gap: var(--gap);
+  align-content: start;
+}
+
+/* Three spacings, all off the scale: the ring sets itself apart from the text,
+   the text lines sit tight together, the step sets itself apart again. */
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s0);
+  min-height: 0;
+  padding: var(--pad);
+  white-space: normal;
+}
+
+.tile wt-ring {
+  margin-bottom: var(--s2);
+}
+
+/* A snapshot from before the reset describes last week, so the tile steps back
+   without leaving the board - which characters were quiet is part of the
+   answer the board is here to give. */
+.tile-stale,
+.tile-levelling {
+  opacity: 0.6;
+}
+
+/* Done for the week: a step back, less than the quiet ones, so the open
+   work is what the eye lands on. */
+.tile-done {
+  opacity: 0.75;
+}
+
+.tile-stale:hover:not(:disabled),
+.tile-levelling:hover:not(:disabled),
+.tile-done:hover:not(:disabled) {
+  opacity: 1;
+}
+
+/* A reward already earned is lost at the reset, which is the one thing on this
+   board that is urgent rather than merely open. */
+.tile-claim {
+  border-color: var(--warn-line);
+  background: var(--warn-soft);
+}
+
+.tile-name {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile-realm {
+  font-size: var(--fs-micro);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile-vault {
+  font-size: var(--fs-body);
+  font-weight: 500;
+}
+
+.tile-figures {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s1);
+  font-size: var(--fs-tiny);
+  color: var(--text-dim);
+}
+
+.tile-sep {
+  color: var(--text-faint);
+}
+
+/* The tile is as narrow as the grid allows, so the initials sit tight against
+   the level and take the quieter colour of the figures around them. */
+.tile-key > .keystone-dungeon {
+  margin-left: var(--s1);
+}
+
+/* The one thing left to do, at the foot of the tile where the eye lands
+   last. It is drawn as a pill, so it reads as the action the tile leads
+   to; a step that is done or quiet is only the text. */
+.tile-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  margin-top: var(--s2);
+  max-width: 100%;
+  min-height: var(--control-h-sm);
+  padding: 0 var(--s3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile-step.step-open {
+  border-color: var(--warn-line);
+  background: var(--warn-soft);
+}
+
+.tile-step.step-claim {
+  border-color: var(--warn);
+  background: var(--warn-soft);
+}
+
+.tile-step.step-done,
+.tile-step.step-quiet {
+  font-weight: 500;
+}
+
+/* ---- the evening ---- */
+
+/* Three lines, numbered: who, the step, the key to run, what it pays. The
+   list is the grid and each line a subgrid of it, so a column is as wide as
+   its widest cell across the lines and the steps read down, the minutes
+   down. The reason is the last column and flows: a raid step has no key,
+   and a column for the key would stand empty on its line. Only that last
+   column stretches: the figures stand by the line they price, and the
+   room a wide panel has left is behind the words. A line is a button
+   across the panel, so the character page is one click from its step
+   and the hover reaches the edge. The who column is capped: a name has
+   no business pushing the step away. */
+.evening {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1.4em var(--s6) minmax(0, max-content) minmax(0, max-content) max-content minmax(0, 1fr);
+  column-gap: var(--s4);
+  row-gap: var(--s0);
+  max-width: 100%;
+}
+
+.evening > li {
+  display: contents;
+}
+
+/* The caption that parts the lines that fit from the ones that do not,
+   across the table, in the type of a section's head. */
+.evening > li.evening-after {
+  display: block;
+  grid-column: 1 / -1;
+  margin-top: var(--s2);
+  padding: 0 var(--s2);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--text-faint);
+}
+
+.evening > li > wt-button > button {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  /* A button brings a gap of its own, which a subgrid honours over the
+     list's; said again so the columns keep the list's air. */
+  column-gap: var(--s4);
+  align-items: center;
+  padding: var(--s2);
+  text-align: left;
+  border-radius: var(--radius-sm);
+}
+
+.evening-index {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+.evening-who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 14em;
+  line-height: var(--lh-tight);
+}
+
+.evening-name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The step in the colour of how urgent it is; the row and slot it fills
+   are its tooltip. */
+.evening-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+  font-size: var(--fs-base);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.evening-step .icon {
+  flex: 0 0 auto;
+}
+
+.evening-step > .step-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The price, in minutes, in the button's faint ink - so a line over the
+   evening keeps its warning colour. */
+.evening-minutes {
+  grid-column: 5;
+  font-size: var(--fs-base);
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* The reason in quiet type behind the figures: the row and the slot,
+   what it pays, the key to run, each part behind a dot. It takes the
+   stretch of its column at the start, so the words stay by the figures;
+   a narrow panel cuts the sentence, it does not wrap the line. */
+.evening-reason {
+  grid-column: 6;
+  justify-self: start;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s1);
+  min-width: 0;
+  max-width: 100%;
+  font-size: var(--fs-base);
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.evening-reason > * + *::before {
+  content: '·';
+  margin-right: var(--s1);
+}
+
+/* The briefing is a titled panel as wide as its tab, like the gold view's,
+   in the padding of the panels under it, so its edge and theirs line up. */
+.evening-panel {
+  max-width: none;
+  padding: var(--pad);
+}
+
+/* What the roster is not showing, said out loud under what it is: a roster
+   that quietly drops characters cannot be read as the whole account. The
+   same line says which figure's filter is on. */
+.dash-quiet {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+/* ---- the task list ---- */
+
+/* The week as a list to work through: the count across the top, then one
+   panel per character or per chore, each as tall as its lines. Panels fill
+   the width in columns, so a night's list is read without scrolling. */
+.task-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+}
+
+.task-progress wt-bar {
+  width: 160px;
+}
+
+/* Columns rather than a grid: the panels are of every height, and a grid
+   row is as tall as its tallest panel, which leaves a hole under each short
+   one. Columns pack them, read down and then across. */
+/* The briefing over the list: a panel with the list's gap under it. */
+.task-evening {
+  margin-bottom: var(--gap);
+}
+
+.task-groups {
+  column-width: 340px;
+  column-gap: var(--gap);
+}
+
+/* One character has no columns to fill: one column, two columns wide,
+   so its lines have room and the stage is not two-thirds empty. */
+.tasks-solo .task-groups {
+  column-width: auto;
+  column-count: 1;
+  max-width: calc(2 * 340px + var(--gap));
+}
+
+/* The name in the caption is the way to the character's page, in the
+   caption's own type: the class colour is the h2's, the button inherits it. */
+.task-group-name > button {
+  font-weight: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+
+/* The card's sub-line in short, under the caption: who, behind the
+   identity line's dots, then the figures and the stand as
+   word-groups a gap apart - no dot between them, so a wrap leaves none at
+   the end or the start of a line. The head keeps its words whole. The line
+   sits up against the head, with the head's own air under it. */
+.task-group-sub {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s3);
+  margin: calc(-1 * var(--s2)) 0 var(--s3);
+  font-size: var(--fs-tiny);
+  color: var(--text-dim);
+}
+
+.task-group-stand {
+  white-space: nowrap;
+}
+
+/* The goals under a panel's head, before the lines: where the character
+   stands, in the small chips, with the same air below as a section has. */
+.task-group > .task-goals,
+.task-group > .task-events {
+  margin-bottom: var(--s3);
+}
+
+.task-groups > .task-group {
+  break-inside: avoid;
+  margin-bottom: var(--gap);
+}
+
+.task-group > .dash-head > .medallion {
+  flex: 0 0 auto;
+}
+
+/* The way out to the character's page: a mark alone at the end of the caption. */
+.task-group .dash-head > wt-button > button {
+  margin-left: var(--s1);
+}
+
+.task-group-done .dash-head-aside {
+  color: var(--ok);
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* A section of a character's lines: a quiet caption with its count, the
+   lines under it. Sections follow each other with a little air between.
+   The caption has no side padding: its word starts over the boxes and
+   its count ends over the figures of the lines. */
+.task-section + .task-section {
+  margin-top: var(--s3);
+}
+
+.task-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s2);
+  padding: 0 0 var(--s0);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--border);
+}
+
+.task-section-count {
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+/* One chore as a line: the box, the mark of its kind, the words, the figure
+   pushed to the end. The box is read, not worked - it says what the game
+   data says - so the line is not a control and has no hand cursor. The
+   line's state (`task-ready`, `task-done`) is a class on the checkbox's
+   host, the row itself is the label inside. */
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s1) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-base);
+  cursor: default;
+}
+
+/* The browser gives a checkbox a margin of its own (4px on the left), which
+   would put the boxes off the panel's edge and off the marks above them. */
+.task-row input[type='checkbox'] {
+  margin: 0;
+}
+
+.task-row input[type='checkbox']:disabled {
+  cursor: default;
+}
+
+.task-list > :last-child > .task-row {
+  border-bottom: none;
+}
+
+.task-row > .icon {
+  flex: 0 0 auto;
+  color: var(--text-faint);
+}
+
+.task-ready > .task-row > .icon {
+  color: var(--warn);
+}
+
+.task-done > .task-row > .icon {
+  color: var(--ok);
+}
+
+/* The name never gives way: it is what a line of a chore panel is read
+   by. The words after it take the ellipsis. */
+.task-who {
+  flex: 0 0 auto;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.task-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* What the line pays, after the measure at the line's end, in the
+   measure's own ink behind a dot - one note, not two; only the gain
+   keeps the accent, it is the point of the figure. */
+.task-reward {
+  flex: 0 0 auto;
+  gap: var(--s1);
+  font-size: var(--fs-tiny);
+  color: var(--text-faint);
+}
+
+.task-note + .task-reward::before {
+  content: '·';
+  margin-right: var(--s0);
+}
+
+/* The minutes after the words, behind a dot, in the faint ink: the price
+   beside what the line asks. */
+.task-minutes {
+  flex: 0 0 auto;
+  font-size: var(--fs-tiny);
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.task-minutes::before {
+  content: '·';
+  margin-right: var(--s1);
+}
+
+.task-note {
+  flex: 0 1 auto;
+  margin-left: auto;
+  max-width: 50%;
+  font-size: var(--fs-tiny);
+  color: var(--text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Done work is quiet and struck through, the way a list on paper is; the
+   box is a fact, so it is green, not the accent of a choice. */
+.task-row.off {
+  color: var(--text-dim);
+}
+
+.task-row.off .task-label,
+.task-row.off .task-who {
+  text-decoration: line-through;
+  text-decoration-color: var(--text-faint);
+}
+
+.task-done > .task-row input[type='checkbox']:checked {
+  background: var(--ok);
+  border-color: var(--ok);
+}
+
+/* In the pick mode the box is the player's, so the line is a control and
+   takes the hand cursor; a line taken off the week stands dim, not struck
+   through - it is not done, it is not asked. */
+.task-pick > .task-row {
+  cursor: pointer;
+}
+
+.task-skipped > .task-row {
+  color: var(--text-faint);
+}
+
+.task-skipped > .task-row > .icon,
+.task-skipped > .task-row .task-note,
+.task-skipped > .task-row .task-minutes,
+.task-skipped > .task-row .task-reward {
+  opacity: 0.5;
+}
+
+.task-finished {
+  margin: var(--s3) 0 0;
+}
+
+/* ---- the season-best matrix ---- */
+
+/* Wider than the panel with a season's worth of dungeons; the panel never
+   grows to fit, the table scrolls inside it. */
+.matrix-scroll {
+  overflow-x: auto;
+}
+
+/* Separate cells with a hair of space between them: the colour blocks then
+   read as tiles set in a row rather than one painted band. */
+.matrix {
+  border-collapse: separate;
+  border-spacing: 3px;
+  width: 100%;
+  font-size: var(--fs-base);
+}
+
+.matrix th,
+.matrix td {
+  padding: var(--s1) var(--s2);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.matrix th {
+  border-bottom: 1px solid var(--border);
+}
+
+/* The name column stays put while the rest scrolls sideways: on a wide
+   roster the eye needs to know whose row it is on. The panel's ground behind
+   it, so the cells slide under the names rather than through them. */
+.matrix .matrix-name {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  text-align: left;
+  background: var(--bg-raised);
+}
+
+.matrix .matrix-total {
+  text-align: right;
+  color: var(--text-dim);
+}
+
+.matrix th.sortable {
+  cursor: pointer;
+}
+
+.matrix th.sortable:hover,
+.matrix th.sorted {
+  color: var(--text);
+}
+
+.matrix th .sort-caret {
+  vertical-align: middle;
+  margin-left: var(--s0);
+}
+
+/* The name's type in the matrix: small and bold, like the tile's name. */
+.matrix-char > button {
+  font-size: var(--fs-base);
+  font-weight: 600;
+}
+
+/* A timed run paints its level's colour - green low, blue middle, pink
+   high - as a tint; the number stays the text colour so it reads against
+   any of them. The tint alone says the colour; a frame around every cell
+   turned the table into a grid of boxes. */
+.matrix-cell {
+  position: relative;
+  color: var(--text);
+}
+
+.matrix-cell.coloured {
+  background: hsl(var(--heat) / 0.26);
+  border-radius: var(--radius-xs);
+}
+
+/* Over the timer: no colour, a clock, the number a shade quieter. */
+.matrix-cell.overtime {
+  color: var(--text-dim);
+  background: var(--bg-lift);
+  border-radius: var(--radius-xs);
+}
+
+.matrix-cell.empty {
+  color: var(--text-faint);
+}
+
+/* The cell's content as one centred column, so a clock or a star beside the
+   number sits on the number's centre instead of the text baseline. */
+.matrix-cell-inner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s0);
+  min-height: var(--s5);
+}
+
+.matrix-level {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+}
+
+/* What the run is worth to the rating, under the level. */
+.matrix-score {
+  font-size: var(--fs-micro);
+  color: var(--text-dim);
+  line-height: var(--lh-tight);
+}
+
+.matrix-cell.overtime .matrix-score {
+  color: var(--text-faint);
+}
+
+/* The two marks, pinned to the top corners: the clock left, the star right. */
+.matrix-clock,
+.matrix-star {
+  position: absolute;
+  top: var(--s1);
+}
+
+.matrix-clock {
+  left: var(--s1);
+  color: var(--text-faint);
+}
+
+/* The row's best key: a filled gold star. */
+.matrix-star {
+  right: var(--s1);
+  color: var(--accent);
+  fill: var(--accent);
+}
+
+/* A rating in its colour: the same scale as the keys, from 2000 up. A
+   rating below the scale carries no style and keeps its own colour. */
+.rated[style] {
+  color: hsl(var(--heat));
+}
+
+:root[data-theme='light'] .rated[style] {
+  color: color-mix(in hsl, hsl(var(--heat)), black 28%);
+}
+
+/* ---------- the character page ---------- */
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* The way back and the way sideways, on one line above the page. */
+.detail-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+/* The sub-navigation between the band and the panels: a strip as wide as
+   its switches, not a bar across the page. */
+.detail > .segmented {
+  align-self: flex-start;
+}
+
+/* Who the character is, in one wide band: the medallion, the names and the
+   state on the left, the three figures and the key on the right - the card's
+   head band with room for everything the card only keeps in tooltips. */
+.detail-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+  max-width: none;
+  margin-bottom: 0;
+  padding: var(--pad);
+  border-left: 3px solid var(--class-color, var(--border-strong));
+}
+
+.detail-hero.stale {
+  opacity: 0.85;
+}
+
+/* The character's bust (`wt-game-icon` of the inset kind) stands where the
+   medallion stood, twice as wide as high, once the host has rendered it;
+   the medallion shows until then and where it never comes. No square
+   before the picture here: the medallion is the picture before. */
+.detail-portrait {
+  flex: 0 0 auto;
+  display: flex;
+}
+
+.detail-portrait > .game-icon {
+  width: 144px;
+  height: 72px;
+  border-radius: var(--radius-sm);
+}
+
+.detail-portrait > .game-icon.loading {
+  display: none;
+}
+
+.detail-portrait:has(> .game-icon.ready) > .medallion {
+  display: none;
+}
+
+.detail-titles {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+}
+
+.detail-name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.detail-name {
+  margin: 0;
+  font-size: var(--fs-figure-lg);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+}
+
+/* The bits of state the card keeps in tooltips, spelled out. */
+.detail-meta {
+  gap: var(--s1) var(--s4);
+  margin-top: var(--s2);
+  font-size: var(--fs-base);
+  color: var(--text-dim);
+}
+
+.detail-meta .icon {
+  color: var(--text-faint);
+}
+
+.detail-hero-side {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s3);
+}
+
+/* The same three figures as the card's band, in the same order and the same
+   type, so a reader coming from the card finds them where they were. */
+.detail-stats {
+  display: flex;
+  gap: var(--s4);
+}
+
+.detail-hero-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+/* The key a character is carrying is what decides whether they are worth
+   logging in for tonight, so it gets a line of its own in the key colour. */
+.char-key {
+  display: flex;
+  align-items: center;
+  gap: var(--chip-gap);
+  min-width: 0;
+  padding: var(--s1) var(--s2);
+  border: 1px solid var(--key-line);
+  border-radius: var(--radius-sm);
+  background: var(--key-soft);
+  color: var(--key);
+  font-size: var(--fs-base);
+}
+
+.char-key .icon {
+  flex: 0 0 auto;
+  color: var(--key);
+}
+
+.char-key-level {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: var(--lh-none);
+}
+
+/* The dungeon takes the text colour: the level is the accent, the name is what
+   is read after it. Long names are cut rather than wrapped. */
+.char-key-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+/* An empty bag keeps the row, quietly: the blocks below it stay put. */
+.char-key.empty {
+  border-color: var(--border);
+  background: var(--bg-sunken);
+}
+
+.char-key.empty .icon,
+.char-key.empty .char-key-name {
+  color: var(--text-faint);
+}
+
+/* The panels below the band. Twelve columns like the dashboard once had, but
+   every row sizes to what it holds: a gear table and a list of three
+   professions have no height to agree on. */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gap);
+  padding-bottom: var(--s2);
+}
+
+/* The headline figure above its chart, with how far it moved over the whole
+   history beside it - the sparkline's delta, with room for a date. */
+.detail-figure {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--s3);
+}
+
+.detail-figure-value {
+  font-size: var(--fs-figure-lg);
+  font-weight: 500;
+  letter-spacing: var(--track-tight);
+}
+
+.detail-figure-delta {
+  gap: var(--s1);
+  font-size: var(--fs-base);
+}
+
+/* ---- tables ---- */
+
+/* The cells of the character page's table: tighter than the settings'
+   list, nothing wraps, the first and last sit on the panel's edge. */
+wt-table[kind='detail'] wt-cell {
+  padding: var(--s1) var(--s2);
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+wt-table[kind='detail'] wt-cell:first-child {
+  padding-left: 0;
+}
+
+wt-table[kind='detail'] wt-cell:last-child {
+  padding-right: 0;
+}
+
+wt-table[kind='detail'] .num {
+  text-align: right;
+}
+
+/* The one column that may run long - a raid's worth of boss names - wraps
+   instead of pushing the table out of the panel. */
+wt-table[kind='detail'] .detail-wrap {
+  white-space: normal;
+  min-width: 200px;
+}
+
+.detail-row-icon {
+  margin-right: var(--s1);
+  vertical-align: -2px;
+  color: var(--text-faint);
+}
+
+/* A row worth doing something about - the weakest dungeon, a bare ring - gets
+   the same soft ring the dashboard's matrix draws, so it reads as "look here"
+   without becoming an error. */
+wt-table wt-row.detail-weakest wt-cell {
+  box-shadow:
+    inset 0 1px 0 var(--warn-line),
+    inset 0 -1px 0 var(--warn-line);
+}
+
+wt-table wt-row.detail-open wt-cell:first-child {
+  box-shadow: inset 3px 0 0 var(--warn);
+  padding-left: var(--s2);
+}
+
+.detail-item {
+  font-weight: 500;
+}
+
+/* ---- lists ---- */
+
+/* The parts of a line of the bars cut: the line's grid is the list's rule. */
+.detail-bar-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail-bar-value {
+  text-align: right;
+  color: var(--text-dim);
+}
+
+wt-detail-list[kind='bars'] wt-bar {
+  grid-column: 1 / -1;
+  margin-top: var(--s0);
+}
+
+/* ---- inventory ---- */
+
+/* The bank as the game lays it out: a strip of tabs, and below it the
+   open tab in the full width of the panel. Its lines flow into columns
+   rather than into a scroll box - a hundred lines are a page, not a
+   ten-line window to scroll. The search above goes over every tab. */
+.inventory {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+/* The tabs first, the search at the end of the line; on a narrow panel
+   the search takes the next line. */
+.inventory-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s4);
+}
+
+.inventory-bar > .segmented {
+  flex-wrap: wrap;
+}
+
+/* A search lists one group per tab with a match, one under the other. */
+.inventory-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.inventory-group {
+  min-width: 0;
+}
+
+.inventory-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  margin-bottom: var(--s1);
+}
+
+.inventory-group-space {
+  font-size: var(--fs-tiny);
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* A container as a bag addon draws it: bands of cards on a grid of
+   cells, one tile and the gap after it each. A card is a group: it takes
+   as many cells as it lays tiles across and one more, the free column
+   beside it, which its padding and the gap to the next card share
+   (`packBands` in inventory.ts says the spans). The cards of a band
+   share their top, so their tiles stand on one line; the next band
+   begins under the tallest. The cell's measures are these custom
+   properties, read off the field, so the drawing and the packing agree.
+   The free slots are the last group, one tile. */
+.inventory-cats {
+  --tile-size: 40px;
+  --tile-gap: 4px;
+  --tile-pad: var(--pad);
+  display: grid;
+  align-items: start;
+  gap: var(--s4) 0;
+}
+
+/* A card like every other: the app's surface, the app's padding, the
+   heading over the tiles. */
+.inventory-cat {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  padding: var(--tile-pad);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  box-shadow: var(--shadow);
+}
+
+/* A group of one tile has two columns, and a long word is cut short: the
+   whole word is the tooltip. */
+.inventory-cat-name {
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inventory-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tile-gap);
+}
+
+/* A tile (`wt-item-tile`, a `display: contents` host around its link): the
+   game's icon in a square, the edge in the quality's colour, the figure
+   in the corner on a dark wash so it reads on any picture. The tile with
+   no item is the free space: the same square, empty, its count centred. */
+.item-tile > a,
+.item-tile > .tile {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-input);
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+/* The quality's edge lies over the picture, the way a bag addon frames a
+   slot: an inset shadow would sit under the picture, unseen. Two pixels,
+   so the colour reads at a glance across a row of forty. */
+.item-tile > a::after,
+.item-tile > .tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--quality-color, var(--border-strong));
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.item-tile > .tile::after {
+  border-width: 1px;
+}
+
+.item-tile > a:hover,
+.item-tile > a:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent-line);
+}
+
+.item-tile > a > .game-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  vertical-align: initial;
+}
+
+/* The crafting tier in the top left corner of a tile, over the picture, the
+   way the game marks a reagent's slot. */
+.item-tile > a > .craft-tier {
+  position: absolute;
+  top: var(--s0);
+  left: var(--s0);
+  filter: drop-shadow(0 0 1px #000);
+}
+
+/* The figure the way the game writes it on a slot: small, white, with a
+   dark rim so it reads on any picture, and no box of its own. */
+.item-tile .item-tile-figure {
+  position: absolute;
+  right: var(--s0);
+  bottom: var(--s0);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  line-height: var(--lh-none);
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    0 0 3px #000;
+}
+
+.item-tile > .tile > .item-tile-figure {
+  inset: 0;
+  display: grid;
+  place-content: center;
+  color: var(--text-faint);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  text-shadow: none;
+}
+
+/* ---- renown ---- */
+
+.renown-view {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The way to the selection of the factions, at the far end of the bar. */
+.view-bar > .view-bar-action > button {
+  margin-left: auto;
+}
+
+/* The groups sit side by side when the width allows: three rings of the
+   season do not need a row of their own. A panel is as wide as its rings. */
+.dash-row > .renown-panel {
+  flex: 0 1 auto;
+}
+
+/* The rings of a group, as many in a row as fit. */
+.renown-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s5) var(--s4);
+}
+
+/* A figure is a column as wide as its name has room for: the ring, the
+   name, the stage, the way to the next. */
+.renown-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s1);
+  width: 152px;
+}
+
+.renown-figure > wt-ring {
+  margin-bottom: var(--s2);
+}
+
+/* The mark of the faction: its initials, in the colour of the ring, in place
+   of a crest that no source supplies. */
+.renown-mark {
+  font-size: var(--fs-name);
+  font-weight: 700;
+  letter-spacing: var(--track-caps);
+  color: var(--ring-color-bright, var(--accent-bright));
+}
+
+/* A faction in paragon cycles draws in the keystone violet, not in the
+   accent: the level is done, and the ring now counts to a reward chest. */
+.renown-figure.paragon {
+  --ring-color: var(--key);
+  --ring-color-bright: var(--key-bright);
+  --ring-glow: var(--key-line);
+}
+
+/* The stage under the name: the level, "Paragon", or the reward that waits. */
+.renown-stage {
+  text-align: center;
+  font-size: var(--fs-tiny);
+  line-height: var(--lh-tight);
+  color: var(--text-dim);
+}
+
+/* The way to the next level or reward, in the quiet ink. */
+.renown-progress {
+  text-align: center;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-tight);
+  color: var(--text-faint);
+}
+
+/* Two lines at most. A long name is cut, and the tip shows the full name. */
+.renown-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 100%;
+  text-align: center;
+  font-size: var(--fs-base);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  color: var(--text);
+}
+
+wt-detail-list[kind='bars'] > wt-detail-entry > .tiny {
+  grid-column: 1 / -1;
+}
+
+/* ---- the vault ---- */
+
+/* The Great Vault as the page draws it: the heading with the count and the
+   bar, then three rows of three tiles. The block is exactly as wide as its
+   nine tiles - never wider, never narrower. */
+.vault {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vault-row-gap);
+  width: var(--vault-slots-w);
+  max-width: 100%;
+}
+
+.week-label {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.week-label .count {
+  font-size: var(--fs-base);
+  letter-spacing: 0;
+  color: var(--text);
+}
+
+/* The header sums up the nine tiles below it, so its bar runs the full width
+   of the block - the grid is the scale it is measured against. */
+.vault-bar {
+  flex: 1;
+  min-width: 60px;
+  margin-top: 0;
+}
+
+.vault-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+}
+
+/* Row name left, "what is still missing" right - on its own line, so a hint
+   appearing or disappearing can never resize the tiles below it. */
+.vault-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  min-height: var(--s4);
+}
+
+.vault-row-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  min-width: 0;
+  font-size: var(--fs-base);
+  color: var(--text-dim);
+}
+
+.vault-row-label .icon {
+  color: var(--text-faint);
+}
+
+.vault-slots {
+  display: grid;
+  grid-template-columns: repeat(3, var(--vault-slot-w));
+  gap: var(--vault-col-gap);
+}
+
+/* One tile, laid out like the vault's own: the requirement at the top, the
+   reward at the foot, the progress bar along the bottom edge. */
+.slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: var(--vault-slot-h);
+  padding: var(--s1) var(--s2) var(--s2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-sunken);
+  line-height: var(--lh-tight);
+  overflow: hidden;
+  transition:
+    border-color 0.12s,
+    background 0.12s;
+}
+
+.slot.unlocked {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+
+.slot-req {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  min-width: 0;
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slot.unlocked .slot-req {
+  color: var(--ok);
+}
+
+/* Pushed to the foot of the tile and right-aligned, where the vault puts the
+   item level of the reward. */
+.slot .slot-main {
+  margin-top: auto;
+  text-align: right;
+  font-size: var(--fs-base);
+  white-space: nowrap;
+}
+
+.slot.unlocked .slot-main {
+  color: var(--accent-bright);
+}
+
+.slot-track {
+  margin-left: var(--s1);
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+}
+
+/* The bar under a slot is lit once the slot is in. */
+.slot.unlocked wt-bar {
+  --bar-fill: var(--ok);
+}
+
+/* The goal strip under the vault keeps the card's hairline. */
+.goal-strip {
+  margin-top: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--border);
+}
+
+/* Half-width panels stack once there is no room for two side by side. A half
+   has to hold the vault's nine tiles at their fixed width, plus the panel's
+   own padding. */
+@media (max-width: 1180px) {
+  .detail-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .detail-grid .dash-c4 {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 900px) {
+  .detail-hero {
+    flex-wrap: wrap;
+  }
+
+  .detail-hero-side {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

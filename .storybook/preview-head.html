@@ -1,0 +1,13 @@
+<style>
+  /* The canvas and the docs' story blocks stand on the app's own ground,
+     whichever theme is stamped on the root - not on Storybook's white. */
+  .sb-show-main.sb-main-padded,
+  .sb-show-main.sb-main-fullscreen {
+    background: var(--page-bg);
+    background-attachment: fixed;
+  }
+  /* A block on a docs page is too small for the page's gradient. */
+  .docs-story {
+    background: var(--bg) !important;
+  }
+</style>

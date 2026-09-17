@@ -1,0 +1,9 @@
+node_modules/
+out/
+release/
+*.log
+.vscode/
+storybook-static/
+custom-elements.json
+tsconfig.*.tsbuildinfo
+.claude/worktrees/
