@@ -1,0 +1,60 @@
+# Builds the Windows installer and publishes it as a GitHub release when a
+# version tag is pushed. The app's updater reads the release: the installer,
+# its blockmap and `latest.yml`. The GitHub provider writes `latest.yml` for
+# a prerelease version too; the updater looks for `beta.yml` first and then
+# takes `latest.yml`.
+#
+# To release: set the version in package.json, commit, tag `v<version>` and
+# push the tag. The tag must match the version, or the job stops.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Check that the tag matches the version
+        shell: bash
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match version $version" >&2
+            exit 1
+          fi
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npx vitest run --project unit
+
+      - name: Build the installer
+        run: npm run addon && npx electron-vite build && npx electron-builder --win --publish never
+
+      - name: Publish the release
+        uses: softprops/action-gh-release@v2
+        with:
+          # A version with a prerelease tag (0.1.0-beta.2) is a prerelease on
+          # GitHub; the updater of a prerelease build takes it, a stable build
+          # does not.
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          generate_release_notes: true
+          files: |
+            release/WarbandBriefing-Setup-*.exe
+            release/WarbandBriefing-Setup-*.exe.blockmap
+            release/latest.yml

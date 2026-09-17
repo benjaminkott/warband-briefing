@@ -315,9 +315,16 @@ downloads them in the background and then shows "Install update". The
 update is installed only when you click. For this, the app needs a source
 under **Settings → Updates**:
 
-- **GitHub releases**: the build publishes to
-  `benjaminkott/warband-briefing` (`build.publish` in `package.json`);
-  enter the same repository in the app.
+- **GitHub releases**: enter `benjaminkott/warband-briefing` in the app.
+  A push of a tag `v<version>` builds the installer on GitHub Actions and
+  publishes it as a release (`.github/workflows/release.yml`). To release:
+  1. Set the version in `package.json` and commit.
+  2. Tag the commit: `git tag v0.1.0-beta.2`.
+  3. Push the tag: `git push origin v0.1.0-beta.2`.
+
+  A version with a suffix (`-beta.2`) is a prerelease; only a prerelease
+  build takes it. The tag must match the version, or the job stops.
+
 - **Your own web space**: upload `WarbandBriefing-Setup-<version>.exe`,
   `latest.yml` and the `*.blockmap` files from `release/`, and enter the
   folder URL in the app. `latest.yml` tells the app the newest version.
