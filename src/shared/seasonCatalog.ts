@@ -104,33 +104,9 @@ export interface SeasonCatalog {
  */
 export const BUNDLED_SEASON: SeasonCatalog = catalog as SeasonCatalog
 
-/**
- * The catalog in force: the bundled one until a fetched one replaces it -
- * the main process applies what it fetched, the renderer applies what the
- * config brings. Read it through `seasonCatalog()`, never hold it.
- */
-let current: SeasonCatalog = BUNDLED_SEASON
-
+/** The catalog in force: the bundled one. Read it through this, never hold it. */
 export function seasonCatalog(): SeasonCatalog {
-  return current
-}
-
-/** A fetched catalog, if it has the shape; anything else is refused and the current one stays. */
-export function parseSeasonCatalog(value: unknown): SeasonCatalog | null {
-  if (!value || typeof value !== 'object') return null
-  const c = value as Record<string, unknown>
-  const list = (key: string): boolean =>
-    Array.isArray(c[key]) && (c[key] as unknown[]).every((e) => e && typeof e === 'object' && Number.isInteger((e as { id: unknown }).id))
-  if (typeof c.patch !== 'string' || typeof c.label !== 'string' || typeof c.expansion !== 'string') return null
-  if (!list('quests') || !list('currencies') || !list('factions')) return null
-  return c as unknown as SeasonCatalog
-}
-
-/** Puts a catalog in force; a value without the shape leaves the current one. Returns what is in force. */
-export function applySeasonCatalog(value: unknown): SeasonCatalog {
-  const parsed = parseSeasonCatalog(value)
-  if (parsed) current = parsed
-  return current
+  return BUNDLED_SEASON
 }
 
 /** The suggested weekly quests, as the config stores them. */

@@ -5,7 +5,6 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createTranslator, resolveLocale, type Translator } from '../shared/i18n'
 import type { AppConfig, ResolvedConfig } from '../shared/types'
-import { seasonCatalog } from '../shared/seasonCatalog'
 import type { DataBundle } from '../preload'
 import { Store } from './store'
 import { landsOn, WindowFrame, type WindowPlacement } from './windowFrame'
@@ -20,7 +19,6 @@ import { AppTray } from './tray'
 import { CloseAction } from '../shared/enums/closeAction'
 import { GameWatch } from './game'
 import { pruneTicks } from '../shared/customTasks'
-import { CatalogUpdater } from './catalog'
 import { registerIconScheme, serveIcons } from './iconProtocol'
 import { ThemeSetting } from '../shared/enums/themeSetting'
 
@@ -79,11 +77,6 @@ const collector = new Collector(
 
 /** The renderer hears every change; the state is asked once on load. */
 const gameWatch = new GameWatch((state) => send('game:state', state))
-
-/** The season catalog from the net, when the setting asks for it; a new one reaches the renderer as a config change. */
-const catalogUpdater = new CatalogUpdater({ get: () => store.getCatalog(), set: (fetched) => store.setCatalog(fetched) }, () =>
-  send('config:changed', resolvedConfig())
-)
 
 const updater = new Updater((state) => send('update:changed', state), translator)
 
@@ -368,15 +361,10 @@ function resetInfo(): { resetAt: number; nextResetAt: number } {
   }
 }
 
-/** The config as the renderer gets it: with the locale it resolves to and the catalog in force. */
+/** The config as the renderer gets it: with the locale it resolves to. */
 function resolvedConfig(): ResolvedConfig {
   const config = store.getConfig()
-  return {
-    ...config,
-    resolvedLocale: resolveLocale(config.language, systemLocales()),
-    season: seasonCatalog(),
-    seasonFetchedAt: store.getCatalog()?.fetchedAt ?? null
-  }
+  return { ...config, resolvedLocale: resolveLocale(config.language, systemLocales()) }
 }
 
 function registerHandlers(): void {
@@ -399,7 +387,6 @@ function registerHandlers(): void {
       updater.configure(config.autoUpdate)
     }
     if (patch.wowPath !== undefined) await watchSavedVariables()
-    if (patch.catalogUpdates !== undefined) catalogUpdater.configure(config.catalogUpdates)
     if (patch.autoStart !== undefined) applyAutoStart(config.autoStart)
     if (patch.language !== undefined) void configureTray()
     // What is read - which accounts count, which quests are watched, which
@@ -551,11 +538,6 @@ function registerHandlers(): void {
 async function start(): Promise<void> {
   await store.load()
   await windowFrame.load(store.takeLegacyWindow())
-  // The last fetched catalog is in force before the first read, and the
-  // fetch runs only where the setting asks for it.
-  catalogUpdater.restore()
-  catalogUpdater.configure(store.getConfig().catalogUpdates)
-
   // The window first: the search for the WoW folder below spawns the
   // registry and probes every drive, and the user waits on nothing for it.
   registerHandlers()

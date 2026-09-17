@@ -544,11 +544,6 @@ export const de = {
   'settings.updates.devHint': 'Dev-Modus — Updates greifen nur in der Installation.',
   'settings.updates.auto': 'Automatisch suchen',
   'settings.updates.autoHint': 'beim Start und einmal am Tag',
-  'settings.updates.catalog': 'Saisonkatalog aus dem Netz',
-  'settings.updates.catalogHint': 'Einmal täglich aus dem Repository, damit eine neue Weekly kein App-Update braucht.',
-  'settings.updates.catalogState': 'Aktuell: {season} ({patch}),',
-  'settings.updates.catalogFetched': ' geladen {time}.',
-  'settings.updates.catalogBundled': ' mitgeliefert.',
   'settings.updates.icons': 'Symbole aus dem Spiel',
   'settings.updates.wowhead': 'Wowhead-Tooltips',
   'settings.updates.wowheadHint':

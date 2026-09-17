@@ -277,13 +277,8 @@ tokens). Currencies with a weekly cap stay in their own block.
 
 At a season change, edit `data/seasonCatalog.json`: `patch`, `label`, the
 crest ids, the quest list and the faction ids. The suggestion list and the
-faction list in the settings show what the client writes. With
-**Settings → Updates → Season catalog from the net** on, the app fetches
-that file from the repository once a day (`src/main/catalog.ts`), keeps it
-and puts it in force, so a new weekly in the season needs no app release.
-Off by default: the app promises to work without a connection, and a
-failed fetch changes nothing. Only a file with the catalog's shape is
-taken.
+faction list in the settings show what the client writes. The catalog ships
+with the app; a new weekly in the season is an app release.
 
 ## Languages
 
@@ -411,7 +406,6 @@ src/main/               Electron main process
     rewards.ts          Vault rewards for characters without addon data
     index.ts            Registry, status query, merger
   addon.ts              Installs and updates the companion addon in the game folder
-  catalog.ts            Fetches the season catalog from the net
   collect.ts            Stale detection, filters, sort order
   season.ts             Weekly reset for each region, vault thresholds
   updater.ts            Automatic app updates

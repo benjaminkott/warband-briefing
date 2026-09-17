@@ -54,24 +54,6 @@ export class WtSettingsUpdates extends WtPanel {
         ></wt-checkbox>
       </wt-field-group>
 
-      <!-- The season catalog from the repository, not only from the app: a new
-           weekly then needs no release. Off by default, the app works without a net. -->
-      <wt-field-group icon="calendar" label=${tr.t('settings.updates.catalog')}>
-        <wt-checkbox
-          control-id="catalog-updates"
-          ?checked=${config.catalogUpdates}
-          .label=${html`<span class="muted tiny">
-            ${tr.t('settings.updates.catalogHint')}
-            ${tr.t('settings.updates.catalogState', { season: config.season.label, patch: config.season.patch })}${
-              config.seasonFetchedAt
-                ? tr.t('settings.updates.catalogFetched', { time: this.relativeTime(config.seasonFetchedAt) })
-                : tr.t('settings.updates.catalogBundled')
-            }
-          </span>`}
-          @wt-check=${(event: WtEvent<'wt-check'>) => this.emit('wt-config', { catalogUpdates: event.detail })}
-        ></wt-checkbox>
-      </wt-field-group>
-
       <!-- The game's icons come from Blizzard's image host, once each. On by
            default: the game itself needs the net, and what is fetched stays. -->
       <wt-field-group icon="gem" label=${tr.t('settings.updates.icons')}>

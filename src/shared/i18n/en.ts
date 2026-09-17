@@ -535,11 +535,6 @@ export const en: Record<TranslationKey, string> = {
   'settings.updates.devHint': 'Dev mode. Updates apply only to the installed build.',
   'settings.updates.auto': 'Check automatically',
   'settings.updates.autoHint': 'at start and once a day',
-  'settings.updates.catalog': 'Season catalog from the net',
-  'settings.updates.catalogHint': 'Once a day from the repository, so a new weekly needs no app update.',
-  'settings.updates.catalogState': 'Current: {season} ({patch}),',
-  'settings.updates.catalogFetched': ' fetched {time}.',
-  'settings.updates.catalogBundled': ' as shipped.',
   'settings.updates.icons': 'Icons from the game',
   'settings.updates.wowhead': 'Wowhead tooltips',
   'settings.updates.wowheadHint':

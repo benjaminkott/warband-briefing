@@ -16,7 +16,7 @@ import { expect, it } from 'vitest'
 const ROOT = path.dirname(fileURLToPath(import.meta.url))
 
 /** The property bindings that still carry markup. */
-const BUDGET = 56
+const BUDGET = 55
 
 function* files(dir: string): Generator<string> {
   for (const name of readdirSync(dir)) {

@@ -24,7 +24,6 @@ import type {
 } from '../../../shared/types'
 import type { DataBundle, SourceInfo, SyncBundle } from '../../../preload/index'
 import { createTranslator, type Locale, type Translator } from '../../../shared/i18n'
-import { BUNDLED_SEASON } from '../../../shared/seasonCatalog'
 import rosterData from './data/roster.json'
 import historyData from './data/history.json'
 import goldData from './data/gold.json'
@@ -86,8 +85,7 @@ export const CHAR_HISTORY: CharacterHistory = shifted(historyData)
 export const GOLD: GoldSummary = goldData.summary
 export const WARBAND_BANKS: WarbandBank[] = shifted(goldData.warbandBanks)
 export const GOLD_HISTORY: GoldPoint[] = shifted(goldData.history)
-// The catalog in force is the bundled one in a story: the JSON does not carry it.
-export const CONFIG = { ...configData, season: BUNDLED_SEASON, seasonFetchedAt: null } as ResolvedConfig
+export const CONFIG = configData as ResolvedConfig
 export const SOURCES: SourceInfo[] = shifted(sourcesData)
 
 export const UPDATE_STATE: UpdateState = shifted(updateData.idle)

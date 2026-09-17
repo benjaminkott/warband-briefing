@@ -4,7 +4,6 @@ import type { LanguageSetting, Locale } from './i18n'
 import type { DisplayFlag } from './display'
 import type { CustomTaskDef, CustomTicks } from './customTasks'
 import type { TaskSkips } from './skips'
-import type { SeasonCatalog } from './seasonCatalog'
 import type { Region } from './enums/region'
 import type { ItemCategory } from './enums/itemCategory'
 import { ThemeSetting } from './enums/themeSetting'
@@ -617,8 +616,6 @@ export interface AppConfig {
   customTasks: CustomTaskDef[]
   /** Their ticks: task id -> character key or "warband" -> when. */
   customTicks: CustomTicks
-  /** Fetch the season catalog from the repository once a day, so a new weekly needs no app release. Off by default: the app promises to work without a connection. */
-  catalogUpdates: boolean
   /** Show the game's icons: fetched once from Blizzard's image host by the file id the companion registered, then kept. */
   gameIcons: boolean
   /** Wowhead's tooltip script on every item link: the stats of the item as it is, fetched from Wowhead when the pointer is on it. */
@@ -647,10 +644,6 @@ export interface AppConfig {
 export interface ResolvedConfig extends AppConfig {
   /** The concrete locale `language` resolves to right now. */
   resolvedLocale: Locale
-  /** The season catalog in force - the bundled one, or the fetched one when that is on. */
-  season: SeasonCatalog
-  /** When the catalog in force was fetched; null for the bundled one. */
-  seasonFetchedAt: number | null
 }
 
 /** Whether the game runs right now; null where the platform is not asked. */

@@ -25,7 +25,6 @@ import { recordGold } from '../shared/goldHistory'
 import { defaultTrackedCurrencies, defaultTrackedFactions, seasonCatalog } from '../shared/seasonCatalog'
 import { fullVault } from '../shared/vault'
 import { emptyLexicon, mergeLexicons, type Lexicon } from '../shared/lexicon'
-import type { FetchedCatalog } from './catalog'
 import { vaultChoreId, weeklyChoreId, withSkip } from '../shared/skips'
 import { foldIntoPools } from '../shared/questPool'
 import type { WindowPlacement } from './windowFrame'
@@ -57,7 +56,6 @@ const DEFAULT_CONFIG: AppConfig = {
   enabledSources: {},
   customTasks: [],
   customTicks: {},
-  catalogUpdates: false,
   gameIcons: true,
   wowheadTooltips: true,
   autoUpdate: true,
@@ -96,8 +94,6 @@ interface PersistedState {
   /** The icons known by id, merged over every read: an id stays known after its source is gone. */
   lexicon: Lexicon
   lastSyncAt: number | null
-  /** The season catalog last fetched from the net, put in force before the bundled one. */
-  catalog: FetchedCatalog | null
   /**
    * Where the window frame was kept before it had a file of its own
    * (`windowFrame.ts`). Read once on the first start after, then dropped.
@@ -118,8 +114,7 @@ const DEFAULT_STATE: PersistedState = {
   events: null,
   seasonDungeons: null,
   lexicon: emptyLexicon(),
-  lastSyncAt: null,
-  catalog: null
+  lastSyncAt: null
 }
 
 /**
@@ -232,6 +227,9 @@ function migrate(state: PersistedState): PersistedState {
   }
   // The update source was a setting once; the releases of the repository are the one source now.
   delete (state.config as unknown as { updateSource?: unknown }).updateSource
+  // The season catalog came from the net once; the bundled one is the one in force now.
+  delete (state.config as unknown as { catalogUpdates?: unknown }).catalogUpdates
+  delete (state as unknown as { catalog?: unknown }).catalog
   // The evening's budget came later still; a config from before it plans for the default.
   if (typeof state.config.eveningMinutes !== 'number' || !(state.config.eveningMinutes > 0))
     state.config.eveningMinutes = DEFAULT_EVENING_MINUTES
@@ -369,15 +367,6 @@ export class Store {
     const placement = this.state.window ?? null
     delete this.state.window
     return placement
-  }
-
-  getCatalog(): FetchedCatalog | null {
-    return this.state.catalog ?? null
-  }
-
-  async setCatalog(fetched: FetchedCatalog): Promise<void> {
-    this.state.catalog = fetched
-    await this.save()
   }
 
   getSnapshots(): CharacterSnapshot[] {

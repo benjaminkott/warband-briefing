@@ -8,14 +8,7 @@ import { expect, it } from 'vitest'
 import { readSources, mergeSources, getSourceStatuses, ADAPTERS } from './index'
 import { lastWeeklyReset, formatUntilReset, resetFromClient } from '../season'
 import { normaliseWowPath } from '../wow'
-import {
-  seasonCatalog,
-  seasonQuestDefs,
-  seasonCurrencyNames,
-  parseSeasonCatalog,
-  applySeasonCatalog,
-  BUNDLED_SEASON
-} from '../../shared/seasonCatalog'
+import { seasonCatalog, seasonQuestDefs, seasonCurrencyNames } from '../../shared/seasonCatalog'
 import { createTranslator, t, LOCALES, resolveSystemLocale, difficultyLabel } from '../../shared/i18n/index'
 import { compareVersions } from '../../shared/version'
 import { mkdirSync, writeFileSync } from 'node:fs'
@@ -1201,21 +1194,6 @@ it('its exclusive characters disappear', () => {
 it('every locale has every key', () => {
   expect(LOCALES.every((l) => t(l, 'app.name') === 'Warband Briefing')).toEqual(true)
 })
-/* ---- the catalog from the net: only the shape is trusted ---- */
-
-it('a catalog with the shape is taken', () => {
-  expect(parseSeasonCatalog({ ...BUNDLED_SEASON, patch: '99.0' })?.patch).toEqual('99.0')
-})
-it('a list without ids is refused', () => {
-  expect(parseSeasonCatalog({ ...BUNDLED_SEASON, quests: [{ label: 'x' }] })).toEqual(null)
-})
-it('not an object is refused', () => {
-  expect(parseSeasonCatalog('nope')).toEqual(null)
-})
-it('applying a bad one leaves the current', () => {
-  expect(applySeasonCatalog(null).patch).toEqual(seasonCatalog().patch)
-})
-
 /* ---- version order, for the addon that may be newer from CurseForge ---- */
 
 it('a pre-release is older than its release', () => {

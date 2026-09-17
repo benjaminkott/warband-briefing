@@ -31,7 +31,6 @@ import { seasonDungeons } from './model/dungeons'
 import { openCount } from './model/tasks'
 import { customTaskState, withTick, type CustomTaskState } from '../../shared/customTasks'
 import { applyWowheadTooltips } from './wowheadTooltips'
-import { applySeasonCatalog } from '../../shared/seasonCatalog'
 import { DEFAULT_TRANSLATOR, translatorContext } from './i18n'
 import { clockContext } from './clock'
 import { WtElement, type WtEvent } from './element'
@@ -301,9 +300,6 @@ export class WtApp extends WtElement {
       if (this.config && this.config.resolvedLocale !== previous?.resolvedLocale) {
         this.translator = createTranslator(this.config.resolvedLocale)
       }
-      // The catalog in force comes with the config: the bundled one, or the
-      // one the main process fetched.
-      if (this.config && this.config.season !== previous?.season) applySeasonCatalog(this.config.season)
       // Wowhead's tooltip script follows its switch; the links read the state when they draw.
       if (this.config && this.config.wowheadTooltips !== previous?.wowheadTooltips) applyWowheadTooltips(this.config.wowheadTooltips)
       // The theme follows the setting the same way; re-following applies it.
