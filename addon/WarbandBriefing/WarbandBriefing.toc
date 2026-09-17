@@ -2,7 +2,7 @@
 ## Title: Warband Briefing Companion
 ## Notes: Writes the Great Vault with its rewards, the realm's weekly reset, dungeon bests, gear, renown, the quest log, the bags and banks, gold, auctions and mail into SavedVariables for the Warband Briefing desktop app. Does nothing on its own: the app reads the file.
 ## Author: Benjamin Kott
-## Version: 0.1.0-beta.2
+## Version: 0.1.0-beta.3
 ## SavedVariables: WarbandBriefingDB
 ## IconTexture: Interface\Icons\INV_Misc_Note_01
 ## X-Website: https://github.com/benjaminkott/warband-briefing
