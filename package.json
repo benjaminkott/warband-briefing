@@ -86,6 +86,7 @@
     },
     "nsis": {
       "oneClick": false,
+      "runAfterFinish": true,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
