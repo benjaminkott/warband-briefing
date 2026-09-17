@@ -539,7 +539,7 @@ export const de = {
   /* ---- settings: updates ---- */
   'settings.updates.title': 'Updates',
   'settings.updates.body':
-    'Die App sucht beim Start und danach alle sechs Stunden selbstständig nach neuen Versionen und lädt sie im Hintergrund. Installiert wird erst nach deinem Klick.',
+    'Die App sucht beim Start und danach einmal am Tag selbstständig nach neuen Versionen und lädt sie im Hintergrund. Installiert wird erst nach deinem Klick.',
   'settings.updates.version': 'Version',
   'settings.updates.devHint': 'Dev-Modus — Updates greifen nur in der Installation.',
   'settings.updates.source': 'Update-Quelle',
@@ -551,7 +551,7 @@ export const de = {
   'settings.updates.repoPlaceholder': 'benutzer/warband-briefing',
   'settings.updates.urlPlaceholder': 'https://beispiel.de/warband-briefing/',
   'settings.updates.auto': 'Automatisch suchen',
-  'settings.updates.autoHint': 'beim Start und alle 6 Stunden',
+  'settings.updates.autoHint': 'beim Start und einmal am Tag',
   'settings.updates.catalog': 'Saisonkatalog aus dem Netz',
   'settings.updates.catalogHint': 'Einmal täglich aus dem Repository, damit eine neue Weekly kein App-Update braucht.',
   'settings.updates.catalogState': 'Aktuell: {season} ({patch}),',

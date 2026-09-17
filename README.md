@@ -310,7 +310,7 @@ Both are settings under **Settings → Application → Start and close**:
 
 ## Automatic updates
 
-The app looks for new versions **at start and then every six hours**,
+The app looks for new versions **at start and then once a day**,
 downloads them in the background and then shows "Install update". The
 update is installed only when you click. For this, the app needs a source
 under **Settings → Updates**:

@@ -530,7 +530,7 @@ export const en: Record<TranslationKey, string> = {
   /* ---- settings: updates ---- */
   'settings.updates.title': 'Updates',
   'settings.updates.body':
-    'The app checks for new versions at start and then every six hours. It downloads them in the background. It installs them only when you click.',
+    'The app checks for new versions at start and then once a day. It downloads them in the background. It installs them only when you click.',
   'settings.updates.version': 'Version',
   'settings.updates.devHint': 'Dev mode. Updates apply only to the installed build.',
   'settings.updates.source': 'Update source',
@@ -542,7 +542,7 @@ export const en: Record<TranslationKey, string> = {
   'settings.updates.repoPlaceholder': 'user/warband-briefing',
   'settings.updates.urlPlaceholder': 'https://example.com/warband-briefing/',
   'settings.updates.auto': 'Check automatically',
-  'settings.updates.autoHint': 'on startup and every 6 hours',
+  'settings.updates.autoHint': 'at start and once a day',
   'settings.updates.catalog': 'Season catalog from the net',
   'settings.updates.catalogHint': 'Once a day from the repository, so a new weekly needs no app update.',
   'settings.updates.catalogState': 'Current: {season} ({patch}),',

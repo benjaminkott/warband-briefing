@@ -11,11 +11,12 @@ import { app } from 'electron'
 import electronUpdater from 'electron-updater'
 import type { Translator } from '../shared/i18n'
 import type { UpdateSource, UpdateState } from '../shared/types'
+import { DAY_MS } from '../shared/time'
 import { UpdateSourceKind } from '../shared/enums/updateSourceKind'
 
 const { autoUpdater } = electronUpdater
 
-const CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000
+const CHECK_INTERVAL_MS = DAY_MS
 /** Wait a little after launch so the first check never competes with startup. */
 const FIRST_CHECK_DELAY_MS = 12_000
 
