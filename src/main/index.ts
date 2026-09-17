@@ -1,5 +1,5 @@
 import { app, BrowserWindow, dialog, ipcMain, Menu, nativeTheme, screen, shell } from 'electron'
-import { existsSync, watch, type FSWatcher } from 'node:fs'
+import { watch, type FSWatcher } from 'node:fs'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -25,10 +25,14 @@ import { ThemeSetting } from '../shared/enums/themeSetting'
 const __dirname_ = path.dirname(fileURLToPath(import.meta.url))
 
 /**
- * A packaged build takes its window icon from the exe itself; only a dev run
- * has to be pointed at the generated file.
+ * The icon of the window and of the tray: `build/icon.ico`, shipped as a
+ * resource. Windows shows a blank sheet on the taskbar when the window has
+ * no icon of its own, so the exe's is not relied on.
  */
-const DEV_ICON = path.join(app.getAppPath(), 'build', 'icon.png')
+const APP_ICON = app.isPackaged ? path.join(process.resourcesPath, 'icon.ico') : path.join(app.getAppPath(), 'build', 'icon.ico')
+
+/** The id the installer's shortcuts carry; the taskbar groups and pins the window by it. */
+const APP_USER_MODEL_ID = 'de.warbandbriefing.app'
 
 /**
  * The watch restart of electron-vite starts the new instance while the GPU
@@ -95,11 +99,11 @@ const tray = new AppTray(
     },
     quit: () => app.quit()
   },
-  DEV_ICON
+  APP_ICON
 )
 
 /** The tray icon stands while the app runs; its menu follows the language. */
-function configureTray(): Promise<void> {
+function configureTray(): void {
   return tray.configure(translator())
 }
 
@@ -159,7 +163,7 @@ function createWindow(): void {
     // the OS chrome does not sit as a grey stripe above the dark app.
     frame: false,
     autoHideMenuBar: true,
-    icon: !app.isPackaged && existsSync(DEV_ICON) ? DEV_ICON : undefined,
+    icon: APP_ICON,
     // What the window is painted with before the renderer has drawn: the
     // theme's own ground, so a light setup does not flash dark on start.
     backgroundColor: windowBackground(),
@@ -388,7 +392,7 @@ function registerHandlers(): void {
     }
     if (patch.wowPath !== undefined) await watchSavedVariables()
     if (patch.autoStart !== undefined) applyAutoStart(config.autoStart)
-    if (patch.language !== undefined) void configureTray()
+    if (patch.language !== undefined) configureTray()
     // What is read - which accounts count, which quests are watched, which
     // levels and which region - decides what the data itself contains, so
     // it has to be read again rather than merely re-rendered.
@@ -552,7 +556,7 @@ async function start(): Promise<void> {
   updater.configure(config.autoUpdate)
   updater.start()
   applyAutoStart(config.autoStart)
-  void configureTray()
+  configureTray()
 
   // First run: find the WoW folder so the first read needs no setup at all.
   if (!config.wowPath) {
@@ -575,6 +579,7 @@ async function start(): Promise<void> {
 // the second start hands over to the first and ends. A dev run takes no
 // lock: it shares the user data folder with an installed build, and the two
 // must run side by side.
+app.setAppUserModelId(APP_USER_MODEL_ID)
 if (app.isPackaged && !app.requestSingleInstanceLock()) {
   app.quit()
 } else {

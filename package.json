@@ -63,6 +63,10 @@
       {
         "from": "addon",
         "to": "addon"
+      },
+      {
+        "from": "build/icon.ico",
+        "to": "icon.ico"
       }
     ],
     "artifactName": "WarbandBriefing-Setup-${version}.${ext}",
@@ -82,7 +86,7 @@
           ]
         }
       ],
-      "icon": "build/icon.png"
+      "icon": "build/icon.ico"
     },
     "nsis": {
       "oneClick": false,

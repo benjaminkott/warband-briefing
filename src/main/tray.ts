@@ -4,7 +4,7 @@
  * menu is the one way to end the app then.
  */
 
-import { app, Menu, nativeImage, Tray, type NativeImage } from 'electron'
+import { Menu, nativeImage, Tray } from 'electron'
 import type { Translator } from '../shared/i18n'
 
 export interface TrayActions {
@@ -17,17 +17,14 @@ export class AppTray {
 
   constructor(
     private readonly actions: TrayActions,
-    /** The icon of the dev build; the packaged build carries its own. */
-    private readonly devIcon: string
+    /** The ico file with the sizes the notification area asks for. */
+    private readonly icon: string
   ) {}
 
   /** Shows the icon; the menu takes the words of the translator given. */
-  async configure(tr: Translator): Promise<void> {
+  configure(tr: Translator): void {
     if (!this.tray) {
-      const icon = await this.icon()
-      // A concurrent call can have made one while the icon loaded.
-      if (this.tray) return
-      this.tray = new Tray(icon)
+      this.tray = new Tray(nativeImage.createFromPath(this.icon))
       this.tray.setToolTip('Warband Briefing')
       this.tray.on('click', () => this.actions.open())
     }
@@ -38,11 +35,5 @@ export class AppTray {
         { label: tr.t('tray.quit'), click: () => this.actions.quit() }
       ])
     )
-  }
-
-  /** The executable's own icon: the packaged build ships no image file. */
-  private icon(): Promise<NativeImage> {
-    if (!app.isPackaged) return Promise.resolve(nativeImage.createFromPath(this.devIcon))
-    return app.getFileIcon(process.execPath, { size: 'small' })
   }
 }
