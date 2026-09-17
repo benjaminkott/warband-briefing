@@ -57,7 +57,6 @@ const DEFAULT_CONFIG: AppConfig = {
   enabledSources: {},
   customTasks: [],
   customTicks: {},
-  updateSource: null,
   catalogUpdates: false,
   gameIcons: true,
   wowheadTooltips: true,
@@ -231,6 +230,8 @@ function migrate(state: PersistedState): PersistedState {
     ]
     delete (state.config as unknown as { dashboardHiddenKeys?: unknown }).dashboardHiddenKeys
   }
+  // The update source was a setting once; the releases of the repository are the one source now.
+  delete (state.config as unknown as { updateSource?: unknown }).updateSource
   // The evening's budget came later still; a config from before it plans for the default.
   if (typeof state.config.eveningMinutes !== 'number' || !(state.config.eveningMinutes > 0))
     state.config.eveningMinutes = DEFAULT_EVENING_MINUTES

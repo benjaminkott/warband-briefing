@@ -7,7 +7,6 @@ import { RenownKind } from '../../../shared/enums/renownKind'
 import { ThemeSetting } from '../../../shared/enums/themeSetting'
 import { CloseAction } from '../../../shared/enums/closeAction'
 import { SystemLanguage } from '../../../shared/enums/systemLanguage'
-import { UpdateSourceKind } from '../../../shared/enums/updateSourceKind'
 import { VaultCategory } from '../../../shared/enums/vaultCategory'
 import { FactionGroup } from '../../../shared/enums/factionGroup'
 import { CustomTaskScope } from '../../../shared/enums/customTaskScope'
@@ -137,12 +136,6 @@ export const ENUMS: readonly EnumEntry[] = [
     about: 'What a goal is measured against; each maps to one number per character.',
     module: 'shared/enums/goalKind.ts',
     values: GoalKind
-  },
-  {
-    name: 'UpdateSourceKind',
-    about: 'Where an update comes from: a GitHub release, or any feed with a URL.',
-    module: 'shared/enums/updateSourceKind.ts',
-    values: UpdateSourceKind
   },
   {
     name: 'FactionGroup',

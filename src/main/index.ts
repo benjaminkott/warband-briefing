@@ -395,8 +395,8 @@ function registerHandlers(): void {
     const config = await store.setConfig(patch)
 
     if (patch.autoRefreshMinutes !== undefined) scheduleAutoRefresh()
-    if (patch.updateSource !== undefined || patch.autoUpdate !== undefined || patch.language !== undefined) {
-      updater.configure(config.updateSource, config.autoUpdate)
+    if (patch.autoUpdate !== undefined || patch.language !== undefined) {
+      updater.configure(config.autoUpdate)
     }
     if (patch.wowPath !== undefined) await watchSavedVariables()
     if (patch.catalogUpdates !== undefined) catalogUpdater.configure(config.catalogUpdates)
@@ -567,7 +567,7 @@ async function start(): Promise<void> {
   scheduleAutoRefresh()
 
   const config = store.getConfig()
-  updater.configure(config.updateSource, config.autoUpdate)
+  updater.configure(config.autoUpdate)
   updater.start()
   applyAutoStart(config.autoStart)
   void configureTray()

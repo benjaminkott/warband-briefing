@@ -1,18 +1,18 @@
 /**
  * Automatic updates via electron-updater.
  *
- * The update feed is configured at runtime rather than baked into the build, so
- * the same installer works whether releases live on GitHub or on any static web
- * host. Checking only happens when a source is configured and the app actually
- * runs installed - an unpackaged dev build has no update metadata.
+ * The feed is the releases of the repository (`shared/repository.ts`), set at
+ * runtime so a dev build and a packaged one read the same place. Checking
+ * only happens when the app runs installed - an unpackaged dev build has no
+ * update metadata.
  */
 
 import { app } from 'electron'
 import electronUpdater from 'electron-updater'
 import type { Translator } from '../shared/i18n'
-import type { UpdateSource, UpdateState } from '../shared/types'
+import type { UpdateState } from '../shared/types'
 import { DAY_MS } from '../shared/time'
-import { UpdateSourceKind } from '../shared/enums/updateSourceKind'
+import { GITHUB_REPO } from '../shared/repository'
 
 const { autoUpdater } = electronUpdater
 
@@ -20,24 +20,9 @@ const CHECK_INTERVAL_MS = DAY_MS
 /** Wait a little after launch so the first check never competes with startup. */
 const FIRST_CHECK_DELAY_MS = 12_000
 
-export function parseGithubRepo(input: string): { owner: string; repo: string } | null {
-  const trimmed = input.trim().replace(/\.git$/, '')
-  // Accepts "owner/repo" as well as a full github.com URL.
-  const match = /^(?:https?:\/\/(?:www\.)?github\.com\/)?([\w.-]+)\/([\w.-]+)\/?$/.exec(trimmed)
-  if (!match) return null
-  return { owner: match[1], repo: match[2] }
-}
-
-export function describeSource(tr: Translator, source: UpdateSource | null): string {
-  if (!source) return tr.t('update.sourceNotConfigured')
-  if (source.kind === UpdateSourceKind.Github) return tr.t('update.sourceGithub', { repo: source.repo })
-  return tr.t('update.sourceGeneric', { url: source.url })
-}
-
 export class Updater {
   private state: UpdateState
   private timer: NodeJS.Timeout | null = null
-  private source: UpdateSource | null = null
   private enabled = true
 
   constructor(
@@ -55,9 +40,11 @@ export class Updater {
       percent: 0,
       downloaded: false,
       lastCheckedAt: null,
-      error: null,
-      sourceLabel: this.translator().t('update.sourceNotConfigured')
+      error: null
     }
+
+    const [owner, repo] = GITHUB_REPO.split('/')
+    autoUpdater.setFeedURL({ provider: 'github', owner, repo })
 
     autoUpdater.autoDownload = true
     autoUpdater.autoInstallOnAppQuit = true
@@ -91,28 +78,14 @@ export class Updater {
     this.onChange(this.state)
   }
 
-  /** Applies the configured feed and (re)arms the periodic check. */
-  configure(source: UpdateSource | null, enabled: boolean): void {
-    this.source = source
+  /** Arms or disarms the periodic check. */
+  configure(enabled: boolean): void {
     this.enabled = enabled
-    this.patch({ sourceLabel: describeSource(this.translator(), source), error: null })
+    this.patch({ error: null })
 
     if (this.timer) clearInterval(this.timer)
     this.timer = null
-    if (!source || !enabled || !app.isPackaged) return
-
-    try {
-      if (source.kind === UpdateSourceKind.Github) {
-        const parsed = parseGithubRepo(source.repo)
-        if (!parsed) throw new Error(this.translator().t('error.badRepo', { repo: source.repo }))
-        autoUpdater.setFeedURL({ provider: 'github', owner: parsed.owner, repo: parsed.repo })
-      } else {
-        autoUpdater.setFeedURL({ provider: 'generic', url: source.url })
-      }
-    } catch (e) {
-      this.patch({ error: (e as Error).message })
-      return
-    }
+    if (!enabled || !app.isPackaged) return
 
     this.timer = setInterval(() => void this.check(true), CHECK_INTERVAL_MS)
   }
@@ -123,8 +96,8 @@ export class Updater {
   }
 
   /**
-   * @param automatic silent checks skip the "nothing configured" complaints that
-   *                  a manual click should surface.
+   * @param automatic a silent check skips the complaints a manual click
+   *                  must show: a dev build, the switch off.
    */
   async check(automatic = false): Promise<UpdateState> {
     if (!app.isPackaged) {
@@ -135,10 +108,6 @@ export class Updater {
     }
     if (!this.enabled) {
       if (!automatic) this.patch({ error: this.translator().t('error.autoUpdateOff') })
-      return this.state
-    }
-    if (!this.source) {
-      if (!automatic) this.patch({ error: this.translator().t('error.noUpdateSource') })
       return this.state
     }
     // A downloaded update is waiting for a restart; checking again would only

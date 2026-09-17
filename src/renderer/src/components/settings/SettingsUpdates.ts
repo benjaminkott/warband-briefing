@@ -1,25 +1,21 @@
 import { html, nothing } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
-import type { ResolvedConfig, UpdateSource, UpdateState } from '../../../../shared/types'
+import { customElement, property } from 'lit/decorators.js'
+import type { ResolvedConfig, UpdateState } from '../../../../shared/types'
 import type { WtEvent } from '../../element'
 import { WtPanel } from '../ui/Panel'
-import { updateSourceFields, updateSourceFor } from './model'
-import { UpdateSourceKind } from '../../../../shared/enums/updateSourceKind'
 import { Severity } from '../../enums/severity'
 import { ButtonRole } from '../../enums/buttonRole'
 import '../Notice'
-import '../ui/Select'
 import '../ui/Button'
 import '../ui/Checkbox'
 import '../ui/FieldGroup'
-import '../ui/Input'
 import '../ui/Hint'
 
 /**
- * Where new versions of the app come from, and whether they are
- * fetched on their own. The source is edited in place and saved by a button.
+ * New versions of the app from the releases of the repository: whether
+ * they are fetched on their own, and a check by hand.
  *
- * @fires wt-config - The update source, or the auto-update switch.
+ * @fires wt-config - The auto-update switch.
  * @fires wt-check-update - Check for a new version now.
  * @fires wt-install-update - Restart into the downloaded version.
  */
@@ -29,33 +25,9 @@ export class WtSettingsUpdates extends WtPanel {
   @property({ attribute: false }) accessor updateState: UpdateState | null = null
   @property({ type: Boolean }) accessor busy = false
 
-  /** The source the form holds; none is the select's empty value. */
-  @state() accessor sourceKind: UpdateSourceKind | null = null
-  @state() accessor sourceValue = ''
-  /** The stored source the fields were last filled from. */
-  private followed: UpdateSource | null | undefined = undefined
-
-  /**
-   * The fields follow the stored value only when that value itself changes,
-   * not on every other setting saved while the form is being edited.
-   */
-  private follow(): void {
-    const source = this.config.updateSource
-    if (this.followed !== undefined && this.followed === source) return
-    this.followed = source
-    const fields = updateSourceFields(source)
-    this.sourceKind = fields.kind
-    this.sourceValue = fields.value
-  }
-
-  private save(): void {
-    this.emit('wt-config', { updateSource: updateSourceFor(this.sourceKind, this.sourceValue) })
-  }
-
   protected override willUpdate(): void {
-    this.follow()
     const tr = this.tr
-    const { config, busy, sourceKind } = this
+    const { config, busy } = this
     const update = this.updateState
 
     this.icon = 'download'
@@ -68,41 +40,6 @@ export class WtSettingsUpdates extends WtPanel {
           ${update && !update.supported ? html`<span class="faint tiny">${tr.t('settings.updates.devHint')}</span>` : nothing}
         </div>
       </wt-field-group>
-
-      <wt-field-group icon="plug" label=${tr.t('settings.updates.source')}>
-        <wt-select
-          control-id="update-source"
-          .value=${sourceKind ?? ''}
-          .options=${[
-            { value: '', label: tr.t('settings.updates.sourceNone') },
-            { value: UpdateSourceKind.Github, label: tr.t('settings.updates.sourceGithub') },
-            { value: UpdateSourceKind.Generic, label: tr.t('settings.updates.sourceGeneric') }
-          ]}
-          @wt-change=${(event: WtEvent<'wt-change'>) => (this.sourceKind = event.detail ? (event.detail as UpdateSourceKind) : null)}
-        ></wt-select>
-      </wt-field-group>
-
-      ${
-        sourceKind !== null
-          ? html`<wt-field-group
-              icon="link"
-              label=${sourceKind === UpdateSourceKind.Github ? tr.t('settings.updates.repo') : tr.t('settings.updates.baseUrl')}
-            >
-              <wt-input
-                control-id="update-target"
-                code
-                .value=${this.sourceValue}
-                placeholder=${
-                  sourceKind === UpdateSourceKind.Github
-                    ? tr.t('settings.updates.repoPlaceholder')
-                    : tr.t('settings.updates.urlPlaceholder')
-                }
-                @wt-input=${(event: WtEvent<'wt-input'>) => (this.sourceValue = event.detail)}
-                @wt-submit=${() => this.save()}
-              ></wt-input>
-            </wt-field-group>`
-          : nothing
-      }
 
       <wt-field-group icon="refresh" label=${tr.t('settings.updates.auto')}>
         <wt-checkbox
@@ -160,7 +97,6 @@ export class WtSettingsUpdates extends WtPanel {
       </wt-field-group>
 
       <div class="row">
-        <wt-button icon="check" label=${tr.t('settings.updates.saveSource')} ?disabled=${busy} @click=${() => this.save()}></wt-button>
         <wt-button
           icon="refresh"
           ?spinning=${Boolean(update?.checking)}
@@ -198,7 +134,7 @@ export class WtSettingsUpdates extends WtPanel {
       }
       ${
         update && !update.error && !update.available && update.lastCheckedAt
-          ? html`<wt-hint icon="check" text=${tr.t('settings.updates.upToDate', { source: update.sourceLabel })}></wt-hint>`
+          ? html`<wt-hint icon="check" text=${tr.t('settings.updates.upToDate')}></wt-hint>`
           : nothing
       }
     `

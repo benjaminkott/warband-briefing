@@ -12,7 +12,6 @@ import { CloseAction } from './enums/closeAction'
 import type { VaultCategory } from './enums/vaultCategory'
 import type { RenownKind } from './enums/renownKind'
 import type { GoalKind } from './enums/goalKind'
-import { UpdateSourceKind } from './enums/updateSourceKind'
 
 /** A look the stylesheet has: the setting with `System` resolved. */
 export type Theme = Exclude<ThemeSetting, ThemeSetting.System>
@@ -570,8 +569,6 @@ export interface WeeklyQuestDef {
   pool?: number[]
 }
 
-export type UpdateSource = { kind: UpdateSourceKind.Github; repo: string } | { kind: UpdateSourceKind.Generic; url: string }
-
 export interface UpdateState {
   /** False in an unpackaged dev build, where there is no update metadata. */
   supported: boolean
@@ -585,7 +582,6 @@ export interface UpdateState {
   downloaded: boolean
   lastCheckedAt: number | null
   error: string | null
-  sourceLabel: string
 }
 
 export interface AppConfig {
@@ -621,8 +617,6 @@ export interface AppConfig {
   customTasks: CustomTaskDef[]
   /** Their ticks: task id -> character key or "warband" -> when. */
   customTicks: CustomTicks
-  /** Where to look for new versions of the app itself. */
-  updateSource: UpdateSource | null
   /** Fetch the season catalog from the repository once a day, so a new weekly needs no app release. Off by default: the app promises to work without a connection. */
   catalogUpdates: boolean
   /** Show the game's icons: fetched once from Blizzard's image host by the file id the companion registered, then kept. */

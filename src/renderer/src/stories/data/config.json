@@ -54,10 +54,6 @@
   "enabledSources": {},
   "customTasks": [],
   "customTicks": {},
-  "updateSource": {
-    "kind": "github",
-    "repo": "benjaminkott/warband-briefing"
-  },
   "autoUpdate": true,
   "autoStart": false,
   "onClose": "background",

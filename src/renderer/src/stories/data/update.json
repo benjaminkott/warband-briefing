@@ -10,8 +10,7 @@
     "percent": 0,
     "downloaded": false,
     "lastCheckedAt": "2026-09-11T15:00:00.000Z",
-    "error": null,
-    "sourceLabel": "GitHub"
+    "error": null
   },
   "available": {
     "supported": true,
@@ -24,8 +23,7 @@
     "percent": 0,
     "downloaded": false,
     "lastCheckedAt": "2026-09-11T15:00:00.000Z",
-    "error": null,
-    "sourceLabel": "GitHub"
+    "error": null
   },
   "downloading": {
     "supported": true,
@@ -38,8 +36,7 @@
     "percent": 62,
     "downloaded": false,
     "lastCheckedAt": "2026-09-11T15:00:00.000Z",
-    "error": null,
-    "sourceLabel": "GitHub"
+    "error": null
   },
   "ready": {
     "supported": true,
@@ -52,7 +49,6 @@
     "percent": 100,
     "downloaded": true,
     "lastCheckedAt": "2026-09-11T15:00:00.000Z",
-    "error": null,
-    "sourceLabel": "GitHub"
+    "error": null
   }
 }

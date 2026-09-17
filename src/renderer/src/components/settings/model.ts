@@ -4,12 +4,11 @@
  * to say which control was touched.
  */
 
-import type { AppConfig, Goal, UpdateSource, WeeklyQuestDef } from '../../../../shared/types'
+import type { AppConfig, Goal, WeeklyQuestDef } from '../../../../shared/types'
 import { seasonCatalog, seasonQuestDef } from '../../../../shared/seasonCatalog'
 import { inPool, questIdsOf } from '../../../../shared/questPool'
 import { DISPLAY_DEFAULTS, type DisplayFlag } from '../../../../shared/display'
 import type { IconName } from '../Icon'
-import { UpdateSourceKind } from '../../../../shared/enums/updateSourceKind'
 import type { GoalKind } from '../../../../shared/enums/goalKind'
 import { FactionGroup } from '../../../../shared/enums/factionGroup'
 import { SettingsSection } from '../../enums/settingsSection'
@@ -165,19 +164,4 @@ export function withFlag(display: AppConfig['display'], flag: DisplayFlag, on: b
   if (on === DISPLAY_DEFAULTS[flag]) delete next[flag]
   else next[flag] = on
   return next
-}
-
-/** The update source as the form holds it: a kind, or none, and the one value that kind needs. */
-export function updateSourceFields(source: UpdateSource | null): { kind: UpdateSourceKind | null; value: string } {
-  if (!source) return { kind: null, value: '' }
-  return { kind: source.kind, value: source.kind === UpdateSourceKind.Github ? source.repo : source.url }
-}
-
-/** The update source to store for what the form holds; no kind or an empty value means none. */
-export function updateSourceFor(kind: UpdateSourceKind | null, value: string): UpdateSource | null {
-  const trimmed = value.trim()
-  if (kind === null || !trimmed) return null
-  return kind === UpdateSourceKind.Github
-    ? { kind: UpdateSourceKind.Github, repo: trimmed }
-    : { kind: UpdateSourceKind.Generic, url: trimmed }
 }

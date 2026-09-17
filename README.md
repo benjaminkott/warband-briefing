@@ -310,24 +310,24 @@ Both are settings under **Settings → Application → Start and close**:
 
 ## Automatic updates
 
-The app looks for new versions **at start and then once a day**,
+The app looks for new versions **at start and then once a day** in the
+releases of `benjaminkott/warband-briefing` (`src/shared/repository.ts`),
 downloads them in the background and then shows "Install update". The
-update is installed only when you click. For this, the app needs a source
-under **Settings → Updates**:
+update is installed only when you click. **Settings → Updates** turns the
+check off or starts one by hand.
 
-- **GitHub releases**: enter `benjaminkott/warband-briefing` in the app.
-  A push of a tag `v<version>` builds the installer on GitHub Actions and
-  publishes it as a release (`.github/workflows/release.yml`). To release:
-  1. Set the version in `package.json` and commit.
-  2. Tag the commit: `git tag v0.1.0-beta.2`.
-  3. Push the tag: `git push origin v0.1.0-beta.2`.
+A push of a tag `v<version>` builds the installer on GitHub Actions and
+publishes it as a release (`.github/workflows/release.yml`). To release:
 
-  A version with a suffix (`-beta.2`) is a prerelease; only a prerelease
-  build takes it. The tag must match the version, or the job stops.
+1. Set the version in `package.json` and commit.
+2. Tag the commit: `git tag v0.1.0-beta.2`.
+3. Push the tag: `git push origin v0.1.0-beta.2`.
 
-- **Your own web space**: upload `WarbandBriefing-Setup-<version>.exe`,
-  `latest.yml` and the `*.blockmap` files from `release/`, and enter the
-  folder URL in the app. `latest.yml` tells the app the newest version.
+A version with a suffix (`-beta.2`) is a prerelease; only a prerelease
+build takes it. The tag must match the version, or the job stops. The
+release holds the installer, its `.blockmap` and `latest.yml`: `latest.yml`
+tells the app the newest version, the blockmap lets it download only the
+blocks that changed.
 
 Without a code signature, Windows shows a SmartScreen warning for the
 installer.

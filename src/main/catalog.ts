@@ -12,9 +12,7 @@
 
 import { applySeasonCatalog, parseSeasonCatalog, type SeasonCatalog } from '../shared/seasonCatalog'
 import { DAY_MS } from '../shared/time'
-
-/** Where the repository keeps the file; the same one the build ships. */
-export const CATALOG_URL = 'https://raw.githubusercontent.com/benjaminkott/warband-briefing/main/src/shared/data/seasonCatalog.json'
+import { CATALOG_URL } from '../shared/repository'
 
 /** What the state keeps of a fetched catalog. */
 export interface FetchedCatalog {
