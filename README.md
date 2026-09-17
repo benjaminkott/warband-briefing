@@ -322,7 +322,9 @@ A version with a suffix (`-beta.2`) is a prerelease; only a prerelease
 build takes it. The tag must match the version, or the job stops. The
 release holds the installer, its `.blockmap` and `latest.yml`: `latest.yml`
 tells the app the newest version, the blockmap lets it download only the
-blocks that changed.
+blocks that changed. The release notes are the commit messages since the
+tag before, grouped by prefix (`scripts/release-notes.mjs`); see
+`AGENTS.md`, "Commits".
 
 Without a code signature, Windows shows a SmartScreen warning for the
 installer.

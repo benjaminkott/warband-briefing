@@ -22,6 +22,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # The notes come from the commits since the tag before.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v7
         with:
@@ -46,6 +49,10 @@ jobs:
       - name: Build the installer
         run: npm run addon && npx electron-vite build && npx electron-builder --win --publish never
 
+      - name: Write the release notes
+        shell: bash
+        run: node scripts/release-notes.mjs "$GITHUB_REF_NAME" > release/notes.md
+
       - name: Publish the release
         uses: softprops/action-gh-release@v3
         with:
@@ -53,6 +60,8 @@ jobs:
           # GitHub; the updater of a prerelease build takes it, a stable build
           # does not.
           prerelease: ${{ contains(github.ref_name, '-') }}
+          body_path: release/notes.md
+          # GitHub adds its own part (the compare link) under the body.
           generate_release_notes: true
           fail_on_unmatched_files: true
           files: |
