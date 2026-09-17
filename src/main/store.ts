@@ -64,7 +64,7 @@ const DEFAULT_CONFIG: AppConfig = {
   autoUpdate: true,
   // Off: a login item is the user's choice, never the installer's.
   autoStart: false,
-  onClose: CloseAction.Quit,
+  onClose: CloseAction.Background,
   display: {},
   eveningMinutes: DEFAULT_EVENING_MINUTES,
   supplyMinimums: {},

@@ -633,7 +633,7 @@ export interface AppConfig {
   autoUpdate: boolean
   /** Start the app when the user logs in to the computer; see `autostart.ts`. */
   autoStart: boolean
-  /** What the close button does: end the app, or hide the window behind a tray icon; see `tray.ts`. */
+  /** What the close button does: end the app, or hide the window; the tray icon (`tray.ts`) brings it back. */
   onClose: CloseAction
   /**
    * Which blocks, columns and panels the views draw. Only the flags that

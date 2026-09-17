@@ -60,7 +60,7 @@
   },
   "autoUpdate": true,
   "autoStart": false,
-  "onClose": "quit",
+  "onClose": "background",
   "catalogUpdates": false,
   "gameIcons": true,
   "wowheadTooltips": true,

@@ -570,7 +570,7 @@ export const en: Record<TranslationKey, string> = {
   'settings.startup.closeQuit': 'quit the app',
   'settings.startup.closeBackground': 'keep it in the background',
   'settings.startup.closeHint':
-    'In the background the app keeps reading what the game writes and stands as an icon in the notification area of the taskbar: a click opens the window, the menu quits the app.',
+    'In the background the app keeps reading what the game writes. A click on the icon in the notification area of the taskbar opens the window, its menu quits the app.',
 
   /* ---- settings: keyboard ---- */
   'settings.guide.title': 'Guide',

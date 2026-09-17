@@ -105,9 +105,9 @@ const tray = new AppTray(
   DEV_ICON
 )
 
-/** The tray icon stands while the close button keeps the app in the background. */
+/** The tray icon stands while the app runs; its menu follows the language. */
 function configureTray(): Promise<void> {
-  return tray.configure(store.getConfig().onClose === CloseAction.Background, translator())
+  return tray.configure(translator())
 }
 
 /** The page ground of the theme the config resolves to; see styles.css. */
@@ -401,7 +401,7 @@ function registerHandlers(): void {
     if (patch.wowPath !== undefined) await watchSavedVariables()
     if (patch.catalogUpdates !== undefined) catalogUpdater.configure(config.catalogUpdates)
     if (patch.autoStart !== undefined) applyAutoStart(config.autoStart)
-    if (patch.onClose !== undefined || patch.language !== undefined) void configureTray()
+    if (patch.language !== undefined) void configureTray()
     // What is read - which accounts count, which quests are watched, which
     // levels and which region - decides what the data itself contains, so
     // it has to be read again rather than merely re-rendered.

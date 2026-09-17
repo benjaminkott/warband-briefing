@@ -1,7 +1,7 @@
 /**
- * The icon in the notification area, shown while the close button keeps
- * the app in the background: the one way back to a hidden window, and the
- * one way to end the app then.
+ * The icon in the notification area, shown while the app runs: it says the
+ * app is there when the window is hidden, brings the window back, and its
+ * menu is the one way to end the app then.
  */
 
 import { app, Menu, nativeImage, Tray, type NativeImage } from 'electron'
@@ -21,13 +21,8 @@ export class AppTray {
     private readonly devIcon: string
   ) {}
 
-  /** Shows or removes the icon; the menu takes the words of the translator given. */
-  async configure(enabled: boolean, tr: Translator): Promise<void> {
-    if (!enabled) {
-      this.tray?.destroy()
-      this.tray = null
-      return
-    }
+  /** Shows the icon; the menu takes the words of the translator given. */
+  async configure(tr: Translator): Promise<void> {
     if (!this.tray) {
       const icon = await this.icon()
       // A concurrent call can have made one while the icon loaded.

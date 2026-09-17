@@ -580,7 +580,7 @@ export const de = {
   'settings.startup.closeQuit': 'ganz beenden',
   'settings.startup.closeBackground': 'im Hintergrund weiterlaufen',
   'settings.startup.closeHint':
-    'Im Hintergrund liest die App weiter mit, was das Spiel schreibt, und steht als Symbol im Infobereich der Taskleiste: ein Klick öffnet das Fenster, das Menü beendet die App.',
+    'Im Hintergrund liest die App weiter mit, was das Spiel schreibt. Ein Klick auf das Symbol im Infobereich der Taskleiste öffnet das Fenster, sein Menü beendet die App.',
 
   /* ---- settings: keyboard ---- */
   'settings.guide.title': 'Anleitung',
