@@ -5,7 +5,7 @@
  */
 
 import { expect, it } from 'vitest'
-import { isWeekly, seasonWeeklies, isOffered, seenThisWeek, mergeRegistries, questProfession } from './questRegistry'
+import { isWeekly, seasonWeeklies, isOffered, hasQuest, weekQuest, mergeRegistries, questProfession } from './questRegistry'
 import type { RegisteredQuest } from './questRegistry'
 import { QuestReset } from './enums/questReset'
 
@@ -93,19 +93,26 @@ it('a quest the register does not know is', () => {
   expect(isOffered(registry, 99)).toEqual(true)
 })
 
-/* ---- what the board holds this week ---- */
+/* ---- what the roster's game has ---- */
 
-it('a quest a log showed since the reset is offered', () => {
-  expect(seenThisWeek(registry, 11, 2_500)).toEqual(true)
+it('a quest the register saw is on the board; one it never saw is not', () => {
+  expect([hasQuest(registry, 10), hasQuest(registry, 99)]).toEqual([true, false])
 })
-it('a quest turned in since the reset is offered, whatever the log', () => {
-  expect(seenThisWeek({ ...registry, quests: [quest(20, { seenAt: 100, doneAt: 3_000 })] }, 20, 2_500)).toEqual(true)
+it("a hidden tracker and last season's weekly are not, seen or not", () => {
+  expect([hasQuest(registry, 14), hasQuest(registry, 13)]).toEqual([false, false])
 })
-it('a quest last seen before the reset is not', () => {
-  expect(seenThisWeek(registry, 12, 2_500)).toEqual(false)
+
+/* ---- the quest of the week out of a pool ---- */
+
+it('the member a log showed since the reset is the week\'s', () => {
+  expect(weekQuest(registry, [11, 12], 2_500)?.id).toEqual(11)
 })
-it('a quest the register does not know: nobody looked', () => {
-  expect(seenThisWeek(registry, 99, 2_500)).toEqual(null)
+it('a member turned in since the reset is, whatever the log; the last seen where several were', () => {
+  const quests = [quest(20, { seenAt: 100, doneAt: 3_000 }), quest(21, { seenAt: 2_600 })]
+  expect(weekQuest({ ...registry, quests }, [20, 21], 2_500)?.id).toEqual(20)
+})
+it('a member last seen before the reset is not, and nobody seen is none', () => {
+  expect([weekQuest(registry, [12], 2_500), weekQuest(registry, [99], 2_500)]).toEqual([undefined, undefined])
 })
 it('without the expansion the register cannot tell seasons apart', () => {
   expect(isOffered({ ...registry, expansion: null }, 13)).toEqual(true)

@@ -20,8 +20,8 @@ import type {
   WeeklyQuestDef,
   WeeklyTask
 } from '../../shared/types'
-import { seasonCatalog, seasonCurrencyNames } from '../../shared/seasonCatalog'
-import { isOffered, mergeRegistries, questProfession, seasonWeeklies, seenThisWeek, type QuestRegistry } from '../../shared/questRegistry'
+import { seasonCurrencyNames } from '../../shared/seasonCatalog'
+import { hasQuest, isOffered, mergeRegistries, questProfession, seasonWeeklies, weekQuest, type QuestRegistry } from '../../shared/questRegistry'
 import { fromPool, growPools, questIdsOf } from '../../shared/questPool'
 import { mergeLexicons, type Lexicon } from '../../shared/lexicon'
 import { fullVault } from '../../shared/vault'
@@ -92,27 +92,25 @@ function forProfessions(weeklies: WeeklyTask[], registry: QuestRegistry, profess
 }
 
 /**
- * The weeklies the game offers this week. The season's pool rotates: a
- * quest on the board one week is not there the next, and a line that says
- * "accept" for a quest nobody can accept is wrong. A quest done this week
- * was offered; a standing one - the catalog's core set, a profession's
- * quest, picked up at its giver every week - is offered unseen; any other
- * stays only when a log showed it since the reset, or when the register
- * does not know it at all.
+ * The weeklies the roster's game has. Without a register every configured
+ * quest stands: no source can say otherwise. With one, a quest stands when
+ * the register saw it on a log, on any character, ever - a quest nobody
+ * ever saw is not on this roster's board, whatever a list says - and when
+ * this character's log has it or it is done. A pool stands as a whole: the
+ * game offers one of it every week. Its line names the quest of the week
+ * where any character saw one, so a character that has not picked it up
+ * reads what to accept; the label of the log or the turn-in stays where
+ * there is one.
  */
 function offeredThisWeek(weeklies: WeeklyTask[], registry: QuestRegistry, resetAt: number): WeeklyTask[] {
-  const standing = new Set(
-    seasonCatalog()
-      .quests.filter((quest) => quest.core)
-      .map((quest) => quest.id)
-  )
-  return weeklies.filter((task) => task.done || task.profession || standing.has(task.id) || offered(registry, task, resetAt))
-}
-
-/** A pool is on the board when one of its quests was seen, or when the register knows none of them. */
-function offered(registry: QuestRegistry, task: WeeklyTask, resetAt: number): boolean {
-  const seen = questIdsOf(task).map((id) => seenThisWeek(registry, id, resetAt))
-  return seen.includes(true) || seen.every((each) => each === null)
+  if (registry.quests.length === 0) return weeklies
+  return weeklies
+    .filter((task) => task.done || task.onLog || task.pool !== undefined || questIdsOf(task).some((id) => hasQuest(registry, id)))
+    .map((task) => {
+      if (task.pool === undefined || task.done || task.onLog) return task
+      const week = weekQuest(registry, questIdsOf(task), resetAt)
+      return week ? { ...task, label: week.title } : task
+    })
 }
 
 /**

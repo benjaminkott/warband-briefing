@@ -597,7 +597,7 @@ const quests = [
   { id: 90003, label: 'Nicht angenommen' },
   // Turned in while the addon was off: only the client's flag says so.
   { id: 93909, label: 'Midnight: Delves' },
-  // Of the season's rotating pool, and not on the board this week.
+  // Of the season's rotating pool, listed by itself: the register knows it, so it stands.
   { id: 93890, label: 'Midnight: Abundance' }
 ]
 const translator = createTranslator('de')
@@ -782,7 +782,7 @@ it('a turn-in the companion saw ticks the quest, with the client title', () => {
   expect([twinWeekly(76586).done, twinWeekly(76586).label]).toEqual([true, 'Weltboss erlegt'])
 })
 it('a quest the companion log lacks is to be accepted; without a log nobody knows', () => {
-  expect([twinWeekly(90003).onLog, main.weeklies.find((t) => t.id === 90003)!.onLog]).toEqual([false, undefined])
+  expect([twinWeekly(93890).onLog, main.weeklies.find((t) => t.id === 93890)!.onLog]).toEqual([false, undefined])
 })
 it('a quest on the log carries its progress', () => {
   expect(twinWeekly(82897).progress).toEqual({ fulfilled: 2, required: 4, text: '2/4' })
@@ -802,15 +802,19 @@ it('a regular turn-in is no suggestion', () => {
 it("the client's completion flag ticks a quest no turn-in record has", () => {
   expect(twinWeekly(93909).done).toEqual(true)
 })
-/* The board this week: the register says what it holds. */
-it('a rotating weekly the board held last week and not this one is no task', () => {
-  expect(merged.map((c) => c.weeklies.some((task) => task.id === 93890))).toEqual(merged.map(() => false))
+/* The board: the register says what the roster's game has. */
+it('a quest the register saw stands unseen: the season\'s weekly, a profession quest, one of the rotating set listed by itself', () => {
+  expect([twinWeekly(93909), twinWeekly(90001), twinWeekly(93890)].map((task) => task !== undefined)).toEqual([true, true, true])
 })
-it('a quest a log showed this week stays, and one the register does not know stays too', () => {
-  expect([twinWeekly(82897) !== undefined, twinWeekly(90003) !== undefined]).toEqual([true, true])
+it("a quest a log showed this week stays, last season's or not", () => {
+  expect(twinWeekly(82897) !== undefined).toEqual(true)
 })
-it('the standing quests stay unseen: the core set and a profession quest', () => {
-  expect([twinWeekly(93909) !== undefined, twinWeekly(90001) !== undefined]).toEqual([true, true])
+it('a quest the register never saw is no task', () => {
+  expect(merged.map((c) => c.weeklies.some((task) => task.id === 90003))).toEqual(merged.map(() => false))
+})
+it('without a register every configured quest stands', () => {
+  expect(mergeSources(legacyRead, reset).every((c) => c.weeklies.length === 0)).toEqual(true)
+  expect(mergeSources(staleRead, reset).every((c) => c.weeklies.some((task) => task.id === 76586))).toEqual(true)
 })
 const staleRead = await readSources(legacyRoot, [{ id: 76586, label: 'Weltboss' }], {}, translator)
 it('a flag stamped before the reset does not', () => {
@@ -822,6 +826,10 @@ const poolRead = await readSources(wowRoot, [{ id: 93909, label: 'Midnight: Week
 const poolTask = mergeSources(poolRead, reset).find((c) => c.name === 'Doppelt')!.weeklies[0]!
 it("a learned weekly with the pool's prefix joins it, and the line is the one on the log", () => {
   expect([poolTask.pool, poolTask.label, poolTask.onLog, poolTask.progress?.text]).toEqual([[93909, 93890, 98600, 93911], 'Mitternacht: Neu', true, '1/4'])
+})
+it("a pool's line on a character without the quest names the one the register saw this week", () => {
+  const unseen = mergeSources(poolRead, reset).find((c) => c.name === 'Klöße')!.weeklies[0]!
+  expect([unseen.onLog, unseen.done, unseen.label]).toEqual([undefined, false, 'Mitternacht: Tiefen'])
 })
 
 /* The register: the season's weeklies as the game itself describes them. */
@@ -1028,8 +1036,8 @@ it('the list carries its time in millis', () => {
 it('nobody else has professions', () => {
   expect(main.professions).toEqual([])
 })
-it('without profession data every quest stays', () => {
-  expect(main.weeklies.map((task) => task.id)).toEqual([76586, 82897, 90001, 90002, 90003, 93909])
+it('without profession data every quest the register knows stays', () => {
+  expect(main.weeklies.map((task) => task.id)).toEqual([76586, 90001, 90002, 93909, 93890])
 })
 /* The same read, with the main character's professions known: the merger
    drops the quest bound to a profession the character does not have. */
@@ -1054,7 +1062,7 @@ it('a quest bound to a profession stays only for a character with it', () => {
     mergeSources(withProfessions, reset)
       .find((c) => c.name === 'Klöße')!
       .weeklies.map((task) => task.id)
-  ).toEqual([76586, 82897, 90001, 90003, 93909])
+  ).toEqual([76586, 90001, 93909, 93890])
 })
 
 /* Characters only one source knows */

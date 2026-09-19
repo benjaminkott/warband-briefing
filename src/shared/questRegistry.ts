@@ -102,17 +102,29 @@ export function isOffered(registry: QuestRegistry, id: number): boolean {
 }
 
 /**
- * Whether the game offers a quest this week: true when a log showed it or
- * a turn-in ticked it since the reset, false when the register knows the
- * quest and nobody saw it, null when the register does not know it. The
- * season's pool rotates - "Midnight: Abundance" is on the board one week
- * and not the next - and the register is the only record of what the
- * board holds: the client offers no list.
+ * True for a quest the roster's game has: the register saw it on a log,
+ * on some character, some time - and it is one a player can see, of the
+ * season. A quest nobody ever saw is not on this roster's board, whatever
+ * a list says of it. False too without a register, which the caller tells
+ * apart by the register's size.
  */
-export function seenThisWeek(registry: QuestRegistry, id: number, resetAt: number): boolean | null {
+export function hasQuest(registry: QuestRegistry, id: number): boolean {
   const quest = registry.quests.find((entry) => entry.id === id)
-  if (!quest) return null
-  return quest.seenAt >= resetAt || (quest.doneAt ?? 0) >= resetAt
+  return quest !== undefined && isOffered(registry, id)
+}
+
+/**
+ * The quest of the week out of a pool: the member a log showed or a
+ * turn-in ticked since the reset, on any character - the last seen where
+ * several were. The season's pool rotates - "Midnight: Abundance" is on
+ * the board one week and not the next - and the register is the only
+ * record of what the board holds: the client offers no list. Undefined
+ * where nobody saw a member this week.
+ */
+export function weekQuest(registry: QuestRegistry, ids: readonly number[], resetAt: number): RegisteredQuest | undefined {
+  return registry.quests
+    .filter((quest) => ids.includes(quest.id) && (quest.seenAt >= resetAt || (quest.doneAt ?? 0) >= resetAt))
+    .sort((a, b) => Math.max(b.seenAt, b.doneAt ?? 0) - Math.max(a.seenAt, a.doneAt ?? 0))[0]
 }
 
 /**
