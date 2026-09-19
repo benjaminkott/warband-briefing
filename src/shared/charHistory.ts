@@ -1,5 +1,5 @@
 /**
- * Item level and rating over time, per character.
+ * Item level, rating and gold over time, per character.
  *
  * The same idea as the gold history: a reading per sync, kept only where it
  * says something new, thinned to one a day once it is old. The card draws the
@@ -13,24 +13,29 @@ import { DAY_MS } from './time'
 
 export { FULL_RESOLUTION_DAYS } from './series'
 
-/** Ceiling per character, so a long-lived install cannot grow forever. */
-export const MAX_POINTS = 600
+/**
+ * Ceiling per character, so a long-lived install cannot grow forever. Gold
+ * moves with every vendor visit, so a played character fills its two weeks
+ * of full resolution far faster than item level alone did.
+ */
+export const MAX_POINTS = 1500
 
 interface Measured {
   key: string
   itemLevel: number | null
   mythicRating: number | null
+  money: number | null
 }
 
 function sameFigures(a: CharacterPoint, b: CharacterPoint): boolean {
-  return a.itemLevel === b.itemLevel && a.rating === b.rating
+  return a.itemLevel === b.itemLevel && a.rating === b.rating && (a.money ?? null) === (b.money ?? null)
 }
 
 /** Adds one reading to one character's series, the way `series.ts` keeps a series. */
 export function appendPoint(series: CharacterPoint[], point: CharacterPoint): CharacterPoint[] {
-  // A read that found neither figure is a source that was mid-write, not a
-  // character that lost its gear.
-  if (point.itemLevel === null && point.rating === null) return series
+  // A read that found no figure at all is a source that was mid-write, not a
+  // character that lost its gear and its gold.
+  if (point.itemLevel === null && point.rating === null && (point.money ?? null) === null) return series
   return appendReading(series, point, sameFigures)
 }
 
@@ -51,7 +56,8 @@ export function recordCharacters(history: CharacterHistory, characters: Measured
     const point: CharacterPoint = {
       at,
       itemLevel: character.itemLevel === null ? null : Math.round(character.itemLevel * 100) / 100,
-      rating: character.mythicRating === null ? null : Math.round(character.mythicRating)
+      rating: character.mythicRating === null ? null : Math.round(character.mythicRating),
+      money: character.money
     }
     const series = compactSeries(appendPoint(next[character.key] ?? [], point), at)
     // A character no source has a figure for gets no series at all, rather

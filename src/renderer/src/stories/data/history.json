@@ -3,696 +3,834 @@
     {
       "at": "2026-05-14T18:00:00.000Z",
       "itemLevel": 618,
-      "rating": 989
+      "rating": 989,
+      "money": 2415780000
     },
     {
       "at": "2026-05-16T18:00:00.000Z",
       "itemLevel": 620,
-      "rating": 1037
+      "rating": 1037,
+      "money": 2415780000
     },
     {
       "at": "2026-05-18T18:00:00.000Z",
       "itemLevel": 622,
-      "rating": 1085
+      "rating": 1085,
+      "money": 2490500000
     },
     {
       "at": "2026-05-20T18:00:00.000Z",
       "itemLevel": 624,
-      "rating": 1133
+      "rating": 1133,
+      "money": 2515660000
     },
     {
       "at": "2026-05-22T18:00:00.000Z",
       "itemLevel": 626,
-      "rating": 1181
+      "rating": 1181,
+      "money": 2553970000
     },
     {
       "at": "2026-05-24T18:00:00.000Z",
       "itemLevel": 628,
-      "rating": 1229
+      "rating": 1229,
+      "money": 2528690000
     },
     {
       "at": "2026-05-26T18:00:00.000Z",
       "itemLevel": 630,
-      "rating": 1277
+      "rating": 1277,
+      "money": 2528690000
     },
     {
       "at": "2026-05-28T18:00:00.000Z",
       "itemLevel": 632,
-      "rating": 1325
+      "rating": 1325,
+      "money": 2528690000
     },
     {
       "at": "2026-05-30T18:00:00.000Z",
       "itemLevel": 634,
-      "rating": 1373
+      "rating": 1373,
+      "money": 2606900000
     },
     {
       "at": "2026-06-01T18:00:00.000Z",
       "itemLevel": 636,
-      "rating": 1421
+      "rating": 1421,
+      "money": 2646600000
     },
     {
       "at": "2026-06-03T18:00:00.000Z",
       "itemLevel": 638,
-      "rating": 1469
+      "rating": 1469,
+      "money": 2620400000
     },
     {
       "at": "2026-06-05T18:00:00.000Z",
       "itemLevel": 640,
-      "rating": 1517
+      "rating": 1517,
+      "money": 2544080000
     },
     {
       "at": "2026-06-07T18:00:00.000Z",
       "itemLevel": 642,
-      "rating": 1565
+      "rating": 1565,
+      "money": 2544080000
     },
     {
       "at": "2026-06-09T18:00:00.000Z",
       "itemLevel": 644,
-      "rating": 1613
+      "rating": 1613,
+      "money": 2569780000
     },
     {
       "at": "2026-06-11T18:00:00.000Z",
       "itemLevel": 646,
-      "rating": 1661
+      "rating": 1661,
+      "money": 2569780000
     },
     {
       "at": "2026-06-13T18:00:00.000Z",
       "itemLevel": 648,
-      "rating": 1709
+      "rating": 1709,
+      "money": 2649260000
     },
     {
       "at": "2026-06-15T18:00:00.000Z",
       "itemLevel": 650,
-      "rating": 1757
+      "rating": 1757,
+      "money": 2649260000
     },
     {
       "at": "2026-06-17T18:00:00.000Z",
       "itemLevel": 652,
-      "rating": 1805
+      "rating": 1805,
+      "money": 2689610000
     },
     {
       "at": "2026-06-19T18:00:00.000Z",
       "itemLevel": 654,
-      "rating": 1853
+      "rating": 1853,
+      "money": 2703130000
     },
     {
       "at": "2026-06-21T18:00:00.000Z",
       "itemLevel": 656,
-      "rating": 1901
+      "rating": 1901,
+      "money": 2730440000
     },
     {
       "at": "2026-06-23T18:00:00.000Z",
       "itemLevel": 658,
-      "rating": 1949
+      "rating": 1949,
+      "money": 2772030000
     },
     {
       "at": "2026-06-25T18:00:00.000Z",
       "itemLevel": 660,
-      "rating": 1997
+      "rating": 1997,
+      "money": 2691300000
     },
     {
       "at": "2026-06-27T18:00:00.000Z",
       "itemLevel": 662,
-      "rating": 2045
+      "rating": 2045,
+      "money": 2691300000
     },
     {
       "at": "2026-06-29T18:00:00.000Z",
       "itemLevel": 664,
-      "rating": 2093
+      "rating": 2093,
+      "money": 2774540000
     },
     {
       "at": "2026-07-01T18:00:00.000Z",
       "itemLevel": 666,
-      "rating": 2141
+      "rating": 2141,
+      "money": 2816800000
     },
     {
       "at": "2026-07-03T18:00:00.000Z",
       "itemLevel": 668,
-      "rating": 2189
+      "rating": 2189,
+      "money": 2903920000
     },
     {
       "at": "2026-07-05T18:00:00.000Z",
       "itemLevel": 670,
-      "rating": 2237
+      "rating": 2237,
+      "money": 2918520000
     },
     {
       "at": "2026-07-07T18:00:00.000Z",
       "itemLevel": 672,
-      "rating": 2285
+      "rating": 2285,
+      "money": 2918520000
     },
     {
       "at": "2026-07-09T18:00:00.000Z",
       "itemLevel": 674,
-      "rating": 2333
+      "rating": 2333,
+      "money": 2918520000
     },
     {
       "at": "2026-07-11T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2381
+      "rating": 2381,
+      "money": 3008790000
     },
     {
       "at": "2026-07-13T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2429
+      "rating": 2429,
+      "money": 3008790000
     },
     {
       "at": "2026-07-15T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2477
+      "rating": 2477,
+      "money": 2979000000
     },
     {
       "at": "2026-07-17T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2525
+      "rating": 2525,
+      "money": 2949510000
     },
     {
       "at": "2026-07-19T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2573
+      "rating": 2573,
+      "money": 2994430000
     },
     {
       "at": "2026-07-21T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2621
+      "rating": 2621,
+      "money": 3087050000
     },
     {
       "at": "2026-07-23T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2669
+      "rating": 2669,
+      "money": 3087050000
     },
     {
       "at": "2026-07-25T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2717
+      "rating": 2717,
+      "money": 2997140000
     },
     {
       "at": "2026-07-27T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2765
+      "rating": 2765,
+      "money": 3089840000
     },
     {
       "at": "2026-07-29T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2813
+      "rating": 2813,
+      "money": 3105370000
     },
     {
       "at": "2026-07-31T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3105370000
     },
     {
       "at": "2026-08-02T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3201420000
     },
     {
       "at": "2026-08-04T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3250180000
     },
     {
       "at": "2026-08-06T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3350710000
     },
     {
       "at": "2026-08-08T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3367550000
     },
     {
       "at": "2026-08-10T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3384480000
     },
     {
       "at": "2026-08-12T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3489160000
     },
     {
       "at": "2026-08-14T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3597080000
     },
     {
       "at": "2026-08-16T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3651860000
     },
     {
       "at": "2026-08-18T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3651860000
     },
     {
       "at": "2026-08-20T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3764810000
     },
     {
       "at": "2026-08-22T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3764810000
     },
     {
       "at": "2026-08-24T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3802840000
     },
     {
       "at": "2026-08-26T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3920460000
     },
     {
       "at": "2026-08-28T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3920460000
     },
     {
       "at": "2026-08-30T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3806280000
     },
     {
       "at": "2026-09-01T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 3924010000
     },
     {
       "at": "2026-09-03T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 4045380000
     },
     {
       "at": "2026-09-05T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 4005330000
     },
     {
       "at": "2026-09-07T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 4025460000
     },
     {
       "at": "2026-09-09T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 4086770000
     },
     {
       "at": "2026-09-11T18:00:00.000Z",
       "itemLevel": 676,
-      "rating": 2841
+      "rating": 2841,
+      "money": 4128054400
     }
   ],
   "blackhand-mirella": [
     {
       "at": "2026-07-13T18:00:00.000Z",
       "itemLevel": 602,
-      "rating": 134
+      "rating": 134,
+      "money": 381360000
     },
     {
       "at": "2026-07-15T18:00:00.000Z",
       "itemLevel": 602,
-      "rating": 182
+      "rating": 182,
+      "money": 377590000
     },
     {
       "at": "2026-07-17T18:00:00.000Z",
       "itemLevel": 602,
-      "rating": 230
+      "rating": 230,
+      "money": 381410000
     },
     {
       "at": "2026-07-19T18:00:00.000Z",
       "itemLevel": 603,
-      "rating": 278
+      "rating": 278,
+      "money": 383330000
     },
     {
       "at": "2026-07-21T18:00:00.000Z",
       "itemLevel": 603,
-      "rating": 326
+      "rating": 326,
+      "money": 383330000
     },
     {
       "at": "2026-07-23T18:00:00.000Z",
       "itemLevel": 603,
-      "rating": 374
+      "rating": 374,
+      "money": 387210000
     },
     {
       "at": "2026-07-25T18:00:00.000Z",
       "itemLevel": 604,
-      "rating": 422
+      "rating": 422,
+      "money": 387210000
     },
     {
       "at": "2026-07-27T18:00:00.000Z",
       "itemLevel": 604,
-      "rating": 470
+      "rating": 470,
+      "money": 399190000
     },
     {
       "at": "2026-07-29T18:00:00.000Z",
       "itemLevel": 604,
-      "rating": 518
+      "rating": 518,
+      "money": 405270000
     },
     {
       "at": "2026-07-31T18:00:00.000Z",
       "itemLevel": 605,
-      "rating": 566
+      "rating": 566,
+      "money": 393470000
     },
     {
       "at": "2026-08-02T18:00:00.000Z",
       "itemLevel": 605,
-      "rating": 575
+      "rating": 575,
+      "money": 389580000
     },
     {
       "at": "2026-08-04T18:00:00.000Z",
       "itemLevel": 605,
-      "rating": 584
+      "rating": 584,
+      "money": 395520000
     },
     {
       "at": "2026-08-06T18:00:00.000Z",
       "itemLevel": 606,
-      "rating": 593
+      "rating": 593,
+      "money": 384000000
     },
     {
       "at": "2026-08-08T18:00:00.000Z",
       "itemLevel": 606,
-      "rating": 602
+      "rating": 602,
+      "money": 389850000
     },
     {
       "at": "2026-08-10T18:00:00.000Z",
       "itemLevel": 606,
-      "rating": 611
+      "rating": 611,
+      "money": 393790000
     },
     {
       "at": "2026-08-12T18:00:00.000Z",
       "itemLevel": 607,
-      "rating": 620
+      "rating": 620,
+      "money": 397770000
     },
     {
       "at": "2026-08-14T18:00:00.000Z",
       "itemLevel": 607,
-      "rating": 629
+      "rating": 629,
+      "money": 399770000
     },
     {
       "at": "2026-08-16T18:00:00.000Z",
       "itemLevel": 607,
-      "rating": 638
+      "rating": 638,
+      "money": 399770000
     },
     {
       "at": "2026-08-18T18:00:00.000Z",
       "itemLevel": 608,
-      "rating": 647
+      "rating": 647,
+      "money": 401780000
     },
     {
       "at": "2026-08-20T18:00:00.000Z",
       "itemLevel": 608,
-      "rating": 656
+      "rating": 656,
+      "money": 405840000
     },
     {
       "at": "2026-08-22T18:00:00.000Z",
       "itemLevel": 608,
-      "rating": 665
+      "rating": 665,
+      "money": 394020000
     },
     {
       "at": "2026-08-24T18:00:00.000Z",
       "itemLevel": 609,
-      "rating": 674
+      "rating": 674,
+      "money": 396000000
     },
     {
       "at": "2026-08-26T18:00:00.000Z",
       "itemLevel": 609,
-      "rating": 683
+      "rating": 683,
+      "money": 396000000
     },
     {
       "at": "2026-08-28T18:00:00.000Z",
       "itemLevel": 609,
-      "rating": 692
+      "rating": 692,
+      "money": 392080000
     },
     {
       "at": "2026-08-30T18:00:00.000Z",
       "itemLevel": 610,
-      "rating": 701
+      "rating": 701,
+      "money": 394060000
     },
     {
       "at": "2026-09-01T18:00:00.000Z",
       "itemLevel": 610,
-      "rating": 710
+      "rating": 710,
+      "money": 400070000
     },
     {
       "at": "2026-09-03T18:00:00.000Z",
       "itemLevel": 610,
-      "rating": 719
+      "rating": 719,
+      "money": 400070000
     },
     {
       "at": "2026-09-05T18:00:00.000Z",
       "itemLevel": 611,
-      "rating": 728
+      "rating": 728,
+      "money": 412450000
     },
     {
       "at": "2026-09-07T18:00:00.000Z",
       "itemLevel": 611,
-      "rating": 737
+      "rating": 737,
+      "money": 412450000
     },
     {
       "at": "2026-09-09T18:00:00.000Z",
       "itemLevel": 611,
-      "rating": 746
+      "rating": 746,
+      "money": 425210000
     },
     {
       "at": "2026-09-11T18:00:00.000Z",
       "itemLevel": 612,
-      "rating": 755
+      "rating": 755,
+      "money": 421000000
     }
   ],
   "blackhand-sylvara": [
     {
       "at": "2026-06-10T15:00:00.000Z",
       "itemLevel": 606,
-      "rating": 353
+      "rating": 353,
+      "money": 851880000
     },
     {
       "at": "2026-06-12T15:00:00.000Z",
       "itemLevel": 608,
-      "rating": 401
+      "rating": 401,
+      "money": 843450000
     },
     {
       "at": "2026-06-14T15:00:00.000Z",
       "itemLevel": 610,
-      "rating": 449
+      "rating": 449,
+      "money": 843450000
     },
     {
       "at": "2026-06-16T15:00:00.000Z",
       "itemLevel": 612,
-      "rating": 497
+      "rating": 497,
+      "money": 835100000
     },
     {
       "at": "2026-06-18T15:00:00.000Z",
       "itemLevel": 614,
-      "rating": 545
+      "rating": 545,
+      "money": 843540000
     },
     {
       "at": "2026-06-20T15:00:00.000Z",
       "itemLevel": 616,
-      "rating": 593
+      "rating": 593,
+      "money": 835190000
     },
     {
       "at": "2026-06-22T15:00:00.000Z",
       "itemLevel": 618,
-      "rating": 641
+      "rating": 641,
+      "money": 826930000
     },
     {
       "at": "2026-06-24T15:00:00.000Z",
       "itemLevel": 620,
-      "rating": 689
+      "rating": 689,
+      "money": 852510000
     },
     {
       "at": "2026-06-26T15:00:00.000Z",
       "itemLevel": 622,
-      "rating": 737
+      "rating": 737,
+      "money": 878880000
     },
     {
       "at": "2026-06-28T15:00:00.000Z",
       "itemLevel": 624,
-      "rating": 785
+      "rating": 785,
+      "money": 870180000
     },
     {
       "at": "2026-06-30T15:00:00.000Z",
       "itemLevel": 626,
-      "rating": 833
+      "rating": 833,
+      "money": 861570000
     },
     {
       "at": "2026-07-02T15:00:00.000Z",
       "itemLevel": 628,
-      "rating": 881
+      "rating": 881,
+      "money": 865900000
     },
     {
       "at": "2026-07-04T15:00:00.000Z",
       "itemLevel": 630,
-      "rating": 929
+      "rating": 929,
+      "money": 874650000
     },
     {
       "at": "2026-07-06T15:00:00.000Z",
       "itemLevel": 632,
-      "rating": 977
+      "rating": 977,
+      "money": 901710000
     },
     {
       "at": "2026-07-08T15:00:00.000Z",
       "itemLevel": 634,
-      "rating": 1025
+      "rating": 1025,
+      "money": 875450000
     },
     {
       "at": "2026-07-10T15:00:00.000Z",
       "itemLevel": 635,
-      "rating": 1073
+      "rating": 1073,
+      "money": 902530000
     },
     {
       "at": "2026-07-12T15:00:00.000Z",
       "itemLevel": 635,
-      "rating": 1121
+      "rating": 1121,
+      "money": 907070000
     },
     {
       "at": "2026-07-14T15:00:00.000Z",
       "itemLevel": 635,
-      "rating": 1169
+      "rating": 1169,
+      "money": 880660000
     },
     {
       "at": "2026-07-16T15:00:00.000Z",
       "itemLevel": 636,
-      "rating": 1217
+      "rating": 1217,
+      "money": 880660000
     },
     {
       "at": "2026-07-18T15:00:00.000Z",
       "itemLevel": 636,
-      "rating": 1265
+      "rating": 1265,
+      "money": 885090000
     },
     {
       "at": "2026-07-20T15:00:00.000Z",
       "itemLevel": 636,
-      "rating": 1313
+      "rating": 1313,
+      "money": 885090000
     },
     {
       "at": "2026-07-22T15:00:00.000Z",
       "itemLevel": 637,
-      "rating": 1361
+      "rating": 1361,
+      "money": 894040000
     },
     {
       "at": "2026-07-24T15:00:00.000Z",
       "itemLevel": 637,
-      "rating": 1409
+      "rating": 1409,
+      "money": 885190000
     },
     {
       "at": "2026-07-26T15:00:00.000Z",
       "itemLevel": 637,
-      "rating": 1457
+      "rating": 1457,
+      "money": 894140000
     },
     {
       "at": "2026-07-28T15:00:00.000Z",
       "itemLevel": 638,
-      "rating": 1505
+      "rating": 1505,
+      "money": 903180000
     },
     {
       "at": "2026-07-30T15:00:00.000Z",
       "itemLevel": 638,
-      "rating": 1514
+      "rating": 1514,
+      "money": 876880000
     },
     {
       "at": "2026-08-01T15:00:00.000Z",
       "itemLevel": 638,
-      "rating": 1523
+      "rating": 1523,
+      "money": 851340000
     },
     {
       "at": "2026-08-03T15:00:00.000Z",
       "itemLevel": 639,
-      "rating": 1532
+      "rating": 1532,
+      "money": 851340000
     },
     {
       "at": "2026-08-05T15:00:00.000Z",
       "itemLevel": 639,
-      "rating": 1541
+      "rating": 1541,
+      "money": 851340000
     },
     {
       "at": "2026-08-07T15:00:00.000Z",
       "itemLevel": 639,
-      "rating": 1550
+      "rating": 1550,
+      "money": 826550000
     },
     {
       "at": "2026-08-09T15:00:00.000Z",
       "itemLevel": 640,
-      "rating": 1559
+      "rating": 1559,
+      "money": 852120000
     },
     {
       "at": "2026-08-11T15:00:00.000Z",
       "itemLevel": 640,
-      "rating": 1568
+      "rating": 1568,
+      "money": 843690000
     },
     {
       "at": "2026-08-13T15:00:00.000Z",
       "itemLevel": 640,
-      "rating": 1577
+      "rating": 1577,
+      "money": 869790000
     },
     {
       "at": "2026-08-15T15:00:00.000Z",
       "itemLevel": 641,
-      "rating": 1586
+      "rating": 1586,
+      "money": 874170000
     },
     {
       "at": "2026-08-17T15:00:00.000Z",
       "itemLevel": 641,
-      "rating": 1595
+      "rating": 1595,
+      "money": 878570000
     },
     {
       "at": "2026-08-19T15:00:00.000Z",
       "itemLevel": 641,
-      "rating": 1604
+      "rating": 1604,
+      "money": 891950000
     },
     {
       "at": "2026-08-21T15:00:00.000Z",
       "itemLevel": 642,
-      "rating": 1613
+      "rating": 1613,
+      "money": 900960000
     },
     {
       "at": "2026-08-23T15:00:00.000Z",
       "itemLevel": 642,
-      "rating": 1622
+      "rating": 1622,
+      "money": 874720000
     },
     {
       "at": "2026-08-25T15:00:00.000Z",
       "itemLevel": 642,
-      "rating": 1631
+      "rating": 1631,
+      "money": 888050000
     },
     {
       "at": "2026-08-27T15:00:00.000Z",
       "itemLevel": 643,
-      "rating": 1640
+      "rating": 1640,
+      "money": 892520000
     },
     {
       "at": "2026-08-29T15:00:00.000Z",
       "itemLevel": 643,
-      "rating": 1649
+      "rating": 1649,
+      "money": 892520000
     },
     {
       "at": "2026-08-31T15:00:00.000Z",
       "itemLevel": 643,
-      "rating": 1658
+      "rating": 1658,
+      "money": 920130000
     },
     {
       "at": "2026-09-02T15:00:00.000Z",
       "itemLevel": 644,
-      "rating": 1667
+      "rating": 1667,
+      "money": 948590000
     },
     {
       "at": "2026-09-04T15:00:00.000Z",
       "itemLevel": 644,
-      "rating": 1676
+      "rating": 1676,
+      "money": 948590000
     },
     {
       "at": "2026-09-06T15:00:00.000Z",
       "itemLevel": 644,
-      "rating": 1685
+      "rating": 1685,
+      "money": 958180000
     },
     {
       "at": "2026-09-08T15:00:00.000Z",
       "itemLevel": 645,
-      "rating": 1694
+      "rating": 1694,
+      "money": 963000000
     }
   ]
 }

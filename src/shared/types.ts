@@ -545,13 +545,15 @@ export interface GoldPoint {
 }
 
 /**
- * One reading of a character's two headline figures, taken per sync so a
- * card can show where they came from rather than only where they are.
+ * One reading of a character's headline figures, taken per sync so a card
+ * can show where they came from rather than only where they are.
  */
 export interface CharacterPoint {
   at: number
   itemLevel: number | null
   rating: number | null
+  /** The character's gold, in copper; absent in readings from before it was recorded. */
+  money?: number | null
 }
 
 /** Readings per character key, oldest first. */

@@ -9,18 +9,33 @@ import type { CharacterPoint } from './types'
 const DAY = 86_400_000
 const NOW = new Date(2026, 2, 15, 12, 0, 0).getTime()
 
-const point = (at: number, itemLevel: number | null, rating: number | null): CharacterPoint => ({ at, itemLevel, rating })
+const point = (at: number, itemLevel: number | null, rating: number | null, money: number | null = null): CharacterPoint => ({
+  at,
+  itemLevel,
+  rating,
+  money
+})
 
 /* ---- appending ---- */
 
 it('first reading starts the series', () => {
   expect(appendPoint([], point(1, 600, 1000)).length).toEqual(1)
 })
-it('a reading with neither figure is not a point', () => {
+it('a reading with no figure at all is not a point', () => {
   expect(appendPoint([point(1, 600, 1000)], point(2, null, null)).length).toEqual(1)
+})
+it('a reading of gold alone is a point', () => {
+  expect(appendPoint([point(1, 600, 1000)], point(2, null, null, 50_000)).length).toEqual(2)
 })
 it('a changed figure adds a point', () => {
   expect(appendPoint([point(1, 600, 1000)], point(2, 605, 1000)).length).toEqual(2)
+})
+it('changed gold adds a point', () => {
+  expect(appendPoint([point(1, 600, 1000, 10_000)], point(2, 600, 1000, 20_000)).length).toEqual(2)
+})
+it('a reading from before gold was recorded matches one without gold', () => {
+  const old = { at: 1, itemLevel: 600, rating: 1000 }
+  expect(appendPoint(appendPoint([old], point(2, 600, 1000)), point(3, 600, 1000)).map((p) => p.at)).toEqual([1, 3])
 })
 const held = appendPoint(appendPoint([point(1, 600, 1000)], point(2, 600, 1000)), point(3, 600, 1000))
 it('an unchanged stretch keeps only its two ends', () => {
@@ -33,17 +48,17 @@ it('a clock that went backwards is ignored', () => {
 /* ---- recording a sync ---- */
 
 const roster = [
-  { key: 'a', itemLevel: 612.34, mythicRating: 2415.6 },
-  { key: 'b', itemLevel: null, mythicRating: null }
+  { key: 'a', itemLevel: 612.34, mythicRating: 2415.6, money: 1_234_567 },
+  { key: 'b', itemLevel: null, mythicRating: null, money: null }
 ]
 const recorded = recordCharacters({}, roster, NOW)
 it('every character with a figure gets a series', () => {
   expect(Object.keys(recorded)).toEqual(['a'])
 })
-it('item level kept to two decimals, rating to a whole number', () => {
-  expect(recorded.a[0]).toEqual(point(NOW, 612.34, 2416))
+it('item level kept to two decimals, rating to a whole number, gold as read', () => {
+  expect(recorded.a[0]).toEqual(point(NOW, 612.34, 2416, 1_234_567))
 })
-const same = { key: 'a', itemLevel: 612.34, mythicRating: 2416 }
+const same = { key: 'a', itemLevel: 612.34, mythicRating: 2416, money: 1_234_567 }
 const again = recordCharacters(recordCharacters(recorded, [same], NOW + 60_000), [same], NOW + 120_000)
 it('the same figures later move the end point', () => {
   expect(again.a.map((p) => p.at)).toEqual([NOW, NOW + 120_000])
