@@ -46,13 +46,16 @@ export interface QuestRegistry {
 }
 
 /**
- * True for a quest that comes back every week. The client's weekly flag
- * says so for most; a meta quest ("Midnight: Delves") is the season's
- * wrapper and resets with it whatever its flag; and a quest seen to clear
+ * True for a quest that comes back every week. The client's frequency
+ * says so: `Weekly` for the older weeklies, `ResetByScheduler` for the
+ * season's - the meta weekly ("Midnight: Delves"), the dungeon weekly,
+ * the zone weeklies - which a schedule resets with the week. The
+ * classification says what shape a quest has, not when it resets, so a
+ * meta quest is a weekly only by its frequency. A quest seen to clear
  * across a reset is weekly whatever the client had said.
  */
 export function isWeekly(quest: RegisteredQuest): boolean {
-  return quest.resets === QuestReset.Weekly || quest.frequency === 'Weekly' || quest.classification === 'Meta'
+  return quest.resets === QuestReset.Weekly || quest.frequency === 'Weekly' || quest.frequency === 'ResetByScheduler'
 }
 
 /**

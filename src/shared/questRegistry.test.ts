@@ -29,8 +29,11 @@ const quest = (id: number, patch: Partial<RegisteredQuest> = {}): RegisteredQues
 it('the weekly flag makes a weekly', () => {
   expect(isWeekly(quest(1, { frequency: 'Weekly' }))).toEqual(true)
 })
-it('a meta quest is a weekly whatever its flag', () => {
-  expect(isWeekly(quest(2, { classification: 'Meta' }))).toEqual(true)
+it('a quest a schedule resets is a weekly', () => {
+  expect(isWeekly(quest(2, { frequency: 'ResetByScheduler', classification: 'Meta' }))).toEqual(true)
+})
+it('a meta quest with no reset is not', () => {
+  expect(isWeekly(quest(6, { classification: 'Meta' }))).toEqual(false)
 })
 it('a quest seen to clear across a reset is a weekly', () => {
   expect(isWeekly(quest(3, { resets: QuestReset.Weekly }))).toEqual(true)
@@ -48,7 +51,7 @@ const registry = {
   expansion: 11,
   quests: [
     quest(10, { frequency: 'Weekly', title: 'Midnight: Delves', doneAt: 5_000 }),
-    quest(11, { classification: 'Meta', title: 'Midnight: Dungeons', seenAt: 3_000 }),
+    quest(11, { frequency: 'ResetByScheduler', classification: 'Meta', title: 'Midnight: Dungeons', seenAt: 3_000 }),
     quest(12, { frequency: 'Weekly', title: 'Alchemy Services', profession: 171, seenAt: 2_000 }),
     quest(13, { frequency: 'Weekly', title: 'Last Season', expansion: 10 }),
     quest(14, { frequency: 'Weekly', title: '', hidden: true }),

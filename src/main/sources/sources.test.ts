@@ -371,8 +371,8 @@ WarbandBriefingDB = {
 ["quests"] = {
 	-- The season's wrapper, flagged weekly, done this week.
 	["93909"] = { ["title"] = "Mitternacht: Tiefen", ["frequency"] = "Weekly", ["classification"] = "Meta", ["expansion"] = 11, ["seenAt"] = ${thisWeek}, ["doneAt"] = ${thisWeek} },
-	-- A meta quest the client does not flag weekly: a weekly all the same.
-	["93911"] = { ["title"] = "Mitternacht: Dungeons", ["frequency"] = "Default", ["classification"] = "Meta", ["expansion"] = 11, ["seenAt"] = ${thisWeek - 60} },
+	-- A meta quest a schedule resets: the season's weeklies carry this frequency.
+	["93911"] = { ["title"] = "Mitternacht: Dungeons", ["frequency"] = "ResetByScheduler", ["classification"] = "Meta", ["expansion"] = 11, ["seenAt"] = ${thisWeek - 60} },
 	-- Flagged nothing, but seen to clear across a reset.
 	["95520"] = { ["title"] = "Die Gewölbe säubern", ["frequency"] = "Default", ["classification"] = "Normal", ["expansion"] = 11, ["resets"] = "weekly", ["seenAt"] = ${endedWeek} },
 	-- The profession weeklies: the tag names the skill line, and binds the quest.
@@ -815,7 +815,7 @@ it('a flag stamped before the reset does not', () => {
 })
 
 /* The register: the season's weeklies as the game itself describes them. */
-it('the learned season weeklies - weekly flag, meta, profession, learned reset; the current expansion only; last done, then last seen first', () => {
+it('the learned season weeklies - weekly flag, schedule reset, profession, learned reset; the current expansion only; last done, then last seen first', () => {
   expect(read.learnedQuests.map((quest) => quest.id)).toEqual([93909, 90001, 90002, 96101, 93911, 96400, 93890, 95520])
 })
 it('the learned weekly carries the client title', () => {
