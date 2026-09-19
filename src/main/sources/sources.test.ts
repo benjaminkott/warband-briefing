@@ -527,6 +527,24 @@ WarbandBriefingDB = {
 		-- The client's completion flags for the registered quests, stamped
 		-- for this week: a turn-in the addon was not there to see.
 		["questsFlagged"] = { ["93909"] = true },
+		["questsFlaggedOnAccount"] = { ["93909"] = true },
+		["flaggedWeek"] = ${nextWeek},
+	},
+	-- A second character of the companion: nothing done, but the client says
+	-- the season's weekly is completed on the account - the twin's turn-in
+	-- took the warband's one reward.
+	["Zweitling-turalyon"] = {
+		["name"] = "Zweitling",
+		["realm"] = "Turalyon",
+		["realmSlug"] = "turalyon",
+		["region"] = "EU",
+		["class"] = "MAGE",
+		["level"] = 90,
+		["updatedAt"] = ${thisWeek},
+		["nextResetAt"] = ${nextWeek},
+		["questLog"] = {},
+		["questsFlagged"] = {},
+		["questsFlaggedOnAccount"] = { ["93909"] = true, ["93890"] = true },
 		["flaggedWeek"] = ${nextWeek},
 	},
 },
@@ -634,7 +652,7 @@ it('every addon detected', () => {
   expect(read.statuses.map((s) => s.addonInstalled)).toEqual([true, true])
 })
 it('companion characters', () => {
-  expect(read.bySource.get('companion')!.length).toEqual(1)
+  expect(read.bySource.get('companion')!.length).toEqual(2)
 })
 it('savedinstances characters', () => {
   expect(read.bySource.get('savedinstances')!.length).toEqual(6)
@@ -644,7 +662,7 @@ const merged = mergeSources(read, reset)
 // Six from SavedInstances; the companion addon adds nobody, it only knows one
 // of them better.
 it('merged character count', () => {
-  expect(merged.length).toEqual(6)
+  expect(merged.length).toEqual(7)
 })
 
 /** Vault rows are looked up by category - the row order is the vault's business. */
@@ -955,6 +973,15 @@ it('a quest only the account record has done is marked without a name', () => {
 it("a character's own quest carries no mark", () => {
   expect(rewardOf('Doppelt', 90001)?.rewardTaken).toEqual(undefined)
 })
+it('a quest the client flags completed on the account names the character whose record has it done, whichever source read that', () => {
+  const marked = withAccountRewards(read, merged).find((c) => c.name === 'Zweitling')!.weeklies
+  expect(marked.map((task) => [task.id, task.done, task.rewardTaken])).toEqual([
+    [90001, false, undefined],
+    [90002, false, undefined],
+    [93909, false, { by: 'Doppelt' }],
+    [93890, false, { by: 'Klöße' }]
+  ])
+})
 
 /* Gear: only the companion reads it off the client. */
 const gearOf = (name: string) => merged.find((c) => c.name === name)!.gear
@@ -1229,7 +1256,7 @@ it('disabled source skipped', () => {
   expect(withoutSavedInstances.bySource.has('savedinstances')).toEqual(false)
 })
 it('its exclusive characters disappear', () => {
-  expect(mergedWithout.map((c) => c.name)).toEqual(['Doppelt'])
+  expect(mergedWithout.map((c) => c.name)).toEqual(['Doppelt', 'Zweitling'])
 })
 
 /* i18n */

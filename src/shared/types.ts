@@ -189,10 +189,17 @@ export interface WeeklyTask {
   pool?: number[]
   done: boolean
   /**
-   * The quest pays once for the whole account (the client's account flag),
-   * and another character collected it this week: its name, or null where
-   * only the account's record says so. The quest is still this character's
-   * to do, for nothing (`weeklyTask.ts`).
+   * The client flags the quest completed on the account: it pays once for
+   * the warband, and some character did it this week. Only the companion
+   * knows; absent means "not flagged" or "unknown".
+   */
+  doneOnAccount?: boolean
+  /**
+   * The quest pays once for the whole account - the client's account flag
+   * on the quest, or its completion flag on the account - and another
+   * character collected it this week: its name, or null where no record
+   * names one. The quest is still this character's to do, for nothing
+   * (`weeklyTask.ts`).
    */
   rewardTaken?: { by: string | null }
   /** Objectives complete, quest not yet turned in. */

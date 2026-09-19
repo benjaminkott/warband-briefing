@@ -56,6 +56,7 @@
  *         questLog  = { { id, title, ready, fulfilled, required, frequency }, ... },
  *         questsDone = { ["questId"] = { title, at, frequency }, ... },  -- turn-ins since the reset
  *         questsFlagged = { ["questId"] = true, ... },  -- registered quests the client flags completed
+ *         questsFlaggedOnAccount = { ["questId"] = true, ... },  -- ... completed on the account: paid once for the warband
  *         flaggedWeek,
  *         currencies  = { { id, name, quantity, max, earnedThisWeek,
  *                          weeklyMax }, ... },
@@ -573,12 +574,13 @@ function readQuestsDone(entry: LuaValue, resetAt: number): TurnIn[] {
 }
 
 /**
- * The registered quests the client flags completed on this character. Only
- * the flags of the week the addon stamped them for: a stale list from
- * before the reset would tick quests the character has not done again.
+ * The registered quests the client flags completed - on this character, or
+ * on the account where `key` names that list. Only the flags of the week
+ * the addon stamped them for: a stale list from before the reset would
+ * tick quests the character has not done again.
  */
-function readFlagged(entry: LuaValue, resetAt: number): Set<number> {
-  const flagged = tGet(entry, 'questsFlagged')
+function readFlagged(entry: LuaValue, key: 'questsFlagged' | 'questsFlaggedOnAccount', resetAt: number): Set<number> {
+  const flagged = tGet(entry, key)
   const out = new Set<number>()
   if (!isTable(flagged) || tNum(entry, 'flaggedWeek') * 1000 <= resetAt) return out
   for (const [id, value] of Object.entries(flagged.map)) {
@@ -593,7 +595,13 @@ function readFlagged(entry: LuaValue, resetAt: number): Set<number> {
  * completion flags alone. Below SavedInstances, which has the longer memory
  * of completions; on a roster without it this is what keeps the list alive.
  */
-function readWeeklies(options: ReadOptions, log: QuestLogEntry[], done: WeeklyQuestDef[], flagged: Set<number>): WeeklyTask[] | undefined {
+function readWeeklies(
+  options: ReadOptions,
+  log: QuestLogEntry[],
+  done: WeeklyQuestDef[],
+  flagged: Set<number>,
+  onAccount: Set<number>
+): WeeklyTask[] | undefined {
   if (options.weeklyQuests.length === 0) return undefined
   const onLog = new Map(log.map((quest) => [quest.id, quest]))
   const turnedIn = new Map(done.map((quest) => [quest.id, quest]))
@@ -607,6 +615,9 @@ function readWeeklies(options: ReadOptions, log: QuestLogEntry[], done: WeeklyQu
       label: finished?.label || entry?.title || def.label,
       ...(def.pool ? { pool: def.pool } : {}),
       done: finished !== undefined || questIdsOf(def).some((id) => flagged.has(id)),
+      // The client's account flag: some character did it, and the warband's
+      // one reward is gone. Written only where it says so.
+      ...(questIdsOf(def).some((id) => onAccount.has(id)) ? { doneOnAccount: true } : {}),
       onLog: entry !== undefined,
       ready: entry?.ready ?? false,
       progress: entry?.progress ?? null
@@ -777,7 +788,8 @@ export const companionAdapter: SourceAdapter = {
       const questLog = readQuestLog(entry)
       const resetAt = nextResetAt > 0 ? nextResetAt - WEEK_MS : 0
       const questsDone = readQuestsDone(entry, resetAt)
-      const flagged = readFlagged(entry, resetAt)
+      const flagged = readFlagged(entry, 'questsFlagged', resetAt)
+      const flaggedOnAccount = readFlagged(entry, 'questsFlaggedOnAccount', resetAt)
 
       out.push({
         key: characterKey(name, realmSlug),
@@ -807,7 +819,7 @@ export const companionAdapter: SourceAdapter = {
         vault: readVault(entry),
         mythicRuns: readRuns(entry, options),
         lockouts: readLockouts(entry),
-        weeklies: readWeeklies(options, questLog, questsDone, flagged),
+        weeklies: readWeeklies(options, questLog, questsDone, flagged, flaggedOnAccount),
         questLog,
         questsDone: questsDone.map(({ id, label }) => ({ id, label })),
         // A weekly on the log is a suggestion before anyone turns it in: the

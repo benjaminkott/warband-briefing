@@ -522,30 +522,31 @@ export interface MergedCharacter extends CharacterSnapshot {
 
 /**
  * The characters with the account's rewards marked on their weeklies. A
- * quest the client flags an account quest pays once for the whole account,
- * and every character can still do it: the register carries the flag,
- * SavedInstances keeps such a quest's record beside no character. The
- * first character that did it this week is named on the lines of the
- * others, whose quest it stays - for nothing (`weeklyTask.ts`). A quest
- * the account record has done that no character's record has done is
- * marked without a name.
+ * quest that pays once for the whole account can still be done by every
+ * character, for nothing. Two flags of the client say which: the account
+ * quest flag on the quest itself, which the register carries and which
+ * makes SavedInstances keep the quest's record beside no character; and
+ * the completion flag on the account, which the companion reads for each
+ * character once any of them did the quest this week. The first character
+ * that did it is named on the lines of the others, whose quest it stays
+ * (`weeklyTask.ts`); where no character's record has it done, the line
+ * is marked without a name.
  */
 export function withAccountRewards(read: ReadResult, characters: MergedCharacter[]): MergedCharacter[] {
   const doneForAccount = new Set(read.accountQuests.map((quest) => quest.id))
   const flagged = new Set(read.questRegistry.quests.filter((quest) => quest.account).map((quest) => quest.id))
   const isAccountWide = (task: WeeklyTask): boolean => questIdsOf(task).some((id) => flagged.has(id) || doneForAccount.has(id))
-  const takenBy = new Map<number, string | null>()
+  const doneBy = new Map<number, string>()
   for (const character of characters) {
     for (const task of character.weeklies) {
-      if (!isAccountWide(task)) continue
-      if (task.done && !takenBy.get(task.id)) takenBy.set(task.id, character.name)
-      else if (!takenBy.has(task.id) && questIdsOf(task).some((id) => doneForAccount.has(id))) takenBy.set(task.id, null)
+      if (task.done && !doneBy.has(task.id)) doneBy.set(task.id, character.name)
     }
   }
-  if (takenBy.size === 0) return characters
+  const taken = (task: WeeklyTask): boolean =>
+    task.doneOnAccount === true || (isAccountWide(task) && (doneBy.has(task.id) || questIdsOf(task).some((id) => doneForAccount.has(id))))
   return characters.map((character) => ({
     ...character,
-    weeklies: character.weeklies.map((task) => (task.done || !takenBy.has(task.id) ? task : { ...task, rewardTaken: { by: takenBy.get(task.id) ?? null } }))
+    weeklies: character.weeklies.map((task) => (task.done || !taken(task) ? task : { ...task, rewardTaken: { by: doneBy.get(task.id) ?? null } }))
   }))
 }
 

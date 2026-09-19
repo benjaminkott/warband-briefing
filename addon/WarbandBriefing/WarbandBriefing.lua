@@ -1239,7 +1239,10 @@ local function CollectQuestLog()
 end
 
 --- Which of the registered quests this character has completed, as the
---- client flags them - a turn-in the addon was not there to see included.
+--- client flags them - a turn-in the addon was not there to see included -
+--- and which are completed on the account: a quest that pays once for the
+--- warband is flagged so for every character once one of them did it, and
+--- the app tells the others their reward is gone.
 --- Across a weekly reset the two lists teach the register: a quest flagged
 --- before the reset and clear after it comes back every week, whatever the
 --- client had said about its frequency. A daily is left alone; it clears
@@ -1249,11 +1252,16 @@ local function CollectFlagged(entry)
   if not (C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted) then return end
   local quests = WarbandBriefingDB.quests or {}
   local flagged = {}
+  local onAccount = C_QuestLog.IsQuestFlaggedCompletedOnAccount and {} or nil
   for id in pairs(quests) do
     local numeric = tonumber(id)
     if numeric then
       local ok, done = pcall(C_QuestLog.IsQuestFlaggedCompleted, numeric)
       if ok and done then flagged[id] = true end
+      if onAccount then
+        local okAccount, doneOnAccount = pcall(C_QuestLog.IsQuestFlaggedCompletedOnAccount, numeric)
+        if okAccount and doneOnAccount then onAccount[id] = true end
+      end
     end
   end
   -- The reset stamp drifts by a second between saves; an hour tells a new
@@ -1266,6 +1274,7 @@ local function CollectFlagged(entry)
     end
   end
   entry.questsFlagged = flagged
+  entry.questsFlaggedOnAccount = onAccount
   entry.flaggedWeek = week
 end
 
