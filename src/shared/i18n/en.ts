@@ -88,6 +88,11 @@ export const en: Record<TranslationKey, string> = {
   'gold.title': 'Gold over time',
   'gold.chart.title': 'History',
   'gold.chart.summary': 'Gold from {from} to {to} since {since}',
+  'gold.chart.total': 'Total',
+  'gold.chart.characters': 'By character',
+  'gold.chart.lines': 'Gold by character since {since}',
+  'gold.noCharacterHistory':
+    'The gold of each character is kept from now on with every read. The lines start the first time an amount moves.',
   'gold.perDay': 'Per day',
   'gold.high': 'Peak',
   'gold.low': 'Low',

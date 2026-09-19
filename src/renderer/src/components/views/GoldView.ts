@@ -3,13 +3,14 @@ import { customElement, property } from 'lit/decorators.js'
 import { classColor } from '../../enums/classToken'
 import { styleMap } from 'lit/directives/style-map.js'
 import type { TranslationKey } from '../../../../shared/i18n'
-import type { CharacterSnapshot, GoldPoint, GoldSummary } from '../../../../shared/types'
-import { countedAccounts, formatGoldShort, goldSeries, goldTrend, perDay, toGold } from '../../model/gold'
+import type { CharacterHistory, CharacterSnapshot, GoldPoint, GoldSummary } from '../../../../shared/types'
+import { characterLines, countedAccounts, formatGoldShort, goldSeries, goldTrend, perDay, toGold, type GoldSeries } from '../../model/gold'
 import { relativeTime } from '../../i18n'
 import { multiRealm } from '../../model/overview'
 import { timeLabel } from '../StepChart'
 import { WtElement, type WtEvent } from '../../element'
 import { GOLD_RANGES, GoldRange } from '../../enums/goldRange'
+import { GoldChart } from '../../enums/goldChart'
 import { Tint } from '../../enums/tint'
 import { FormatKind } from '../../enums/formatKind'
 import { ButtonRole } from '../../enums/buttonRole'
@@ -19,6 +20,7 @@ import '../EmptyState'
 import '../ui/DashPanel'
 import '../StepChart'
 import '../ui/Panel'
+import '../ui/Card'
 import '../ui/Select'
 import '../ShareList'
 import '../ClassMedallion'
@@ -38,6 +40,11 @@ const RANGE_KEYS: Record<GoldRange, TranslationKey> = {
   [GoldRange.All]: 'gold.range.all'
 }
 
+const CHART_KEYS: Record<GoldChart, TranslationKey> = {
+  [GoldChart.Total]: 'gold.chart.total',
+  [GoldChart.Characters]: 'gold.chart.characters'
+}
+
 /**
  * The gold tab: what the account owns right now, and how it got there.
  *
@@ -48,12 +55,15 @@ const RANGE_KEYS: Record<GoldRange, TranslationKey> = {
  * @fires wt-account - The account switch, with the folder name or `all`.
  * @fires wt-open-character - A name in the character list, with the character's key.
  * @fires wt-range - The range strip.
+ * @fires wt-gold-chart - The chart panel's switch: the account's one line, or one for each character.
  * @fires wt-open-settings - The empty state's button: the setup section, where the gold addons are installed.
  */
 @customElement('wt-gold-view')
 export class WtGoldView extends WtElement {
   @property({ attribute: false }) accessor gold: GoldSummary | null = null
   @property({ attribute: false }) accessor history: GoldPoint[] = []
+  /** Every character's readings; the chart draws the gold in them, one line each. */
+  @property({ attribute: false }) accessor charHistory: CharacterHistory = {}
   /**
    * Every character of the selected account, the hidden ones too: the total
    * counts them, so the list must name them or the figures do not add up.
@@ -64,6 +74,7 @@ export class WtGoldView extends WtElement {
   @property({ attribute: false }) accessor accounts: string[] = []
   @property() accessor account: string = AnyAccount.All
   @property() accessor range: GoldRange = GoldRange.Month
+  @property() accessor chart: GoldChart = GoldChart.Total
   @property({ type: Number, attribute: 'last-sync-at' }) accessor lastSyncAt: number | null = null
 
   private get total(): number {
@@ -81,6 +92,43 @@ export class WtGoldView extends WtElement {
   protected override willUpdate(): void {
     // An empty view is the empty state alone, without the view's own layout.
     this.hostClasses({ 'gold-view': this.total > 0 })
+  }
+
+  /** The account's one line over the range, with the count of readings under it. */
+  private totalChart(series: GoldSeries | null, history: GoldPoint[]): TemplateResult {
+    const tr = this.tr
+    // Two readings of the same amount are still a flat line worth drawing;
+    // a single one is not a history yet. The summary names the start of the
+    // window the way the axis does.
+    if (!series || history.length < 2) return html`<p class="faint">${tr.t('gold.noHistory')}</p>`
+    return html`<wt-step-chart
+        .series=${series}
+        tone=${Tint.Gold}
+        .format=${(value: number) => formatGoldShort(tr, value)}
+        label=${tr.t('gold.chart.summary', {
+          from: formatGoldShort(tr, series.first),
+          to: formatGoldShort(tr, series.last),
+          since: timeLabel(tr, series.from, Math.max(1, series.to - series.from))
+        })}
+      ></wt-step-chart>
+      <p class="faint tiny">${tr.plural('gold.readings', series.readings)}</p>`
+  }
+
+  /** One line for each character that holds gold, in its class colour, over the same range. */
+  private characterChart(holders: CharacterSnapshot[]): TemplateResult {
+    const tr = this.tr
+    const lines = characterLines(this.charHistory, holders, this.range, this.clock)
+    // A line is a change: until an amount moved, every character is a flat
+    // line at its one reading, and that is no history yet.
+    if (!lines.some((line) => line.series.readings > 1)) return html`<p class="faint">${tr.t('gold.noCharacterHistory')}</p>`
+    const from = Math.min(...lines.map((line) => line.series.from))
+    const to = Math.max(...lines.map((line) => line.series.to))
+    return html`<wt-step-chart
+      .lines=${lines}
+      tone=${Tint.Gold}
+      .format=${(value: number) => formatGoldShort(tr, value)}
+      label=${tr.t('gold.chart.lines', { since: timeLabel(tr, from, Math.max(1, to - from)) })}
+    ></wt-step-chart>`
   }
 
   protected override render(): TemplateResult {
@@ -186,26 +234,22 @@ export class WtGoldView extends WtElement {
         ></wt-stat-tile>
       </div>
 
-      <wt-panel icon="gauge" heading=${tr.t('gold.chart.title')} class="gold-panel">
-        ${
-          series && history.length > 1
-            ? // Two readings of the same amount are still a flat line worth
-              // drawing; a single one is not a history yet.
-              // The summary names the start of the window the way the axis does.
-              html`<wt-step-chart
-                  .series=${series}
-                  tone=${Tint.Gold}
-                  .format=${(value: number) => formatGoldShort(tr, value)}
-                  label=${tr.t('gold.chart.summary', {
-                    from: formatGoldShort(tr, series.first),
-                    to: formatGoldShort(tr, series.last),
-                    since: timeLabel(tr, series.from, Math.max(1, series.to - series.from))
-                  })}
-                ></wt-step-chart>
-                <p class="faint tiny">${tr.plural('gold.readings', series.readings)}</p>`
-            : html`<p class="faint">${tr.t('gold.noHistory')}</p>`
-        }
-      </wt-panel>
+      <wt-card class="panel gold-panel">
+        <div class="panel-head">
+          <span class="panel-step"><wt-icon name="gauge" size=${IconSize.Md}></wt-icon></span>
+          <h2>${tr.t('gold.chart.title')}</h2>
+          <wt-segmented
+            class="panel-head-control"
+            .value=${this.chart}
+            .options=${Object.values(GoldChart).map((entry) => ({ value: entry, label: tr.t(CHART_KEYS[entry]) }))}
+            @wt-change=${(event: WtEvent<'wt-change'>) => {
+              event.stopPropagation()
+              this.emit('wt-gold-chart', event.detail as GoldChart)
+            }}
+          ></wt-segmented>
+        </div>
+        ${this.chart === GoldChart.Characters ? this.characterChart(holders) : this.totalChart(series, history)}
+      </wt-card>
 
       <div class="gold-split">
         <div class="gold-side">

@@ -44,6 +44,7 @@ import { TaskKind } from '../enums/taskKind'
 import { TaskState } from '../enums/taskState'
 import { GearIssueKind } from '../enums/gearIssueKind'
 import { GoldRange } from '../enums/goldRange'
+import { GoldChart } from '../enums/goldChart'
 import { StepTone } from '../enums/stepTone'
 import { TrendDirection } from '../enums/trendDirection'
 import { FactionSide } from '../enums/factionSide'
@@ -306,6 +307,7 @@ export const ENUMS: readonly EnumEntry[] = [
     values: TaskFilter
   },
   { name: 'GoldRange', about: 'How far back the gold chart looks.', module: 'enums/goldRange.ts', values: GoldRange },
+  { name: 'GoldChart', about: 'What the gold chart draws: the account, or each character.', module: 'enums/goldChart.ts', values: GoldChart },
   {
     name: 'StepTone',
     about: 'How the next step reads on the tile: a reward to claim, a chore open, the week done, nothing to say.',

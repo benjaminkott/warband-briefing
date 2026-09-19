@@ -9,6 +9,7 @@ import { isSettingsSection } from './components/settings/model'
 import { isDetailSection } from './components/detail/model'
 import { AnyAccount } from '../../shared/enums/anyAccount'
 import { GOLD_RANGES, GoldRange } from './enums/goldRange'
+import { GoldChart } from './enums/goldChart'
 import { SortDirection } from './enums/sortDirection'
 import { SortKey } from './enums/sortKey'
 import { ViewMode } from './enums/viewMode'
@@ -26,6 +27,8 @@ export interface ViewPrefs {
   account: string
   /** Time window the gold view charts. */
   goldRange: GoldRange
+  /** The gold view's chart: the account's one line, or one for each character. */
+  goldChart: GoldChart
   /** The section of the settings page last opened. */
   settingsSection: SettingsSection
   /** The section of the character page last opened; it stays open from one character to the next. */
@@ -46,6 +49,7 @@ export const DEFAULT_PREFS: ViewPrefs = {
   // Long enough to show what a month of playing did, short enough to still
   // show a single evening's auction house run.
   goldRange: GoldRange.Month,
+  goldChart: GoldChart.Total,
   settingsSection: SettingsSection.Setup,
   detailSection: DetailSection.Week,
   // The whole week, the done lines ticked: a list that only shows what is
@@ -65,6 +69,7 @@ export function normalizePrefs(raw: Partial<ViewPrefs>): ViewPrefs {
   if ((stored.view as string) === 'cards') stored.view = ViewMode.Rows
   if (!Object.values(ViewMode).includes(stored.view)) stored.view = DEFAULT_PREFS.view
   if (!GOLD_RANGES.includes(stored.goldRange)) stored.goldRange = DEFAULT_PREFS.goldRange
+  if (!Object.values(GoldChart).includes(stored.goldChart)) stored.goldChart = DEFAULT_PREFS.goldChart
   if (!isSettingsSection(stored.settingsSection)) stored.settingsSection = DEFAULT_PREFS.settingsSection
   if (!isDetailSection(stored.detailSection)) stored.detailSection = DEFAULT_PREFS.detailSection
   if (!Object.values(TaskFilter).includes(stored.tasksFilter)) stored.tasksFilter = DEFAULT_PREFS.tasksFilter

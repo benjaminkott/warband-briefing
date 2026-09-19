@@ -93,6 +93,11 @@ export const de = {
   'gold.title': 'Goldverlauf',
   'gold.chart.title': 'Verlauf',
   'gold.chart.summary': 'Gold von {from} auf {to} seit {since}',
+  'gold.chart.total': 'Summe',
+  'gold.chart.characters': 'Je Charakter',
+  'gold.chart.lines': 'Gold je Charakter seit {since}',
+  'gold.noCharacterHistory':
+    'Der Goldstand jedes Charakters wird ab jetzt bei jedem Einlesen festgehalten. Sobald sich ein Betrag zum ersten Mal ändert, steht hier eine Kurve je Charakter.',
   'gold.perDay': 'Pro Tag',
   'gold.high': 'Höchststand',
   'gold.low': 'Tiefststand',

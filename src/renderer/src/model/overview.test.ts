@@ -22,14 +22,14 @@ import {
 } from './overview'
 import { checkGear, takesEnchant, gearHint } from './gear'
 import { whole, signed, untilReset, percentOf } from './format'
-import { goldSeries, niceTicks, formatGoldShort, spanDays } from './gold'
+import { characterGold, characterLines, goldSeries, niceTicks, formatGoldShort, spanDays } from './gold'
 import { normalizePrefs } from '../prefs'
 import { splitDuration, DAY_MS } from '../../../shared/time'
 import { appendReading, compactByDay } from '../../../shared/series'
 import { keysTranslator } from '../../../shared/i18n/testing'
 import { VaultCategory } from '../../../shared/enums/vaultCategory'
 import { snapshot, vaultRow } from '../../../shared/testing'
-import type { CharacterSnapshot, GearItem, GoldPoint } from '../../../shared/types'
+import type { CharacterPoint, CharacterSnapshot, GearItem, GoldPoint } from '../../../shared/types'
 import type { ViewPrefs } from '../prefs'
 import { DISPLAY_DEFAULTS } from '../../../shared/display'
 import { GoalKind } from '../../../shared/enums/goalKind'
@@ -37,6 +37,8 @@ import { Severity } from '../enums/severity'
 import { SortKey } from '../enums/sortKey'
 import { SortDirection } from '../enums/sortDirection'
 import { GoldRange } from '../enums/goldRange'
+import { GoldChart } from '../enums/goldChart'
+import { ClassToken, classColor } from '../enums/classToken'
 import { ViewMode } from '../enums/viewMode'
 import { TaskGrouping } from '../enums/taskGrouping'
 
@@ -406,12 +408,50 @@ it('gold short', () => {
   expect([formatGoldShort(tr, 999), formatGoldShort(tr, 1_500_000)]).toEqual(['999', '1500000'])
 })
 
+/* ---- the characters' lines ---- */
+
+const reading = (daysAgo: number, money: number | null | undefined): CharacterPoint => ({
+  at: NOW - daysAgo * DAY_MS,
+  itemLevel: 600,
+  rating: null,
+  ...(money === undefined ? {} : { money })
+})
+const nyx = snapshot('Nyx', { classToken: ClassToken.Mage, money: 30_0000 })
+const bob = snapshot('Bob', { classToken: ClassToken.Warrior, money: 50_0000 })
+const charHistory = {
+  [nyx.key]: [reading(40, undefined), reading(20, 20_0000), reading(5, 30_0000)],
+  [bob.key]: [reading(10, 50_0000)]
+}
+const nyxMonth = characterGold(charHistory[nyx.key], GoldRange.Month, NOW)!
+it('a reading from before gold was recorded is no sample', () => {
+  expect(nyxMonth.readings).toEqual(2)
+})
+it('the window starts at the first recorded amount when nothing stood before it', () => {
+  expect([nyxMonth.samples[0].at, nyxMonth.first, nyxMonth.last]).toEqual([NOW - 20 * DAY_MS, 20, 30])
+})
+it('no history, no series', () => {
+  expect([characterGold(undefined, GoldRange.Month, NOW), characterGold([reading(3, null)], GoldRange.Month, NOW)]).toEqual([null, null])
+})
+const lines = characterLines(charHistory, [nyx, bob], GoldRange.Month, NOW)
+it('one line for each character, the richest first, in the class colour', () => {
+  expect(lines.map((line) => [line.label, line.color])).toEqual([
+    ['Bob', classColor(ClassToken.Warrior)],
+    ['Nyx', classColor(ClassToken.Mage)]
+  ])
+})
+it('a character with no recorded gold draws no line', () => {
+  expect(characterLines(charHistory, [snapshot('Eve', { money: 10 })], GoldRange.Month, NOW)).toEqual([])
+})
+
 /* ---- the preferences ---- */
 
 /** What an earlier build or a hand-edited file left in the store. */
 const stored = (raw: Record<string, unknown>) => raw as Partial<ViewPrefs>
 
 const prefs = normalizePrefs({})
+it('an unknown chart word falls back to the total', () => {
+  expect(normalizePrefs(stored({ goldChart: 'x' })).goldChart).toEqual(GoldChart.Total)
+})
 it('the defaults hold', () => {
   expect([prefs.sort, prefs.view, prefs.tasksGrouping]).toEqual([SortKey.Plan, ViewMode.Tiles, null])
 })

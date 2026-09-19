@@ -13,6 +13,7 @@ import type { ViewMode } from './enums/viewMode'
 import type { TaskFilter } from './enums/taskFilter'
 import type { TaskGrouping } from './enums/taskGrouping'
 import type { GoldRange } from './enums/goldRange'
+import type { GoldChart } from './enums/goldChart'
 import { HostDisplay } from './enums/hostDisplay'
 import type { GameTip } from './model/gameTip'
 import type { ListTip } from './model/listTip'
@@ -78,6 +79,8 @@ export interface WtEvents {
   'wt-view': ViewMode
   'wt-account': string
   'wt-range': GoldRange
+  /** The gold view's chart switched between the account's line and one for each character. */
+  'wt-gold-chart': GoldChart
   /** A section of the settings page picked. */
   'wt-section': SettingsSection
   /** A section of the character page picked. */

@@ -7,11 +7,12 @@
  * has to divide by 10.000 again.
  */
 
-import type { GoldPoint, GoldSummary } from '../../../shared/types'
+import type { CharacterHistory, CharacterPoint, CharacterSnapshot, GoldPoint, GoldSummary } from '../../../shared/types'
 import { AnyAccount } from '../../../shared/enums/anyAccount'
 import { scopedTotal } from '../../../shared/goldHistory'
 import type { Translator } from '../../../shared/i18n'
 import { GoldRange } from '../enums/goldRange'
+import { classColor } from '../enums/classToken'
 import { DAY_MS } from '../../../shared/time'
 
 /** Copper -> gold, which is the only unit worth showing at account scale. */
@@ -58,11 +59,6 @@ export interface GoldSeries {
 /**
  * The series for one account and one range. `accounts` are the WTF accounts
  * counted today, so `AnyAccount.All` matches the total the tiles show beside it.
- *
- * Two points are added that were never read: the amount the range started at
- * (gold keeps its value until something changes it, so the last reading before
- * the range is what the range begins with) and the same amount at "now", so the
- * line runs to the right edge instead of stopping at the last change.
  */
 export function goldSeries(
   history: GoldPoint[],
@@ -71,13 +67,23 @@ export function goldSeries(
   accounts?: string[],
   now = Date.now()
 ): GoldSeries | null {
-  if (history.length === 0) return null
+  return windowed(
+    history.map((point) => ({ at: point.at, value: toGold(scopedTotal(point, account, accounts)) })),
+    range,
+    now
+  )
+}
 
-  const all: GoldSample[] = history.map((point) => ({
-    at: point.at,
-    value: toGold(scopedTotal(point, account, accounts))
-  }))
-
+/**
+ * The part of a series the range shows.
+ *
+ * Two points are added that were never read: the amount the range started at
+ * (gold keeps its value until something changes it, so the last reading before
+ * the range is what the range begins with) and the same amount at "now", so the
+ * line runs to the right edge instead of stopping at the last change.
+ */
+function windowed(all: GoldSample[], range: GoldRange, now: number): GoldSeries | null {
+  if (all.length === 0) return null
   const days = RANGE_DAYS[range]
   const cutoff = days > 0 ? now - days * DAY_MS : all[0]!.at
   const inRange = all.filter((sample) => sample.at >= cutoff)
@@ -106,6 +112,45 @@ export function goldSeries(
     max: Math.max(...values),
     readings
   }
+}
+
+/** One character's line on the chart: named and coloured as the roster shows it. */
+export interface GoldLine {
+  key: string
+  label: string
+  /** The class colour; a character of no known class draws in the chart's own. */
+  color: string | undefined
+  series: GoldSeries
+}
+
+/** A character's gold over one range, from the readings that recorded it. */
+export function characterGold(history: CharacterPoint[] | undefined, range: GoldRange, now = Date.now()): GoldSeries | null {
+  if (!history) return null
+  const all: GoldSample[] = []
+  for (const point of history) {
+    // A reading from before gold was recorded says nothing about it.
+    if (point.money !== undefined && point.money !== null) all.push({ at: point.at, value: toGold(point.money) })
+  }
+  return windowed(all, range, now)
+}
+
+/**
+ * One line for each character that holds gold, the richest first - the order
+ * of the list beside the chart, so a line is found by its colour and its
+ * place. A character whose history never recorded gold draws no line.
+ */
+export function characterLines(
+  history: CharacterHistory,
+  characters: CharacterSnapshot[],
+  range: GoldRange,
+  now = Date.now()
+): GoldLine[] {
+  const lines: GoldLine[] = []
+  for (const character of [...characters].sort((a, b) => (b.money ?? 0) - (a.money ?? 0))) {
+    const series = characterGold(history[character.key], range, now)
+    if (series) lines.push({ key: character.key, label: character.name, color: classColor(character.classToken), series })
+  }
+  return lines
 }
 
 /** The WTF accounts the current summary counts - the hidden ones are not in it. */

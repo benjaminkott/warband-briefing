@@ -16,6 +16,15 @@ const HEIGHT = 260
 /** Room for the axis labels; the plot is what is left of the box. */
 const PAD = { top: 16, right: 18, bottom: 26, left: 68 }
 
+/** One of several lines on one chart: its name for the legend and the tip, its colour, its readings. */
+export interface StepLine {
+  key: string
+  label: string
+  /** A CSS colour; without one the line takes the chart's tone. */
+  color?: string
+  series: SparkSeries
+}
+
 /** A date on the axis, as short as the range allows: a week is hours, a season is days, a year is months. */
 export function timeLabel(tr: Translator, at: number, span: number): string {
   if (span <= 2 * DAY_MS) return tr.formatDateTime(at, { hour: '2-digit', minute: '2-digit' })
@@ -23,18 +32,35 @@ export function timeLabel(tr: Translator, at: number, span: number): string {
   return tr.formatDateTime(at, { month: 'short', year: '2-digit' })
 }
 
+/** The reading in force at a moment: the last one at or before it, none before the first. */
+function valueAt(series: SparkSeries, at: number): number | null {
+  let value: number | null = null
+  for (const sample of series.samples) {
+    if (sample.at > at) break
+    value = sample.value
+  }
+  return value
+}
+
 /**
- * One figure over time as a single stepped line.
+ * One figure over time as stepped lines.
  *
- * One series, so there is nothing to tell apart by colour: the line carries the
- * amount, the axis carries the scale and the crosshair answers "how much was it
- * on that day". Points are only drawn when there are few enough of them to be
- * points rather than a smear. Gold was the first thing it drew; item level and
- * rating on the character page step the same way, in their own colour.
+ * One series is the usual case: the line carries the amount, the axis the
+ * scale, the crosshair answers "how much was it on that day". Points are only
+ * drawn when there are few enough of them to be points rather than a smear.
+ * Gold was the first thing it drew; item level and rating on the character
+ * page step the same way, in their own colour.
+ *
+ * Several `lines` share the one axis: one for each character, each in its
+ * own colour, told apart by the legend under the plot and by the tip, which
+ * lists every line's amount at the cursor. The fill and the dots go, or the
+ * lines would hide each other.
  */
 @customElement('wt-step-chart')
 export class WtStepChart extends WtElement {
-  @property({ attribute: false }) accessor series!: SparkSeries
+  @property({ attribute: false }) accessor series: SparkSeries | null = null
+  /** Several series on one axis; set in place of `series`. */
+  @property({ attribute: false }) accessor lines: StepLine[] | null = null
   @property() accessor tone: SparkTone = Tint.Gold
   /** Short form for the axis ticks - "1,23 Mio." rather than every digit. */
   @property({ attribute: false }) accessor format: (value: number) => string = (value) => String(value)
@@ -45,6 +71,7 @@ export class WtStepChart extends WtElement {
 
   /** The chart is as wide as the panel; a fixed viewBox would blur the strokes. */
   @state() accessor width = 760
+  /** The moment under the cursor, snapped to a reading. */
   @state() accessor hover: number | null = null
 
   private observer: ResizeObserver | null = null
@@ -69,47 +96,69 @@ export class WtStepChart extends WtElement {
     this.hostVar('--chart-color', TINT_VAR[this.tone])
   }
 
-  protected override render(): TemplateResult {
+  /** What is drawn: the lines given, or the one series as the one line. */
+  private get drawn(): StepLine[] {
+    if (this.lines) return this.lines
+    return this.series ? [{ key: 'series', label: this.label, series: this.series }] : []
+  }
+
+  protected override render(): TemplateResult | typeof nothing {
     const tr = this.tr
-    const series = this.series
+    const lines = this.drawn
+    if (lines.length === 0) return nothing
+    const single = lines.length === 1 ? lines[0]!.series : null
     const width = this.width
     const height = this.height
     const tone = this.tone
     const format = this.format
 
+    const from = Math.min(...lines.map((line) => line.series.from))
+    const to = Math.max(...lines.map((line) => line.series.to))
+    const min = Math.min(...lines.map((line) => line.series.min))
+    const max = Math.max(...lines.map((line) => line.series.max))
+
     const plotW = Math.max(120, width - PAD.left - PAD.right)
     const plotH = height - PAD.top - PAD.bottom
-    const span = Math.max(1, series.to - series.from)
-    const { lo, hi, ticks } = niceTicks(series.min, series.max)
+    const span = Math.max(1, to - from)
+    const { lo, hi, ticks } = niceTicks(min, max)
 
-    const x = (at: number): number => PAD.left + ((at - series.from) / span) * plotW
+    const x = (at: number): number => PAD.left + ((at - from) / span) * plotW
     const y = (value: number): number => PAD.top + (1 - (value - lo) / Math.max(1, hi - lo)) * plotH
 
     // The amount holds until the next reading, so the line steps rather than
     // sloping: a gradual rise between two readings never happened.
-    const path = series.samples
-      .map((sample, index) => {
-        const px = x(sample.at)
-        const py = y(sample.value)
-        if (index === 0) return `M${px} ${py}`
-        return `H${px}V${py}`
-      })
-      .join('')
-    const area = `${path}V${PAD.top + plotH}H${x(series.from)}Z`
+    const pathOf = (series: SparkSeries): string =>
+      series.samples
+        .map((sample, index) => {
+          const px = x(sample.at)
+          const py = y(sample.value)
+          if (index === 0) return `M${px} ${py}`
+          return `H${px}V${py}`
+        })
+        .join('')
 
-    const timeTicks = [0, 1, 2, 3].map((step) => series.from + (span / 3) * step)
-    const active = this.hover === null ? null : series.samples[this.hover]
+    const timeTicks = [0, 1, 2, 3].map((step) => from + (span / 3) * step)
 
+    // The moments the cursor can rest on: every reading of every line.
+    const moments = [...new Set(lines.flatMap((line) => line.series.samples.map((sample) => sample.at)))].sort((a, b) => a - b)
     const pick = (event: PointerEvent): void => {
       const box = (event.currentTarget as SVGSVGElement).getBoundingClientRect()
-      const at = series.from + ((event.clientX - box.left - PAD.left) / plotW) * span
-      let best = 0
-      for (let i = 1; i < series.samples.length; i++) {
-        const sample = series.samples[i]!
-        if (Math.abs(sample.at - at) < Math.abs(series.samples[best]!.at - at)) best = i
-      }
+      const at = from + ((event.clientX - box.left - PAD.left) / plotW) * span
+      let best = moments[0]!
+      for (const moment of moments) if (Math.abs(moment - at) < Math.abs(best - at)) best = moment
       this.hover = best
     }
+
+    const active = this.hover
+    // What each line stood at under the cursor, the highest first: the order
+    // the eye meets them on the plot.
+    const readings =
+      active === null
+        ? []
+        : lines
+            .map((line) => ({ line, value: valueAt(line.series, active) }))
+            .filter((entry): entry is { line: StepLine; value: number } => entry.value !== null)
+            .sort((a, b) => b.value - a.value)
 
     // One gradient per tone, or two charts on a page would share a colour.
     const gradient = `step-fade-${tone}`
@@ -146,38 +195,59 @@ export class WtStepChart extends WtElement {
           >${timeLabel(tr, at, span)}</text>`
         )}
 
-        <path class="chart-area" d=${area} fill=${`url(#${gradient})`} />
-        <path class="chart-line" d=${path} />
+        ${single ? svg`<path class="chart-area" d=${`${pathOf(single)}V${PAD.top + plotH}H${x(single.from)}Z`} fill=${`url(#${gradient})`} />` : nothing}
+        ${lines.map((line) => svg`<path class="chart-line" style=${styleMap({ stroke: line.color ?? '' })} d=${pathOf(line.series)} />`)}
 
         <!-- Individual readings are worth marking only while they are countable. -->
         ${
-          series.samples.length <= 24
-            ? series.samples.map((sample) => svg`<circle class="chart-dot" cx=${x(sample.at)} cy=${y(sample.value)} r="3.5" />`)
+          single && single.samples.length <= 24
+            ? single.samples.map((sample) => svg`<circle class="chart-dot" cx=${x(sample.at)} cy=${y(sample.value)} r="3.5" />`)
             : nothing
         }
         ${
-          active
+          active !== null
             ? svg`<g class="chart-cursor">
-              <line x1=${x(active.at)} x2=${x(active.at)} y1=${PAD.top} y2=${PAD.top + plotH} />
-              <circle cx=${x(active.at)} cy=${y(active.value)} r="5" />
+              <line x1=${x(active)} x2=${x(active)} y1=${PAD.top} y2=${PAD.top + plotH} />
+              ${readings.map(({ line, value }) => svg`<circle style=${styleMap({ fill: line.color ?? '' })} cx=${x(active)} cy=${y(value)} r="5" />`)}
             </g>`
             : nothing
         }
       </svg>
 
       ${
-        active
+        active !== null && readings.length > 0
           ? html`<wt-tip
               style=${styleMap({
                 // Clamped to the box, so a reading at either end stays readable.
-                left: `${Math.min(Math.max(x(active.at), PAD.left + 60), PAD.left + plotW - 60)}px`,
+                left: `${Math.min(Math.max(x(active), PAD.left + 60), PAD.left + plotW - 60)}px`,
                 top: `${PAD.top}px`
               })}
             >
-              <div class="chart-tip-value"><wt-format .value=${active.value}></wt-format></div>
-              <div class="chart-tip-time"><wt-format kind=${FormatKind.Datetime} .value=${active.at}></wt-format></div>
+              ${
+                single
+                  ? html`<div class="chart-tip-value"><wt-format .value=${readings[0]!.value}></wt-format></div>`
+                  : readings.map(
+                      ({ line, value }) => html`<div class="chart-tip-row">
+                        <span class="chart-swatch" style=${styleMap({ background: line.color ?? '' })}></span>
+                        <span>${line.label}</span>
+                        <wt-format class="chart-tip-figure" .value=${value}></wt-format>
+                      </div>`
+                    )
+              }
+              <div class="chart-tip-time"><wt-format kind=${FormatKind.Datetime} .value=${active}></wt-format></div>
             </wt-tip>`
           : nothing
+      }
+      ${
+        single
+          ? nothing
+          : html`<div class="chart-legend">
+              ${lines.map(
+                (line) => html`<span class="chart-legend-item">
+                  <span class="chart-swatch" style=${styleMap({ background: line.color ?? '' })}></span>${line.label}
+                </span>`
+              )}
+            </div>`
       }
     `
   }

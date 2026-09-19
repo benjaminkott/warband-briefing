@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite'
 import { html } from 'lit'
 import { trend } from '../../../shared/charHistory'
-import { goldSeries } from '../model/gold'
+import { characterLines, goldSeries } from '../model/gold'
 import { whole } from '../model/format'
 import { formatGoldShort } from '../model/gold'
-import { CHAR_HISTORY, GOLD_HISTORY, MAIN, NOW, translatorFor } from '../stories/fixtures'
+import { CHAR_HISTORY, GOLD_HISTORY, MAIN, NOW, ROSTER, translatorFor } from '../stories/fixtures'
 import { SPARK_TONES, type SparkTone } from './Sparkline'
 import { GoldRange } from '../enums/goldRange'
 import { AnyAccount } from '../../../shared/enums/anyAccount'
@@ -41,6 +41,22 @@ export const Gold: StoryObj<Args> = {
           to: formatGoldShort(tr, series.last),
           since: timeLabel(tr, series.from, Math.max(1, series.to - series.from))
         })}
+      ></wt-step-chart>
+    </wt-card>`
+  }
+}
+
+/** Every character's gold over the season on one axis, each in its class colour: a legend under the plot, every amount in the tip. */
+export const Lines: StoryObj<Args> = {
+  render: (_args, context) => {
+    const tr = translatorFor(context)
+    const lines = characterLines(CHAR_HISTORY, ROSTER, GoldRange.All, NOW)
+    return html`<wt-card class="panel gold-panel">
+      <wt-step-chart
+        .lines=${lines}
+        tone=${Tint.Gold}
+        .format=${(value: number) => formatGoldShort(tr, value)}
+        label=${tr.t('gold.chart.lines', { since: timeLabel(tr, lines[0]!.series.from, NOW - lines[0]!.series.from) })}
       ></wt-step-chart>
     </wt-card>`
   }

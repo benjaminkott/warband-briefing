@@ -2816,6 +2816,44 @@ wt-group + wt-field-group {
   font-size: var(--fs-micro);
 }
 
+/* Several lines on one chart: the tip lists each line's amount at the
+   cursor, the legend under the plot names the lines. A swatch carries the
+   colour; the words stay in the text's ink. */
+.chart-tip-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: var(--fs-tiny);
+}
+
+.chart-tip-figure {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-swatch {
+  flex: 0 0 auto;
+  width: var(--s3);
+  height: var(--s3);
+  border-radius: var(--radius-sm);
+  background: var(--chart-color);
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s4);
+  margin-top: var(--s2);
+  font-size: var(--fs-tiny);
+  color: var(--text-dim);
+}
+
+.chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
 /* The small stepped line in a card figure: the same shape as the chart,
    without axis, ticks or dots. It fills the box it is given; the place
    that shows it sets the size. */

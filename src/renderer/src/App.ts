@@ -805,14 +805,17 @@ export class WtApp extends WtElement {
     return html`<wt-gold-view
       .gold=${this.gold}
       .history=${this.goldHistory}
+      .charHistory=${this.charHistory}
       .characters=${model.goldCharacters}
       .hiddenKeys=${model.hiddenKeys}
       .accounts=${model.accounts}
       account=${model.account}
       range=${this.prefs.goldRange}
+      chart=${this.prefs.goldChart}
       .lastSyncAt=${this.lastSyncAt}
       @wt-account=${(event: WtEvent<'wt-account'>) => this.changePrefs({ account: event.detail })}
       @wt-range=${(event: WtEvent<'wt-range'>) => this.changePrefs({ goldRange: event.detail })}
+      @wt-gold-chart=${(event: WtEvent<'wt-gold-chart'>) => this.changePrefs({ goldChart: event.detail })}
     ></wt-gold-view>`
   }
 
