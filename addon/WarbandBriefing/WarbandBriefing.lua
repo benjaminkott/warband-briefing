@@ -40,7 +40,7 @@
 ]]
 
 local ADDON_NAME = ...
-local DB_VERSION = 10
+local DB_VERSION = 11
 
 WarbandBriefingDB = WarbandBriefingDB or {}
 
@@ -1135,17 +1135,18 @@ end
 ---------------------------------------------------------------------------
 
 --- The register of quests: every quest any character had on its log, with
---- what the client says about it. Account-wide and never pruned, so the app
---- can tell a season weekly a week after anyone last did it. The client's
---- names for frequency and classification are written, not their numbers.
+--- what the client says about it. Account-wide and kept across the weekly
+--- reset, so the app can tell a season weekly a week after anyone last did
+--- it. A hidden tracking quest is no task and stays out; the register holds
+--- what a player can see. The client's names for frequency and
+--- classification are written, not their numbers.
 local function RegisterQuest(info)
   local quests = WarbandBriefingDB.quests
   if not quests then return end
+  if info.isHidden or not info.title or info.title == "" then return end
   local id = info.questID
   local record = quests[tostring(id)] or {}
-  -- A hidden tracking quest has no title on the log; keep one seen before.
-  if not info.isHidden and info.title and info.title ~= "" then record.title = info.title end
-  record.hidden = info.isHidden or nil
+  record.title = info.title
   record.frequency = EnumName(Enum and Enum.QuestFrequency, info.frequency or 0)
   if C_QuestInfoSystem and C_QuestInfoSystem.GetQuestClassification then
     local ok, classification = pcall(C_QuestInfoSystem.GetQuestClassification, id)
@@ -1167,6 +1168,20 @@ local function RegisterQuest(info)
   end
   record.seenAt = GetServerTime()
   quests[tostring(id)] = record
+end
+
+--- Drops what an earlier register wrote and this one does not hold: a
+--- record with the frequency as a number and no title, from before the
+--- client's names were written; a hidden tracker; a record without a
+--- title. The app reads none of them.
+local function PruneRegister()
+  local quests = WarbandBriefingDB.quests
+  if not quests then return end
+  for id, record in pairs(quests) do
+    if type(record) ~= "table" or record.hidden or type(record.frequency) ~= "string" or not record.title or record.title == "" then
+      quests[id] = nil
+    end
+  end
 end
 
 --- The frequency of every quest seen on the log, so a turn-in - by then
@@ -1228,7 +1243,8 @@ end
 --- Across a weekly reset the two lists teach the register: a quest flagged
 --- before the reset and clear after it comes back every week, whatever the
 --- client had said about its frequency. A daily is left alone; it clears
---- every day and would pass for a weekly by chance.
+--- every day and would pass for a weekly by chance. Only a quest the
+--- register holds can learn, so a hidden tracker never does.
 local function CollectFlagged(entry)
   if not (C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted) then return end
   local quests = WarbandBriefingDB.quests or {}
@@ -1691,6 +1707,7 @@ frame:SetScript("OnEvent", function(_, event, arg1, arg2, arg3, arg4, arg5)
     WarbandBriefingDB.tooltips = WarbandBriefingDB.tooltips or { items = {} }
     -- Earlier versions recorded the week's affixes; nothing reads them now.
     WarbandBriefingDB.affixes = nil
+    PruneRegister()
     return
   end
 

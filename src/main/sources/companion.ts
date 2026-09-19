@@ -16,7 +16,7 @@
  * Layout of `WarbandBriefing.lua`, as the addon writes it:
  *
  *   WarbandBriefingDB = {
- *     version = 10,
+ *     version = 11,
  *     events  = { list = { { title, startsAt, endsAt }, ... }, updatedAt },
  *     season  = { dungeons = { { mapId, name }, ... }, updatedAt },  -- the season's map table, run or not
  *     warbandBank = { tabs = { { name, slots, free, items = { { id, count, quality, link, ilvl? }, ... } }, ... }, updatedAt },
@@ -65,7 +65,7 @@
  *     expansion,   -- the one the client is on
  *     quests = {   -- every quest any character had on its log; outlives the reset
  *       ["questId"] = { title, frequency, classification, expansion, tradeskill,
- *                       account, hidden, resets, seenAt, doneAt },
+ *                       account, resets, seenAt, doneAt },
  *     },
  *     icons = {    -- the icon's file id by id, for everything any character had in view
  *       items = { ["itemId"] = fileId }, currencies = { ... }, recipes = { ... }, professions = { ... },
