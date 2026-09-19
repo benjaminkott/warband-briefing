@@ -249,6 +249,7 @@ export const de = {
   'detail.section.inventory': 'Inventar',
   'detail.ilvlHistory': 'Item-Level im Verlauf',
   'detail.ratingHistory': 'Wertung im Verlauf',
+  'detail.goldHistory': 'Gold im Verlauf',
   'detail.since': '{change} seit {since}',
   'detail.noHistory': 'Noch kein Verlauf — bei jedem Einlesen wird ein Wert gemerkt, sobald sich die Zahl ändert.',
   'detail.bests.title': 'Saison-Bestleistungen',

@@ -19,6 +19,9 @@ import {
 import { StatKind } from '../../enums/statKind'
 import { DetailListKind } from '../../enums/detailListKind'
 import { Tint } from '../../enums/tint'
+import { FormatKind } from '../../enums/formatKind'
+import { GoldRange } from '../../enums/goldRange'
+import { characterGold } from '../../model/gold'
 import './DetailBags'
 import './DetailBests'
 import './DetailCurrencies'
@@ -66,7 +69,7 @@ export const Hero: StoryObj = {
     </div>`
 }
 
-/** The two headline figures with their whole recorded history; and one without any. */
+/** The three headline figures with their whole recorded history; and one without any. */
 export const Figures: StoryObj = {
   render: (_args, context) => {
     const tr = translatorFor(context)
@@ -84,6 +87,14 @@ export const Figures: StoryObj = {
           .value=${MAIN.mythicRating}
           .series=${trend(CHAR_HISTORY[MAIN.key], (point) => point.rating, 3650, NOW)}
           tone=${Tint.Key}
+        ></wt-detail-figure>
+        <wt-detail-figure
+          icon="coins"
+          heading=${tr.t('detail.goldHistory')}
+          .value=${MAIN.money}
+          .series=${characterGold(CHAR_HISTORY[MAIN.key], GoldRange.All, NOW)}
+          tone=${Tint.Gold}
+          kind=${FormatKind.Gold}
         ></wt-detail-figure>
         <wt-detail-figure
           icon="target"

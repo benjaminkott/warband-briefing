@@ -243,6 +243,7 @@ export const en: Record<TranslationKey, string> = {
   'detail.section.inventory': 'Inventory',
   'detail.ilvlHistory': 'Item level over time',
   'detail.ratingHistory': 'Rating over time',
+  'detail.goldHistory': 'Gold over time',
   'detail.since': '{change} since {since}',
   'detail.noHistory': 'No history yet. Each read records a value when the figure changes.',
   'detail.bests.title': 'Season bests',

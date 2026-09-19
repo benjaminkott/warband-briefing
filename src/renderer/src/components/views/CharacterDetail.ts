@@ -11,6 +11,9 @@ import { ControlSize } from '../../enums/controlSize'
 import { Command } from '../../enums/command'
 import { bindingOf, keysOf } from '../../model/shortcuts'
 import { Tint } from '../../enums/tint'
+import { FormatKind } from '../../enums/formatKind'
+import { GoldRange } from '../../enums/goldRange'
+import { characterGold } from '../../model/gold'
 import { DetailSection } from '../../enums/detailSection'
 import { DETAIL_SECTIONS } from '../detail/model'
 import type { TranslationKey } from '../../../../shared/i18n'
@@ -222,6 +225,7 @@ export class WtCharacterDetail extends WtElement {
         const now = this.clock
         const ilvlSeries = trend(this.history, (point) => point.itemLevel, ALL_DAYS, now)
         const ratingSeries = trend(this.history, (point) => point.rating, ALL_DAYS, now)
+        const goldSeries = characterGold(this.history, GoldRange.All, now)
         return html`
           <wt-detail-figure
             icon="target"
@@ -229,6 +233,7 @@ export class WtCharacterDetail extends WtElement {
             .value=${character.itemLevel}
             .series=${ilvlSeries}
             tone=${Tint.Accent}
+            span="4"
           ></wt-detail-figure>
           <wt-detail-figure
             icon="keystone"
@@ -236,6 +241,16 @@ export class WtCharacterDetail extends WtElement {
             .value=${character.mythicRating}
             .series=${ratingSeries}
             tone=${Tint.Key}
+            span="4"
+          ></wt-detail-figure>
+          <wt-detail-figure
+            icon="coins"
+            heading=${tr.t('detail.goldHistory')}
+            .value=${character.money}
+            .series=${goldSeries}
+            tone=${Tint.Gold}
+            kind=${FormatKind.Gold}
+            span="4"
           ></wt-detail-figure>
           <wt-detail-bests .bests=${character.dungeonBests ?? []} .dungeons=${this.dungeons}></wt-detail-bests>
           <wt-detail-raids .raids=${character.raidProgress ?? []}></wt-detail-raids>
