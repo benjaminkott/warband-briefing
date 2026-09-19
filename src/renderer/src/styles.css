@@ -3064,6 +3064,18 @@ wt-group + wt-field-group {
   color: var(--text-faint);
 }
 
+/* The season's token in the tile's corner, the way the card carries it. */
+.tile-token {
+  position: absolute;
+  top: var(--s3);
+  right: var(--s3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: var(--fs-tiny);
+  color: var(--text-dim);
+}
+
 /* The tile is as narrow as the grid allows, so the initials sit tight against
    the level and take the quieter colour of the figures around them. */
 .tile-key > .keystone-dungeon {

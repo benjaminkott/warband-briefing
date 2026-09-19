@@ -9,8 +9,7 @@ import { trend, type TrendSeries } from '../../../../shared/charHistory'
 import { TREND_DAYS, type DisplayFlags } from '../../../../shared/display'
 import type { Translator } from '../../../../shared/i18n'
 import { nextStep, type NextStep } from '../../model/plan'
-import { characterState, tokenAmount, weeklyProgress, type CharacterState, type WeeklyProgress } from '../../model/overview'
-import { seasonToken } from '../../../../shared/seasonCatalog'
+import { characterState, tokenFigure, weeklyProgress, type CharacterState, type TokenFigure, type WeeklyProgress } from '../../model/overview'
 
 export interface CardModel {
   progress: WeeklyProgress
@@ -19,8 +18,8 @@ export interface CardModel {
   step: NextStep
   ilvlTrend: TrendSeries | null
   ratingTrend: TrendSeries | null
-  /** The season's token in the card's corner: its id for the icon, the count, the word and the name for the tip; null while the season names none. */
-  token: { id: number; label: string; amount: number | null; tip: string } | null
+  /** The season's token in the card's corner; null while the season names none. */
+  token: TokenFigure | null
 }
 
 export interface CardInputs {
@@ -46,11 +45,5 @@ export function cardModel(tr: Translator, inputs: CardInputs): CardModel {
   const ilvlTrend = flags.trend ? trend(history, (point) => point.itemLevel, TREND_DAYS, now) : null
   const ratingTrend = flags.trend ? trend(history, (point) => point.rating, TREND_DAYS, now) : null
 
-  const season = seasonToken()
-  // A character still levelling holds none worth a count; the dash says so.
-  const token = season
-    ? { id: season.id, label: season.figure!, amount: state.levelling ? null : tokenAmount(character), tip: season.name }
-    : null
-
-  return { progress, state, step, ilvlTrend, ratingTrend, token }
+  return { progress, state, step, ilvlTrend, ratingTrend, token: tokenFigure(character, state.levelling) }
 }

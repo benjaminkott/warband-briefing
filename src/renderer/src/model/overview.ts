@@ -256,6 +256,21 @@ export function tokenAmount(character: Pick<CharacterSnapshot, 'currencies'>): n
   return character.currencies.find((currency) => currency.id === token.id)?.quantity ?? 0
 }
 
+/** The season's token in a card's or a tile's corner: its id for the icon, the count, the word and the name for the tip. */
+export interface TokenFigure {
+  id: number
+  label: string
+  amount: number | null
+  tip: string
+}
+
+/** The token figure of a character; null while the season names no token. A character still levelling holds none worth a count. */
+export function tokenFigure(character: Pick<CharacterSnapshot, 'currencies'>, levelling: boolean): TokenFigure | null {
+  const season = seasonToken()
+  if (!season) return null
+  return { id: season.id, label: season.figure!, amount: levelling ? null : tokenAmount(character), tip: season.name }
+}
+
 /** Whether the roster spans realms: on a single realm the realm is the same word on every row - noise. */
 export function multiRealm(characters: readonly Pick<CharacterSnapshot, 'realm'>[]): boolean {
   return new Set(characters.map((character) => character.realm)).size > 1

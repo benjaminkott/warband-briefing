@@ -17,7 +17,8 @@ import {
   multiRealm,
   raidKills,
   concentrationFull,
-  tokenAmount
+  tokenAmount,
+  tokenFigure
 } from './overview'
 import { checkGear, takesEnchant, gearHint } from './gear'
 import { whole, signed, untilReset, percentOf } from './format'
@@ -66,6 +67,10 @@ it('the count of the token is what the character holds', () => {
 })
 it('none among other currencies is 0: a source lists only what is held', () => {
   expect(tokenAmount({ currencies: [crest] })).toEqual(0)
+})
+it('the token figure carries the id, the word and the count; a levelling character has no count', () => {
+  expect(tokenFigure({ currencies: [crest, voidcore] }, false)).toMatchObject({ id: voidcore.id, label: 'Voidcores', amount: 2 })
+  expect(tokenFigure({ currencies: [crest, voidcore] }, true)?.amount).toEqual(null)
 })
 it('no currencies at all is a source that reads none: unknown', () => {
   expect(tokenAmount({ currencies: [] })).toEqual(null)
