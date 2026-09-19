@@ -96,7 +96,8 @@ function forProfessions(weeklies: WeeklyTask[], registry: QuestRegistry, profess
  * quest stands: no source can say otherwise. With one, a quest stands when
  * the register saw it on a log, on any character, ever - a quest nobody
  * ever saw is not on this roster's board, whatever a list says - and when
- * this character's log has it or it is done. A pool stands as a whole: the
+ * this character's log has it, it is done, or the account's record has it
+ * done. A pool stands as a whole: the
  * game offers one of it every week. Its line names the quest of the week
  * where any character saw one, so a character that has not picked it up
  * reads what to accept - and one that has it done reads the quest it did,
@@ -104,10 +105,13 @@ function forProfessions(weeklies: WeeklyTask[], registry: QuestRegistry, profess
  * pool with the week's turn-in, and that record names any of them. Only
  * the log of the character itself says more.
  */
-function offeredThisWeek(weeklies: WeeklyTask[], registry: QuestRegistry, resetAt: number): WeeklyTask[] {
+function offeredThisWeek(weeklies: WeeklyTask[], registry: QuestRegistry, accountDone: ReadonlySet<number>, resetAt: number): WeeklyTask[] {
   if (registry.quests.length === 0) return weeklies
   return weeklies
-    .filter((task) => task.done || task.onLog || task.pool !== undefined || questIdsOf(task).some((id) => hasQuest(registry, id)))
+    .filter(
+      (task) =>
+        task.done || task.onLog || task.pool !== undefined || questIdsOf(task).some((id) => hasQuest(registry, id) || accountDone.has(id))
+    )
     .map((task) => {
       if (task.pool === undefined || task.onLog) return task
       const week = weekQuest(registry, questIdsOf(task), resetAt)
@@ -193,8 +197,8 @@ export interface ReadResult {
   learnedQuests: WeeklyQuestDef[]
   /**
    * Weekly quests SavedInstances records beside no character: done once
-   * for the whole account this week. Raw; `accountWeeklies` makes the
-   * warband's lines of the watched ones.
+   * for the whole account this week. `withAccountRewards` marks the
+   * characters' lines with them.
    */
   accountQuests: WeeklyQuestDef[]
   /** The companion's register of quests, every account's as one. Empty without the companion. */
@@ -517,34 +521,32 @@ export interface MergedCharacter extends CharacterSnapshot {
 }
 
 /**
- * The watched weeklies that complete once for the whole account, as one
- * line each, and the characters without them. The register flags such a
- * quest account-wide; SavedInstances keeps its record beside no character.
- * A line for it on every character would ask twenty times for what the
- * warband owes once, so it is the warband's line: done where any character
- * did it or the account record says so. A quest nobody watches is no line
- * at all, done or not.
+ * The characters with the account's rewards marked on their weeklies. A
+ * quest the client flags an account quest pays once for the whole account,
+ * and every character can still do it: the register carries the flag,
+ * SavedInstances keeps such a quest's record beside no character. The
+ * first character that did it this week is named on the lines of the
+ * others, whose quest it stays - for nothing (`weeklyTask.ts`). A quest
+ * the account record has done that no character's record has done is
+ * marked without a name.
  */
-export function accountWeeklies(
-  read: ReadResult,
-  characters: MergedCharacter[],
-  watched: readonly WeeklyQuestDef[]
-): { account: WeeklyTask[]; characters: MergedCharacter[] } {
-  const doneForAccount = new Map(read.accountQuests.map((quest) => [quest.id, quest.label]))
+export function withAccountRewards(read: ReadResult, characters: MergedCharacter[]): MergedCharacter[] {
+  const doneForAccount = new Set(read.accountQuests.map((quest) => quest.id))
   const flagged = new Set(read.questRegistry.quests.filter((quest) => quest.account).map((quest) => quest.id))
-  const isAccountWide = (def: WeeklyQuestDef): boolean => questIdsOf(def).some((id) => flagged.has(id) || doneForAccount.has(id))
-  const accountWide = watched.filter(isAccountWide)
-  const account = accountWide.map((def) => {
-    const tasks = characters.flatMap((character) => character.weeklies.filter((task) => task.id === def.id))
-    const done = tasks.some((task) => task.done) || questIdsOf(def).some((id) => doneForAccount.has(id))
-    const label = tasks.find((task) => task.done)?.label ?? tasks[0]?.label ?? fromPool(def, (id) => doneForAccount.get(id)) ?? def.label
-    return { id: def.id, label, done }
-  })
-  const ids = new Set(accountWide.map((def) => def.id))
-  return {
-    account,
-    characters: characters.map((character) => ({ ...character, weeklies: character.weeklies.filter((task) => !ids.has(task.id)) }))
+  const isAccountWide = (task: WeeklyTask): boolean => questIdsOf(task).some((id) => flagged.has(id) || doneForAccount.has(id))
+  const takenBy = new Map<number, string | null>()
+  for (const character of characters) {
+    for (const task of character.weeklies) {
+      if (!isAccountWide(task)) continue
+      if (task.done && !takenBy.get(task.id)) takenBy.set(task.id, character.name)
+      else if (!takenBy.has(task.id) && questIdsOf(task).some((id) => doneForAccount.has(id))) takenBy.set(task.id, null)
+    }
   }
+  if (takenBy.size === 0) return characters
+  return characters.map((character) => ({
+    ...character,
+    weeklies: character.weeklies.map((task) => (task.done || !takenBy.has(task.id) ? task : { ...task, rewardTaken: { by: takenBy.get(task.id) ?? null } }))
+  }))
 }
 
 /**
@@ -552,6 +554,7 @@ export function accountWeeklies(
  *                the current week for weekly data.
  */
 export function mergeSources(read: ReadResult, resetAt = 0): MergedCharacter[] {
+  const accountDone = new Set(read.accountQuests.map((quest) => quest.id))
   const byKey = new Map<string, Candidate[]>()
   for (const [sourceId, records] of read.bySource) {
     const adapter = getAdapter(sourceId)
@@ -683,6 +686,7 @@ export function mergeSources(read: ReadResult, resetAt = 0): MergedCharacter[] {
       weeklies: offeredThisWeek(
         forProfessions(overlayQuestLog(weeklies?.record.weeklies ?? [], candidates, resetAt), read.questRegistry, professions),
         read.questRegistry,
+        accountDone,
         resetAt
       ),
       activities: activities?.record.activities ?? [],

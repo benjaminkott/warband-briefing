@@ -18,7 +18,7 @@
  * with the lines.
  */
 
-import type { AppConfig, CalendarEvent, CharacterSnapshot, CraftCooldown, Goal, WeeklyEvents, WeeklyTask } from '../../../shared/types'
+import type { AppConfig, CalendarEvent, CharacterSnapshot, CraftCooldown, Goal, WeeklyEvents } from '../../../shared/types'
 import type { TranslationKey, Translator } from '../../../shared/i18n'
 import { DISPLAY_DEFAULTS, visibleActivities, type DisplayFlags } from '../../../shared/display'
 import { gearChoreId, gearChores, GEAR_ISSUE_ICONS, gearHint, slotList } from './gear'
@@ -33,6 +33,7 @@ import { owedCarried } from '../../../shared/carried'
 import { supplyLabel } from './labels'
 import { WARBAND, isTicked, type CustomTaskState } from '../../../shared/customTasks'
 import { activityChoreId, skippedOf, vaultChoreId, wantsChore, weeklyChoreId, type TaskSkips } from '../../../shared/skips'
+import { isOwed } from '../../../shared/weeklyTask'
 import type { IconName } from '../components/Icon'
 import type { ChipModel } from '../components/ui/Chip'
 import { formatWhen } from './format'
@@ -258,8 +259,15 @@ export function characterTasks(
   for (const quest of character.weeklies) {
     // A quest the log does not have is one step further back than "open":
     // the first thing to do is to pick it up. The word says so.
-    const toAccept = !quest.done && quest.onLog === false
-    const figure = quest.progress?.text ?? (toAccept ? tr.t('task.accept') : null)
+    const toAccept = isOwed(quest) && quest.onLog === false
+    // The account's reward went to another character: the line says so
+    // instead of a figure, and asks nothing.
+    const paid = !isOwed(quest) && !quest.done
+    const figure = paid
+      ? quest.rewardTaken?.by
+        ? tr.t('task.rewardTaken', { name: quest.rewardTaken.by })
+        : tr.t('task.rewardTakenAccount')
+      : (quest.progress?.text ?? (toAccept ? tr.t('task.accept') : null))
     // A quest bound to a profession is the profession's week, not the
     // world's: it goes with the concentration under "Berufe" (C10), and
     // names its profession where the figure leaves the room.
@@ -270,9 +278,9 @@ export function characterTasks(
       label: quest.label,
       chore: quest.label,
       note: figure ?? profession?.name ?? null,
-      state: stateOf(quest.done, quest.ready),
-      tip: quest.ready ? tr.t('task.ready') : toAccept ? tr.t('task.acceptHint') : null,
-      minutes: minutes.weekly
+      state: paid ? TaskState.Paid : stateOf(quest.done, quest.ready),
+      tip: paid ? tr.t('task.rewardTakenHint') : quest.ready ? tr.t('task.ready') : toAccept ? tr.t('task.acceptHint') : null,
+      minutes: paid ? null : minutes.weekly
     })
   }
 
@@ -491,8 +499,11 @@ export function characterTasks(
 
 const doneCount = (tasks: Task[]): number => tasks.filter((task) => task.state === TaskState.Done).length
 
+/** The lines a count is over: not one the player took off, not one paid to another character. */
+export const counted = (tasks: Task[]): Task[] => tasks.filter((task) => !task.skipped && task.state !== TaskState.Paid)
+
 /** The lines the player kept: what a count is over, in the pick mode as outside it. */
-const kept = (tasks: Task[]): Task[] => tasks.filter((task) => !task.skipped)
+const kept = counted
 
 /** Whose skips a line's box writes: the character's, or the warband's. */
 export function skipSubject(task: Pick<Task, 'characterKey'>): string {
@@ -557,7 +568,7 @@ export function tasksByCharacter(
   return rosterRows(characters, goals, maxLevel, resetAt, tr, flags)
     .map((row) => {
       const tasks = characterTasks(tr, row, flags, custom, minimums, now)
-      return { character: row.character, row, tasks, done: doneCount(tasks), total: tasks.length }
+      return { character: row.character, row, tasks, done: doneCount(tasks), total: counted(tasks).length }
     })
     .filter((entry) => entry.total > 0)
 }
@@ -659,15 +670,10 @@ export function keepTask(task: Pick<Task, 'state'>, filter: TaskFilter): boolean
   return filter === TaskFilter.All || task.state !== TaskState.Done
 }
 
-/**
- * What the warband owes as a whole: a paragon reward waiting at a faction,
- * and the watched quests that complete once for the whole account - one
- * line each, open until any character did it.
- */
+/** What the warband owes as a whole: a paragon reward waiting at a faction, and its own chores. */
 export function accountTasks(
   tr: Translator,
   characters: CharacterSnapshot[],
-  accountQuests: WeeklyTask[],
   custom: CustomTaskState | null = null,
   skips: TaskSkips | null = null
 ): AccountTasks {
@@ -685,23 +691,6 @@ export function accountTasks(
       note: tr.t('renown.rewardReady'),
       state: TaskState.Open,
       tip: null,
-      reward: null,
-      minutes: null,
-      skipped: false
-    })
-  }
-  for (const quest of accountQuests) {
-    lines.push({
-      key: `account/weekly:${quest.id}`,
-      characterKey: null,
-      id: `weekly:${quest.id}`,
-      kind: TaskKind.Weekly,
-      icon: KIND_ICONS.weekly,
-      label: quest.label,
-      chore: quest.label,
-      note: null,
-      state: quest.done ? TaskState.Done : TaskState.Open,
-      tip: tr.t('tasks.accountQuests'),
       reward: null,
       minutes: null,
       skipped: false
@@ -763,6 +752,8 @@ export function taskTotals(groups: Array<{ done: number; total: number }>): { do
 export interface TaskRow {
   done: boolean
   ready: boolean
+  /** The account's reward went to another character: the line asks nothing. */
+  paid: boolean
   /** The box is the sources' word - except on the user's own chore, where the hand is the only source there is. */
   manual: boolean
   /** What the box shows: the sources' word, or in the pick mode whether the line is kept. */
@@ -781,6 +772,7 @@ export function taskRow(tr: Translator, task: Task, named: boolean, picking = fa
   return {
     done,
     ready: task.state === TaskState.Ready,
+    paid: task.state === TaskState.Paid,
     manual,
     checked: picking ? !task.skipped : done,
     takesHand: picking || manual,
@@ -790,7 +782,9 @@ export function taskRow(tr: Translator, task: Task, named: boolean, picking = fa
         ? tr.t('tasks.customHint')
         : done
           ? tr.t('tasks.doneHint')
-          : tr.t('tasks.openHint'),
+          : task.state === TaskState.Paid
+            ? tr.t('task.rewardTakenHint')
+            : tr.t('tasks.openHint'),
     showLabel: !named || task.label !== task.chore
   }
 }

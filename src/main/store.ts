@@ -17,8 +17,7 @@ import type {
   SeasonDungeons,
   WarbandBank,
   WeeklyEvents,
-  WeeklyQuestDef,
-  WeeklyTask
+  WeeklyQuestDef
 } from '../shared/types'
 import { recordCharacters } from '../shared/charHistory'
 import { DEFAULT_EVENING_MINUTES } from '../shared/effort'
@@ -86,8 +85,6 @@ interface PersistedState {
   accounts: string[]
   /** Characters per WTF account, hidden ones counted too. */
   accountCharacters: Record<string, number>
-  /** The watched weeklies that complete once for the whole account, as of the last read. */
-  accountQuests: WeeklyTask[]
   /** The calendar's running events, as of the last read. */
   events: WeeklyEvents | null
   /** The season's dungeons, as of the last read; null before the companion listed them. */
@@ -111,7 +108,6 @@ const DEFAULT_STATE: PersistedState = {
   charHistory: {},
   accounts: [],
   accountCharacters: {},
-  accountQuests: [],
   events: null,
   seasonDungeons: null,
   lexicon: emptyLexicon(),
@@ -266,9 +262,9 @@ function migrate(state: PersistedState): PersistedState {
       seasonCatalog().quests.filter((quest) => quest.pool !== undefined)
     )
   }
-  // The account's quests were every one SavedInstances had done, once; they
-  // are the watched ones with a state now, and the next read fills the list.
-  if (Array.isArray(state.accountQuests) && state.accountQuests.some((quest) => typeof quest.done !== 'boolean')) state.accountQuests = []
+  // The account's quests were a list of their own, once; they are marks on
+  // the characters' lines now.
+  delete (state as unknown as { accountQuests?: unknown }).accountQuests
   // The companion adapter was named after the app. Its id is neutral now, so
   // the next rename does not touch the config again.
   const sources = state.config.enabledSources
@@ -384,7 +380,6 @@ export class Store {
     extras: {
       warbandBanks: WarbandBank[]
       accountCharacters: Record<string, number>
-      accountQuests: WeeklyTask[]
       events: WeeklyEvents | null
       seasonDungeons: SeasonDungeons | null
       lexicon: Lexicon
@@ -395,7 +390,6 @@ export class Store {
     this.state.warbandBanks = extras.warbandBanks
     this.state.accounts = accounts
     this.state.accountCharacters = extras.accountCharacters
-    this.state.accountQuests = extras.accountQuests
     this.state.events = extras.events
     // A read without the list (an older companion) keeps the last one: the season has not changed.
     this.state.seasonDungeons = extras.seasonDungeons ?? this.state.seasonDungeons ?? null
@@ -410,10 +404,6 @@ export class Store {
 
   getCharacterHistory(): CharacterHistory {
     return this.state.charHistory
-  }
-
-  getAccountQuests(): WeeklyTask[] {
-    return this.state.accountQuests ?? []
   }
 
   getEvents(): WeeklyEvents | null {

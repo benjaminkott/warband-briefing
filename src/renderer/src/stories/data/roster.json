@@ -254,6 +254,12 @@
           "id": 94446,
           "label": "A Nightmarish Task",
           "done": false
+        },
+        {
+          "id": 93784,
+          "label": "A Gnawing Void of Curiosity",
+          "done": false,
+          "rewardTaken": { "by": "Mirella" }
         }
       ],
       "activities": [

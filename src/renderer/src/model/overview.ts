@@ -14,6 +14,7 @@ import { DISPLAY_DEFAULTS, visibleActivities, type DisplayFlags } from '../../..
 import { goalsFor } from '../../../shared/assign'
 import { seasonToken } from '../../../shared/seasonCatalog'
 import { activityChoreId, vaultChoreId, wantsChore, weeklyChoreId } from '../../../shared/skips'
+import { isOwed } from '../../../shared/weeklyTask'
 import type { Region } from '../../../shared/enums/region'
 import { VaultCategory } from '../../../shared/enums/vaultCategory'
 import { GoalKind } from '../../../shared/enums/goalKind'
@@ -206,7 +207,7 @@ export function weeklyProgress(character: CharacterSnapshot, goals: Goal[] = [],
   const weeklyCurrencies = character.currencies.filter((c) => c.weeklyMax !== null && c.weeklyMax > 0 && c.name.length > 0)
   // A line the player took off the list (`skips.ts`) is not open either:
   // the count here is the count of the list's lines.
-  const openWeeklies = character.weeklies.filter((task) => wantsChore(character, weeklyChoreId(task)) && !task.done).length
+  const openWeeklies = character.weeklies.filter((task) => wantsChore(character, weeklyChoreId(task)) && isOwed(task)).length
   const openActivities = visibleActivities(character.activities, flags).filter((task) => wantsChore(character, activityChoreId(task)) && !task.done).length
   const gearIssues = gearChores(character, flags).issues
 
@@ -405,7 +406,7 @@ export function matches(character: CharacterSnapshot, query: string): boolean {
       character.zone ?? '',
       // "prey" finds everyone with a hunt still open, which is the question
       // a search on this screen tends to be.
-      ...character.weeklies.filter((task) => !task.done).map((task) => task.label),
+      ...character.weeklies.filter(isOwed).map((task) => task.label),
       ...(character.activities ?? []).filter((task) => !task.done).map((task) => task.label),
       ...accountsOf(character)
     ]

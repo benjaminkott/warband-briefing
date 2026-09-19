@@ -12,10 +12,9 @@ import type {
   SyncStatus,
   WarbandBank,
   WeeklyEvents,
-  WeeklyQuestDef,
-  WeeklyTask
+  WeeklyQuestDef
 } from '../shared/types'
-import { accountWeeklies, mergeSources, readSources, type SourceCharacter, type SourceStatus } from './sources'
+import { mergeSources, readSources, withAccountRewards, type SourceCharacter, type SourceStatus } from './sources'
 import { lastWeeklyReset } from './season'
 import type { Store } from './store'
 import { mergeLexicons } from '../shared/lexicon'
@@ -36,7 +35,6 @@ export interface CollectResult {
    * settings say what switching a folder off would take away.
    */
   accountCharacters: Record<string, number>
-  accountQuests: WeeklyTask[]
   events: WeeklyEvents | null
   seasonDungeons: SeasonDungeons | null
 }
@@ -117,7 +115,6 @@ export class Collector {
         warbandBanks: this.store.getWarbandBanks(),
         accounts: this.store.getAccounts(),
         accountCharacters: this.store.getAccountCharacters(),
-        accountQuests: this.store.getAccountQuests(),
         events: this.store.getEvents(),
         seasonDungeons: this.store.getSeasonDungeons()
       }
@@ -147,7 +144,6 @@ export class Collector {
         warbandBanks: [],
         accounts: this.store.getAccounts(),
         accountCharacters: this.store.getAccountCharacters(),
-        accountQuests: [],
         events: null,
         seasonDungeons: this.store.getSeasonDungeons()
       }
@@ -171,10 +167,9 @@ export class Collector {
 
       // What the app knows of the items: this read and every read before it.
       const lexicon = mergeLexicons(this.store.getLexicon(), read.lexicon)
-      const { account: accountQuests, characters: merged } = accountWeeklies(
+      const merged = withAccountRewards(
         read,
-        mergeSources(read, lastWeeklyReset(config.region, Date.now(), read.weeklyResetAt[config.region])).filter((c) => c.level >= config.minLevel),
-        config.weeklyQuests
+        mergeSources(read, lastWeeklyReset(config.region, Date.now(), read.weeklyResetAt[config.region])).filter((c) => c.level >= config.minLevel)
       )
 
       // Counted before the hiding below: a folder switched off still has its
@@ -264,7 +259,6 @@ export class Collector {
       await this.store.setSnapshots(snapshots, gold, read.accounts, {
         warbandBanks,
         accountCharacters,
-        accountQuests,
         events: read.events,
         seasonDungeons: read.seasonDungeons,
         lexicon: read.lexicon
@@ -278,7 +272,6 @@ export class Collector {
         warbandBanks,
         accounts: read.accounts,
         accountCharacters,
-        accountQuests,
         events: read.events,
         seasonDungeons: this.store.getSeasonDungeons()
       }
@@ -293,7 +286,6 @@ export class Collector {
         warbandBanks: this.store.getWarbandBanks(),
         accounts: this.store.getAccounts(),
         accountCharacters: this.store.getAccountCharacters(),
-        accountQuests: this.store.getAccountQuests(),
         events: this.store.getEvents(),
         seasonDungeons: this.store.getSeasonDungeons()
       }

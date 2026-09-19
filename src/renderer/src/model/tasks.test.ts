@@ -149,6 +149,32 @@ it('a goal is no line: its figure is the sum of the vault rows, and the panel he
   expect([withGoal.tasks.some((task) => task.id.startsWith('goal:')), withGoal.row.progress.goals.length]).toEqual([false, 1])
 })
 
+/* ---- a reward another character took ---- */
+
+const paidTo = list([
+  character('Dritt', {
+    weeklies: [
+      { id: 7, label: 'Lost Animals', done: false, rewardTaken: { by: 'Nyx' } },
+      { id: 8, label: 'Housewarming', done: false, rewardTaken: { by: null } },
+      { id: 9, label: 'Own', done: false }
+    ]
+  })
+])[0]!
+const paidLines = paidTo.tasks.filter((task) => task.kind === TaskKind.Weekly)
+it('a weekly whose account reward went to another character is paid: the note names the character, the line asks no time', () => {
+  expect(paidLines.map((task) => [task.state, task.note, task.minutes])).toEqual([
+    [TaskState.Paid, 'task.rewardTaken(Nyx)', null],
+    [TaskState.Paid, 'task.rewardTakenAccount', null],
+    [TaskState.Open, null, 15]
+  ])
+})
+it('a paid line is drawn, but no count holds it', () => {
+  expect([paidTo.tasks.some((task) => task.state === TaskState.Paid), paidTo.total]).toEqual([true, paidTo.tasks.length - 2])
+})
+it('the row of a paid line is unchecked, with the hint', () => {
+  expect(taskRow(tr, paidLines[0]!, false)).toMatchObject({ done: false, paid: true, checked: false, tip: 'task.rewardTakenHint' })
+})
+
 /* ---- turned round by chore ---- */
 
 const roster = [main, character('Zweit', { dungeon: 3, weeklies: [{ id: 2, label: 'Dungeons', done: false }] })]
@@ -229,23 +255,12 @@ const paragon = {
   maxed: true,
   paragon: { current: 2400, max: 2500, rewardPending: true }
 }
-const account = accountTasks(
-  tr,
-  [character('A', { renown: [paragon] })],
-  [
-    { id: 9, label: 'Boss of the week', done: true },
-    { id: 10, label: 'Lost Animals', done: false }
-  ]
-)
-it('a paragon reward is an open chore of the warband; an account quest is one line, open until done', () => {
-  expect(account.tasks.map((task) => [task.kind, task.state])).toEqual([
-    [TaskKind.Paragon, TaskState.Open],
-    [TaskKind.Weekly, TaskState.Done],
-    [TaskKind.Weekly, TaskState.Open]
-  ])
+const account = accountTasks(tr, [character('A', { renown: [paragon] })])
+it('a paragon reward is an open chore of the warband', () => {
+  expect(account.tasks.map((task) => [task.kind, task.state])).toEqual([[TaskKind.Paragon, TaskState.Open]])
 })
 it('totals sum the panels', () => {
-  expect(taskTotals([entry, account])).toEqual({ done: 3, total: 11 })
+  expect(taskTotals([entry, account])).toEqual({ done: 2, total: 9 })
 })
 
 /* ---- every chore is the character's own; the list takes lines off ---- */
@@ -372,7 +387,7 @@ it('a tick this week is done, a tick before the reset is not', () => {
 it('the own chores are their own section', () => {
   expect(taskSections(own[0].tasks).at(-1)!.id).toEqual('custom')
 })
-const warband = accountTasks(tr, [], [], custom)
+const warband = accountTasks(tr, [], custom)
 it('a warband chore is one line of the warband, ticked once', () => {
   expect(warband.tasks.map((task) => [task.id, task.state, task.manual])).toEqual([['custom:ah', TaskState.Done, { subject: 'warband' }]])
 })
@@ -653,7 +668,6 @@ const warbandOwed = accountTasks(
       ]
     })
   ],
-  [],
   null,
   { warband: ['paragon:7'] }
 )
@@ -679,7 +693,6 @@ const warbandPicked = pickAccount(
         ]
       })
     ],
-    [],
     null
   ),
   { warband: ['paragon:7'] }

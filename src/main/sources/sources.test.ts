@@ -5,7 +5,7 @@
  */
 
 import { expect, it } from 'vitest'
-import { accountWeeklies, readSources, mergeSources, getSourceStatuses, ADAPTERS } from './index'
+import { readSources, mergeSources, withAccountRewards, getSourceStatuses, ADAPTERS } from './index'
 import { lastWeeklyReset, formatUntilReset, resetFromClient } from '../season'
 import { normaliseWowPath } from '../wow'
 import { seasonCatalog, seasonQuestDefs, seasonCurrencyNames } from '../../shared/seasonCatalog'
@@ -517,6 +517,8 @@ WarbandBriefingDB = {
 			["76586"] = { ["title"] = "Weltboss erlegt", ["at"] = ${thisWeek}, ["frequency"] = 2 },
 			-- A turn-in no other source saw: a suggestion only the companion can make.
 			["90500"] = { ["title"] = "Nur der Companion", ["at"] = ${thisWeek}, ["frequency"] = 2 },
+			-- Pays once for the account; the register flags it so.
+			["95438"] = { ["title"] = "Verlorene Tiere", ["at"] = ${thisWeek}, ["frequency"] = 2 },
 			-- A regular quest turned in: ticks the line if configured, never a suggestion.
 			["90600"] = { ["title"] = "Levelquest", ["at"] = ${thisWeek}, ["frequency"] = 0 },
 			-- Last week's turn-in, not pruned yet: no suggestion, no tick.
@@ -935,25 +937,23 @@ it('a capped character carries none', () => {
 it('account-wide weeklies, expired ones dropped', () => {
   expect(read.accountQuests).toEqual([{ id: 95416, label: 'Going Postal' }])
 })
-/* The warband's lines: the watched quests that complete once for the account. */
+/* A quest that pays once for the account: the character that took the reward is named on the others' lines. */
 const accountWatched = [
   { id: 95416, label: 'Going Postal' },
   { id: 95438, label: 'Lost Animals' },
   { id: 90001, label: 'Alchemie-Dienste gefragt' }
 ]
 const accountRead = await readSources(wowRoot, accountWatched, {}, translator)
-const split = accountWeeklies(accountRead, mergeSources(accountRead, reset), accountWatched)
-it("a watched quest the account record has done, and one the register flags account-wide, are the warband's lines", () => {
-  expect(split.account).toEqual([
-    { id: 95416, label: 'Going Postal', done: true },
-    { id: 95438, label: 'Lost Animals', done: false }
-  ])
+const rewarded = withAccountRewards(accountRead, mergeSources(accountRead, reset))
+const rewardOf = (name: string, id: number) => rewarded.find((c) => c.name === name)!.weeklies.find((task) => task.id === id)
+it("a quest the register flags account-wide, done by one character, names that character on the others' lines; the one that did it keeps its tick", () => {
+  expect([rewardOf('Doppelt', 95438)?.rewardTaken, rewardOf('Doppelt', 95438)?.done, rewardOf('Klöße', 95438)?.rewardTaken]).toEqual([undefined, true, { by: 'Doppelt' }])
 })
-it('the characters keep only the quests of their own', () => {
-  expect(new Set(split.characters.flatMap((c) => c.weeklies.map((task) => task.id)))).toEqual(new Set([90001]))
+it('a quest only the account record has done is marked without a name', () => {
+  expect(rewardOf('Klöße', 95416)?.rewardTaken).toEqual({ by: null })
 })
-it('an account quest nobody watches is no line', () => {
-  expect(accountWeeklies(read, merged, quests).account).toEqual([])
+it("a character's own quest carries no mark", () => {
+  expect(rewardOf('Doppelt', 90001)?.rewardTaken).toEqual(undefined)
 })
 
 /* Gear: only the companion reads it off the client. */

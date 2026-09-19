@@ -1,16 +1,4 @@
 {
-  "accountQuests": [
-    {
-      "id": 93913,
-      "label": "Midnight: World Boss",
-      "done": true
-    },
-    {
-      "id": 95438,
-      "label": "Lost Animals",
-      "done": false
-    }
-  ],
   "events": {
     "list": [
       {

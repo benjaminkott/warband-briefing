@@ -156,6 +156,9 @@ export const de = {
   'task.ready': 'abgabebereit',
   'task.accept': 'annehmen',
   'task.acceptHint': 'Laut Quest-Log des Companions noch nicht angenommen.',
+  'task.rewardTaken': 'Belohnung bei {name}',
+  'task.rewardTakenAccount': 'Belohnung geholt',
+  'task.rewardTakenHint': 'Die Quest belohnt einmal pro Account. Dieser Charakter kann sie noch machen, bekommt aber nichts mehr dafür.',
   /* Gear check */
   'card.gear': 'Ausrüstung',
   'card.noGear': 'Keine Ausrüstung gemeldet',
@@ -761,7 +764,6 @@ export const de = {
   'tasks.capHint': 'Diese Woche verdient, vom Wochenlimit. Voll gilt als erledigt.',
   'tasks.warband': 'Kriegsmeute',
   'tasks.eventUntil': 'bis {time}',
-  'tasks.accountQuests': 'Einmal für den ganzen Account',
   'tasks.nothingOpen': 'Nichts mehr offen.',
   'tasks.allDone.one': '1 Charakter ist fertig: {names}',
   'tasks.allDone.other': '{count} Charaktere sind fertig: {names}',

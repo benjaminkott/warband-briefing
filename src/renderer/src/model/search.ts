@@ -13,6 +13,7 @@ import { HitKind } from '../enums/hitKind'
 import { Stash } from '../enums/stash'
 import { matchItems, sortItems } from './inventory'
 import { matches } from './overview'
+import { isOwed } from '../../../shared/weeklyTask'
 
 export interface CharacterHit {
   kind: HitKind.Character
@@ -59,7 +60,7 @@ function termsOf(query: string): string[] {
 export function matchedTask(character: CharacterSnapshot, query: string): string | null {
   const terms = termsOf(query)
   if (terms.length === 0) return null
-  const open = [...character.weeklies, ...(character.activities ?? [])].filter((task) => !task.done)
+  const open = [...character.weeklies.filter(isOwed), ...(character.activities ?? []).filter((task) => !task.done)]
   return open.find((task) => terms.some((term) => task.label.toLowerCase().includes(term)))?.label ?? null
 }
 

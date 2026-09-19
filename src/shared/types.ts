@@ -188,6 +188,13 @@ export interface WeeklyTask {
   /** From the definition, grown from the register: the ids the week's quest is one of. */
   pool?: number[]
   done: boolean
+  /**
+   * The quest pays once for the whole account (the client's account flag),
+   * and another character collected it this week: its name, or null where
+   * only the account's record says so. The quest is still this character's
+   * to do, for nothing (`weeklyTask.ts`).
+   */
+  rewardTaken?: { by: string | null }
   /** Objectives complete, quest not yet turned in. */
   ready?: boolean
   /**

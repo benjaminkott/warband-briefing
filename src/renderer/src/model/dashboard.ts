@@ -20,6 +20,7 @@ import { characterState, hasUnclaimedVault, isMaxLevel, playedLastWeek, raidKill
 import { RenownKind } from '../../../shared/enums/renownKind'
 import { FactionGroup } from '../../../shared/enums/factionGroup'
 import { classColor } from '../enums/classToken'
+import { isAsked } from '../../../shared/weeklyTask'
 
 /**
  * The characters the dashboard reports a week for: at the level cap, with data
@@ -141,7 +142,7 @@ export function rosterRows(
       ratio: progress.ratio,
       gap,
       openWeeklies: progress.openWeeklies,
-      totalWeeklies: character.weeklies.length,
+      totalWeeklies: character.weeklies.filter(isAsked).length,
       openActivities: progress.openActivities,
       gearIssues,
       raidBosses: kills.defeated,

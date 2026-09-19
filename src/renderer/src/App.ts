@@ -16,8 +16,7 @@ import type {
   UpdateState,
   WarbandBank,
   WeeklyEvents,
-  WeeklyQuestDef,
-  WeeklyTask
+  WeeklyQuestDef
 } from '../../shared/types'
 import type { DataBundle, IpcResult, SourceInfo, SyncBundle } from '../../preload/index'
 import { createTranslator, type Translator } from '../../shared/i18n'
@@ -116,7 +115,6 @@ export class WtApp extends WtElement {
   @state() accessor charHistory: CharacterHistory = {}
   @state() accessor detectedQuests: WeeklyQuestDef[] = []
   @state() accessor learnedQuests: WeeklyQuestDef[] = []
-  @state() accessor accountQuests: WeeklyTask[] = []
   @state() accessor events: WeeklyEvents | null = null
   /** The season's dungeons as the companion listed them; null before it did. */
   @state() accessor seasonDungeons: SeasonDungeons | null = null
@@ -449,7 +447,6 @@ export class WtApp extends WtElement {
     this.charHistory = bundle.charHistory ?? {}
     this.detectedQuests = bundle.detectedQuests ?? []
     this.learnedQuests = bundle.learnedQuests ?? []
-    this.accountQuests = bundle.accountQuests ?? []
     this.events = bundle.events ?? null
     this.seasonDungeons = bundle.seasonDungeons ?? null
     this.knownAccounts = bundle.accounts
@@ -858,7 +855,6 @@ export class WtApp extends WtElement {
     const { prefs } = this
     return html`<wt-tasks-view
       .characters=${model.relevant}
-      .accountQuests=${this.accountQuests}
       .events=${this.events}
       .goals=${model.goals}
       .flags=${model.flags}

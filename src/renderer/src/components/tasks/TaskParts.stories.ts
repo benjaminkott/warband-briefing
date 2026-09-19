@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite'
 import { html } from 'lit'
 import { displayFlags } from '../../../../shared/display'
 import { rosterRows } from '../../model/dashboard'
-import { accountTasks, characterTasks, runningEvents, tasksByCharacter, tasksByChore } from '../../model/tasks'
+import { accountTasks, characterTasks, counted, runningEvents, tasksByCharacter, tasksByChore } from '../../model/tasks'
 import { ALT_UNCLAIMED, CONFIG, DATA_BUNDLE, MAIN, MAX_LEVEL, RESET_AT, ROSTER, translatorFor } from '../../stories/fixtures'
 import { TaskState } from '../../enums/taskState'
 import './TaskGroup'
@@ -36,7 +36,7 @@ export const Rows: StoryObj = {
       .character=${MAIN}
       .tasks=${tasks}
       .goals=${row.progress.goals}
-      done=${tasks.filter((task) => task.state === TaskState.Done).length}
+      done=${counted(tasks).filter((task) => task.state === TaskState.Done).length}
       total=${tasks.length}
     ></wt-task-group>`
   }
@@ -73,7 +73,7 @@ export const CharacterGroups: StoryObj = {
 export const Warband: StoryObj = {
   render: (_args, context) => {
     const tr = translatorFor(context)
-    const account = accountTasks(tr, ROSTER, DATA_BUNDLE.accountQuests)
+    const account = accountTasks(tr, ROSTER)
     return html`<wt-task-group
       style="max-width: 420px"
       heading=${tr.t('tasks.warband')}

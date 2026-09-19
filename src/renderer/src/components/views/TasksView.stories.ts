@@ -46,7 +46,6 @@ const meta: Meta<Args> = {
       <wt-tasks-view
         .characters=${withSkips(ROSTER, CONFIG.taskSkips).slice(0, args.roster)}
         .skips=${CONFIG.taskSkips}
-        .accountQuests=${DATA_BUNDLE.accountQuests}
         .events=${DATA_BUNDLE.events}
         .goals=${CONFIG.goals}
         .flags=${displayFlags(CONFIG)}

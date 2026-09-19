@@ -93,7 +93,7 @@ export const UPDATE_AVAILABLE: UpdateState = shifted(updateData.available)
 export const UPDATE_DOWNLOADING: UpdateState = shifted(updateData.downloading)
 export const UPDATE_READY: UpdateState = shifted(updateData.ready)
 
-const WEEK: Pick<DataBundle, 'accountQuests' | 'events' | 'seasonDungeons' | 'detectedQuests' | 'learnedQuests' | 'lastSyncAt'> =
+const WEEK: Pick<DataBundle, 'events' | 'seasonDungeons' | 'detectedQuests' | 'learnedQuests' | 'lastSyncAt'> =
   shifted(weekData)
 
 /** The season's dungeons as the companion lists them: two of them nobody on the roster has run. */
@@ -123,7 +123,6 @@ export const SYNC_BUNDLE: SyncBundle = {
   charHistory: CHAR_HISTORY,
   accounts: ACCOUNTS,
   accountCharacters: ACCOUNT_CHARACTERS,
-  accountQuests: WEEK.accountQuests,
   events: WEEK.events,
   seasonDungeons: WEEK.seasonDungeons,
   detectedQuests: WEEK.detectedQuests,

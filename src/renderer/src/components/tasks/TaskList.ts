@@ -59,7 +59,13 @@ export class WtTaskList extends WtElement {
     // In the pick mode the line's state steps back: the box is a choice,
     // in the accent, and a line taken off is dim rather than struck through.
     return html`<wt-checkbox
-      class=${classMap({ 'task-ready': line.ready && !this.picking, 'task-done': line.done && !this.picking, 'task-pick': this.picking, 'task-skipped': task.skipped })}
+      class=${classMap({
+        'task-ready': line.ready && !this.picking,
+        'task-done': line.done && !this.picking,
+        'task-paid': line.paid && !this.picking,
+        'task-pick': this.picking,
+        'task-skipped': task.skipped
+      })}
       kind=${CheckboxKind.TaskRow}
       ?checked=${line.checked}
       ?disabled=${!line.takesHand}

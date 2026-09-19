@@ -3416,6 +3416,17 @@ wt-group + wt-field-group {
   color: var(--ok);
 }
 
+/* A line paid to another character asks nothing: dim like a line taken
+   off, the box empty, the note saying whose the reward was. */
+.task-paid > .task-row {
+  color: var(--text-faint);
+}
+
+.task-paid > .task-row > .icon,
+.task-paid > .task-row .task-note {
+  opacity: 0.5;
+}
+
 /* The name never gives way: it is what a line of a chore panel is read
    by. The words after it take the ellipsis. */
 .task-who {

@@ -5,7 +5,7 @@ import { DISPLAY_DEFAULTS, type DisplayFlags } from '../../../../shared/display'
 import type { CustomTaskState } from '../../../../shared/customTasks'
 import type { Translator } from '../../../../shared/i18n'
 import { rosterRows, type RosterRow } from '../../model/dashboard'
-import { characterTasks } from '../../model/tasks'
+import { characterTasks, counted } from '../../model/tasks'
 import { memoLast } from '../../memo'
 import { WtDetailPanel } from './DetailPanel'
 import { TaskState } from '../../enums/taskState'
@@ -48,10 +48,11 @@ export class WtDetailTasks extends WtDetailPanel {
     const row = this.rowOf(this.character, this.goals, this.maxLevel, this.resetAt, tr, this.flags)
     const all = this.tasksOf(tr, row, this.flags, this.custom, this.supplyMinimums, this.clock)
     const tasks = this.besideVault ? all.filter((task) => task.kind !== TaskKind.Vault) : all
-    const done = tasks.filter((task) => task.state === TaskState.Done).length
+    const asked = counted(tasks)
+    const done = asked.filter((task) => task.state === TaskState.Done).length
     this.icon = 'tasks'
     this.heading = tr.t('detail.tasks.title')
-    this.aside = tasks.length > 0 ? `${done}/${tasks.length}` : undefined
+    this.aside = asked.length > 0 ? `${done}/${asked.length}` : undefined
     this.content =
       tasks.length === 0
         ? html`<wt-panel-empty text=${tr.t(row.levelling ? 'card.levellingHint' : 'tasks.nothingOpen')}></wt-panel-empty>`

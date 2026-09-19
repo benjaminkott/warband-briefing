@@ -430,7 +430,6 @@ function registerHandlers(): void {
     charHistory: store.getCharacterHistory(),
     accounts: store.getAccounts(),
     accountCharacters: store.getAccountCharacters(),
-    accountQuests: store.getAccountQuests(),
     events: store.getEvents(),
     seasonDungeons: store.getSeasonDungeons(),
     // Part of the state, not just of a sync result: the settings screen offers

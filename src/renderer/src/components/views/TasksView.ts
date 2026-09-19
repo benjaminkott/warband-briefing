@@ -2,7 +2,7 @@ import { html, nothing, type TemplateResult } from 'lit'
 import { multiRealm } from '../../model/overview'
 import { customElement, property, state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
-import type { AppConfig, CharacterSnapshot, Goal, WeeklyEvents, WeeklyTask } from '../../../../shared/types'
+import type { AppConfig, CharacterSnapshot, Goal, WeeklyEvents } from '../../../../shared/types'
 import { DISPLAY_DEFAULTS, type DisplayFlags } from '../../../../shared/display'
 import type { CustomTaskState } from '../../../../shared/customTasks'
 import { withoutSkips, type TaskSkips } from '../../../../shared/skips'
@@ -17,6 +17,7 @@ import {
   filterTasks,
   groupingsFor,
   pickAccount,
+  counted,
   pickList,
   runningEvents,
   splitShared,
@@ -77,7 +78,6 @@ export class WtTasksView extends WtElement {
   /** The roster the list covers: hidden characters already removed. */
   @property({ attribute: false }) accessor characters: CharacterSnapshot[] = []
   /** Weekly quests done once for the whole account this week. */
-  @property({ attribute: false }) accessor accountQuests: WeeklyTask[] = []
   /** The calendar's events, where a source reported them. */
   @property({ attribute: false }) accessor events: WeeklyEvents | null = null
   @property({ attribute: false }) accessor goals: Goal[] = []
@@ -167,10 +167,10 @@ export class WtTasksView extends WtElement {
     // The warband's own chores come from every character the account has,
     // whether or not it is on the list: a paragon reward is the same reward
     // whoever last saw it.
-    const account = this.accountOf(tr, characters, this.accountQuests, this.custom, this.skips)
+    const account = this.accountOf(tr, characters, this.custom, this.skips)
     const pickingWarband = picking.has(WARBAND_PANEL)
     const pickedAccount = pickingWarband
-      ? this.pickAccountOf(this.owedOf(tr, characters, this.accountQuests, this.custom, null), this.skips)
+      ? this.pickAccountOf(this.owedOf(tr, characters, this.custom, null), this.skips)
       : account
     // Only what is still running. An empty list stays empty: the events
     // are its frame, not its lines. A panel in the pick mode has no events:
@@ -242,8 +242,8 @@ export class WtTasksView extends WtElement {
               heading=${tr.t('tasks.group.single')}
               icon="users"
               .tasks=${single}
-              done=${singles.filter((task) => !task.skipped && task.state === TaskState.Done).length}
-              total=${singles.filter((task) => !task.skipped).length}
+              done=${counted(singles).filter((task) => task.state === TaskState.Done).length}
+              total=${counted(singles).length}
               .characters=${byKey}
               mixed
               ?picking=${pickingSingles}

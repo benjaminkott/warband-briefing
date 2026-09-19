@@ -150,6 +150,9 @@ export const en: Record<TranslationKey, string> = {
   'task.ready': 'ready to turn in',
   'task.accept': 'accept',
   'task.acceptHint': 'Not on the quest log yet, as the companion reports it.',
+  'task.rewardTaken': 'Reward on {name}',
+  'task.rewardTakenAccount': 'Reward taken',
+  'task.rewardTakenHint': 'The quest pays once for the whole account. This character can still do it, but gets nothing for it.',
   /* Gear check */
   'card.gear': 'Gear',
   'card.noGear': 'No gear reported',
@@ -746,7 +749,6 @@ export const en: Record<TranslationKey, string> = {
   'tasks.capHint': 'Earned this week, of the weekly cap. Full counts as done.',
   'tasks.warband': 'Warband',
   'tasks.eventUntil': 'until {time}',
-  'tasks.accountQuests': 'Once for the whole account',
   'tasks.nothingOpen': 'Nothing left open.',
   'tasks.allDone.one': '1 character is done: {names}',
   'tasks.allDone.other': '{count} characters are done: {names}',

@@ -137,7 +137,7 @@ export function tableRows(tr: Translator, inputs: TableInputs): TableRow[] {
     // Every line of the task list in one cell, the open ones in the tooltip:
     // the same lines, so the cell and the list never disagree.
     const lines = characterTasks(tr, rows.get(character.key)!, flags, custom, minimums, now)
-    const open = lines.filter((task) => task.state !== TaskState.Done)
+    const open = lines.filter((task) => task.state !== TaskState.Done && task.state !== TaskState.Paid)
     const gear = checkGear(character, flags)
     return {
       character,
