@@ -5,7 +5,7 @@
  */
 
 import { expect, it } from 'vitest'
-import { readSources, mergeSources, getSourceStatuses, ADAPTERS } from './index'
+import { accountWeeklies, readSources, mergeSources, getSourceStatuses, ADAPTERS } from './index'
 import { lastWeeklyReset, formatUntilReset, resetFromClient } from '../season'
 import { normaliseWowPath } from '../wow'
 import { seasonCatalog, seasonQuestDefs, seasonCurrencyNames } from '../../shared/seasonCatalog'
@@ -392,6 +392,8 @@ WarbandBriefingDB = {
 	["93890"] = { ["title"] = "Mitternacht: Überfluss", ["frequency"] = "Weekly", ["classification"] = "Meta", ["expansion"] = 11, ["seenAt"] = ${endedWeek} },
 	-- The season's weekly on the log, not turned in yet.
 	["96400"] = { ["title"] = "Neue Wochenquest", ["frequency"] = "Weekly", ["classification"] = "Recurring", ["expansion"] = 11, ["seenAt"] = ${thisWeek - 120} },
+	-- Completes once for the whole account: the warband's line, not any character's.
+	["95438"] = { ["title"] = "Verlorene Tiere", ["frequency"] = "Weekly", ["classification"] = "Recurring", ["expansion"] = 11, ["account"] = true, ["seenAt"] = ${thisWeek} },
 	-- A quest the game added to the season's pool after the seed: the prefix says which pool.
 	["98600"] = { ["title"] = "Mitternacht: Neu", ["frequency"] = "ResetByScheduler", ["classification"] = "Meta", ["expansion"] = 11, ["seenAt"] = ${thisWeek - 30} },
 },
@@ -836,7 +838,7 @@ it("a pool's line done by SavedInstances' flag names the one the register saw th
 
 /* The register: the season's weeklies as the game itself describes them. */
 it('the learned season weeklies - weekly flag, schedule reset, profession, learned reset; the current expansion only; last done, then last seen first', () => {
-  expect(read.learnedQuests.map((quest) => quest.id)).toEqual([93909, 90001, 90002, 96101, 98600, 93911, 96400, 93890, 95520])
+  expect(read.learnedQuests.map((quest) => quest.id)).toEqual([93909, 90001, 90002, 95438, 96101, 98600, 93911, 96400, 93890, 95520])
 })
 it('the learned weekly carries the client title', () => {
   expect(read.learnedQuests.find((quest) => quest.id === 96101)).toEqual({ id: 96101, label: 'Alchemiedienste erbeten' })
@@ -932,6 +934,26 @@ it('a capped character carries none', () => {
 })
 it('account-wide weeklies, expired ones dropped', () => {
   expect(read.accountQuests).toEqual([{ id: 95416, label: 'Going Postal' }])
+})
+/* The warband's lines: the watched quests that complete once for the account. */
+const accountWatched = [
+  { id: 95416, label: 'Going Postal' },
+  { id: 95438, label: 'Lost Animals' },
+  { id: 90001, label: 'Alchemie-Dienste gefragt' }
+]
+const accountRead = await readSources(wowRoot, accountWatched, {}, translator)
+const split = accountWeeklies(accountRead, mergeSources(accountRead, reset), accountWatched)
+it("a watched quest the account record has done, and one the register flags account-wide, are the warband's lines", () => {
+  expect(split.account).toEqual([
+    { id: 95416, label: 'Going Postal', done: true },
+    { id: 95438, label: 'Lost Animals', done: false }
+  ])
+})
+it('the characters keep only the quests of their own', () => {
+  expect(new Set(split.characters.flatMap((c) => c.weeklies.map((task) => task.id)))).toEqual(new Set([90001]))
+})
+it('an account quest nobody watches is no line', () => {
+  expect(accountWeeklies(read, merged, quests).account).toEqual([])
 })
 
 /* Gear: only the companion reads it off the client. */

@@ -2,7 +2,7 @@ import { html, nothing, type TemplateResult } from 'lit'
 import { multiRealm } from '../../model/overview'
 import { customElement, property, state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
-import type { AppConfig, CharacterSnapshot, Goal, WeeklyEvents, WeeklyQuestDef } from '../../../../shared/types'
+import type { AppConfig, CharacterSnapshot, Goal, WeeklyEvents, WeeklyTask } from '../../../../shared/types'
 import { DISPLAY_DEFAULTS, type DisplayFlags } from '../../../../shared/display'
 import type { CustomTaskState } from '../../../../shared/customTasks'
 import { withoutSkips, type TaskSkips } from '../../../../shared/skips'
@@ -77,7 +77,7 @@ export class WtTasksView extends WtElement {
   /** The roster the list covers: hidden characters already removed. */
   @property({ attribute: false }) accessor characters: CharacterSnapshot[] = []
   /** Weekly quests done once for the whole account this week. */
-  @property({ attribute: false }) accessor accountQuests: WeeklyQuestDef[] = []
+  @property({ attribute: false }) accessor accountQuests: WeeklyTask[] = []
   /** The calendar's events, where a source reported them. */
   @property({ attribute: false }) accessor events: WeeklyEvents | null = null
   @property({ attribute: false }) accessor goals: Goal[] = []

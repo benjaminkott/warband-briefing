@@ -18,7 +18,7 @@
  * with the lines.
  */
 
-import type { AppConfig, CalendarEvent, CharacterSnapshot, CraftCooldown, Goal, WeeklyEvents, WeeklyQuestDef } from '../../../shared/types'
+import type { AppConfig, CalendarEvent, CharacterSnapshot, CraftCooldown, Goal, WeeklyEvents, WeeklyTask } from '../../../shared/types'
 import type { TranslationKey, Translator } from '../../../shared/i18n'
 import { DISPLAY_DEFAULTS, visibleActivities, type DisplayFlags } from '../../../shared/display'
 import { gearChoreId, gearChores, GEAR_ISSUE_ICONS, gearHint, slotList } from './gear'
@@ -661,13 +661,13 @@ export function keepTask(task: Pick<Task, 'state'>, filter: TaskFilter): boolean
 
 /**
  * What the warband owes as a whole: a paragon reward waiting at a faction,
- * and the quests done once for the whole account - the week's own ticks,
- * which no character can be asked for again.
+ * and the watched quests that complete once for the whole account - one
+ * line each, open until any character did it.
  */
 export function accountTasks(
   tr: Translator,
   characters: CharacterSnapshot[],
-  accountQuests: WeeklyQuestDef[],
+  accountQuests: WeeklyTask[],
   custom: CustomTaskState | null = null,
   skips: TaskSkips | null = null
 ): AccountTasks {
@@ -700,7 +700,7 @@ export function accountTasks(
       label: quest.label,
       chore: quest.label,
       note: null,
-      state: TaskState.Done,
+      state: quest.done ? TaskState.Done : TaskState.Open,
       tip: tr.t('tasks.accountQuests'),
       reward: null,
       minutes: null,

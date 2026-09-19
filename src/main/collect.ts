@@ -12,9 +12,10 @@ import type {
   SyncStatus,
   WarbandBank,
   WeeklyEvents,
-  WeeklyQuestDef
+  WeeklyQuestDef,
+  WeeklyTask
 } from '../shared/types'
-import { mergeSources, readSources, type SourceCharacter, type SourceStatus } from './sources'
+import { accountWeeklies, mergeSources, readSources, type SourceCharacter, type SourceStatus } from './sources'
 import { lastWeeklyReset } from './season'
 import type { Store } from './store'
 import { mergeLexicons } from '../shared/lexicon'
@@ -35,7 +36,7 @@ export interface CollectResult {
    * settings say what switching a folder off would take away.
    */
   accountCharacters: Record<string, number>
-  accountQuests: WeeklyQuestDef[]
+  accountQuests: WeeklyTask[]
   events: WeeklyEvents | null
   seasonDungeons: SeasonDungeons | null
 }
@@ -170,8 +171,10 @@ export class Collector {
 
       // What the app knows of the items: this read and every read before it.
       const lexicon = mergeLexicons(this.store.getLexicon(), read.lexicon)
-      const merged = mergeSources(read, lastWeeklyReset(config.region, Date.now(), read.weeklyResetAt[config.region])).filter(
-        (c) => c.level >= config.minLevel
+      const { account: accountQuests, characters: merged } = accountWeeklies(
+        read,
+        mergeSources(read, lastWeeklyReset(config.region, Date.now(), read.weeklyResetAt[config.region])).filter((c) => c.level >= config.minLevel),
+        config.weeklyQuests
       )
 
       // Counted before the hiding below: a folder switched off still has its
@@ -261,7 +264,7 @@ export class Collector {
       await this.store.setSnapshots(snapshots, gold, read.accounts, {
         warbandBanks,
         accountCharacters,
-        accountQuests: read.accountQuests,
+        accountQuests,
         events: read.events,
         seasonDungeons: read.seasonDungeons,
         lexicon: read.lexicon
@@ -275,7 +278,7 @@ export class Collector {
         warbandBanks,
         accounts: read.accounts,
         accountCharacters,
-        accountQuests: read.accountQuests,
+        accountQuests,
         events: read.events,
         seasonDungeons: this.store.getSeasonDungeons()
       }

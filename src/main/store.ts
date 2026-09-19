@@ -17,7 +17,8 @@ import type {
   SeasonDungeons,
   WarbandBank,
   WeeklyEvents,
-  WeeklyQuestDef
+  WeeklyQuestDef,
+  WeeklyTask
 } from '../shared/types'
 import { recordCharacters } from '../shared/charHistory'
 import { DEFAULT_EVENING_MINUTES } from '../shared/effort'
@@ -85,8 +86,8 @@ interface PersistedState {
   accounts: string[]
   /** Characters per WTF account, hidden ones counted too. */
   accountCharacters: Record<string, number>
-  /** Weekly quests done once for the whole account, as of the last read. */
-  accountQuests: WeeklyQuestDef[]
+  /** The watched weeklies that complete once for the whole account, as of the last read. */
+  accountQuests: WeeklyTask[]
   /** The calendar's running events, as of the last read. */
   events: WeeklyEvents | null
   /** The season's dungeons, as of the last read; null before the companion listed them. */
@@ -265,6 +266,9 @@ function migrate(state: PersistedState): PersistedState {
       seasonCatalog().quests.filter((quest) => quest.pool !== undefined)
     )
   }
+  // The account's quests were every one SavedInstances had done, once; they
+  // are the watched ones with a state now, and the next read fills the list.
+  if (Array.isArray(state.accountQuests) && state.accountQuests.some((quest) => typeof quest.done !== 'boolean')) state.accountQuests = []
   // The companion adapter was named after the app. Its id is neutral now, so
   // the next rename does not touch the config again.
   const sources = state.config.enabledSources
@@ -380,7 +384,7 @@ export class Store {
     extras: {
       warbandBanks: WarbandBank[]
       accountCharacters: Record<string, number>
-      accountQuests: WeeklyQuestDef[]
+      accountQuests: WeeklyTask[]
       events: WeeklyEvents | null
       seasonDungeons: SeasonDungeons | null
       lexicon: Lexicon
@@ -408,7 +412,7 @@ export class Store {
     return this.state.charHistory
   }
 
-  getAccountQuests(): WeeklyQuestDef[] {
+  getAccountQuests(): WeeklyTask[] {
     return this.state.accountQuests ?? []
   }
 

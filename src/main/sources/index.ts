@@ -191,7 +191,11 @@ export interface ReadResult {
    * every register of every account as one. Empty without the companion.
    */
   learnedQuests: WeeklyQuestDef[]
-  /** Weekly quests done once for the whole account this week. */
+  /**
+   * Weekly quests SavedInstances records beside no character: done once
+   * for the whole account this week. Raw; `accountWeeklies` makes the
+   * warband's lines of the watched ones.
+   */
   accountQuests: WeeklyQuestDef[]
   /** The companion's register of quests, every account's as one. Empty without the companion. */
   questRegistry: QuestRegistry
@@ -510,6 +514,37 @@ function enrichRuns(runs: MythicRun[], others: MythicRun[][]): MythicRun[] {
 
 export interface MergedCharacter extends CharacterSnapshot {
   provenance: Provenance
+}
+
+/**
+ * The watched weeklies that complete once for the whole account, as one
+ * line each, and the characters without them. The register flags such a
+ * quest account-wide; SavedInstances keeps its record beside no character.
+ * A line for it on every character would ask twenty times for what the
+ * warband owes once, so it is the warband's line: done where any character
+ * did it or the account record says so. A quest nobody watches is no line
+ * at all, done or not.
+ */
+export function accountWeeklies(
+  read: ReadResult,
+  characters: MergedCharacter[],
+  watched: readonly WeeklyQuestDef[]
+): { account: WeeklyTask[]; characters: MergedCharacter[] } {
+  const doneForAccount = new Map(read.accountQuests.map((quest) => [quest.id, quest.label]))
+  const flagged = new Set(read.questRegistry.quests.filter((quest) => quest.account).map((quest) => quest.id))
+  const isAccountWide = (def: WeeklyQuestDef): boolean => questIdsOf(def).some((id) => flagged.has(id) || doneForAccount.has(id))
+  const accountWide = watched.filter(isAccountWide)
+  const account = accountWide.map((def) => {
+    const tasks = characters.flatMap((character) => character.weeklies.filter((task) => task.id === def.id))
+    const done = tasks.some((task) => task.done) || questIdsOf(def).some((id) => doneForAccount.has(id))
+    const label = tasks.find((task) => task.done)?.label ?? tasks[0]?.label ?? fromPool(def, (id) => doneForAccount.get(id)) ?? def.label
+    return { id: def.id, label, done }
+  })
+  const ids = new Set(accountWide.map((def) => def.id))
+  return {
+    account,
+    characters: characters.map((character) => ({ ...character, weeklies: character.weeklies.filter((task) => !ids.has(task.id)) }))
+  }
 }
 
 /**

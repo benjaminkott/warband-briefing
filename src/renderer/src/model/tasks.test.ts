@@ -229,15 +229,23 @@ const paragon = {
   maxed: true,
   paragon: { current: 2400, max: 2500, rewardPending: true }
 }
-const account = accountTasks(tr, [character('A', { renown: [paragon] })], [{ id: 9, label: 'Boss of the week' }])
-it('a paragon reward is an open chore of the warband, an account quest a done one', () => {
+const account = accountTasks(
+  tr,
+  [character('A', { renown: [paragon] })],
+  [
+    { id: 9, label: 'Boss of the week', done: true },
+    { id: 10, label: 'Lost Animals', done: false }
+  ]
+)
+it('a paragon reward is an open chore of the warband; an account quest is one line, open until done', () => {
   expect(account.tasks.map((task) => [task.kind, task.state])).toEqual([
     [TaskKind.Paragon, TaskState.Open],
-    [TaskKind.Weekly, TaskState.Done]
+    [TaskKind.Weekly, TaskState.Done],
+    [TaskKind.Weekly, TaskState.Open]
   ])
 })
 it('totals sum the panels', () => {
-  expect(taskTotals([entry, account])).toEqual({ done: 3, total: 10 })
+  expect(taskTotals([entry, account])).toEqual({ done: 3, total: 11 })
 })
 
 /* ---- every chore is the character's own; the list takes lines off ---- */

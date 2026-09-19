@@ -746,7 +746,7 @@ export const en: Record<TranslationKey, string> = {
   'tasks.capHint': 'Earned this week, of the weekly cap. Full counts as done.',
   'tasks.warband': 'Warband',
   'tasks.eventUntil': 'until {time}',
-  'tasks.accountQuests': 'Done account-wide',
+  'tasks.accountQuests': 'Once for the whole account',
   'tasks.nothingOpen': 'Nothing left open.',
   'tasks.allDone.one': '1 character is done: {names}',
   'tasks.allDone.other': '{count} characters are done: {names}',

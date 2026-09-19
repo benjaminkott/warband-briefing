@@ -761,7 +761,7 @@ export const de = {
   'tasks.capHint': 'Diese Woche verdient, vom Wochenlimit. Voll gilt als erledigt.',
   'tasks.warband': 'Kriegsmeute',
   'tasks.eventUntil': 'bis {time}',
-  'tasks.accountQuests': 'Account-weit erledigt',
+  'tasks.accountQuests': 'Einmal für den ganzen Account',
   'tasks.nothingOpen': 'Nichts mehr offen.',
   'tasks.allDone.one': '1 Charakter ist fertig: {names}',
   'tasks.allDone.other': '{count} Charaktere sind fertig: {names}',

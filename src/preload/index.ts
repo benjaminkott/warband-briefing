@@ -8,6 +8,7 @@ import type {
   SeasonDungeons,
   WeeklyEvents,
   WeeklyQuestDef,
+  WeeklyTask,
   ResolvedConfig,
   GameState,
   SyncStatus,
@@ -36,7 +37,7 @@ export interface DataBundle extends ResetInfo {
   /** Characters per WTF account, the switched-off ones counted too. */
   accountCharacters: Record<string, number>
   /** Weekly quests done once for the whole account this week. */
-  accountQuests: WeeklyQuestDef[]
+  accountQuests: WeeklyTask[]
   /** The calendar's running events, where a source reported them. */
   events: WeeklyEvents | null
   /** The season's dungeons, run or not; null before the companion listed them. */
@@ -58,7 +59,7 @@ export interface SyncBundle extends ResetInfo {
   /** Every WTF account found, the ones switched off in the settings included. */
   accounts: string[]
   accountCharacters: Record<string, number>
-  accountQuests: WeeklyQuestDef[]
+  accountQuests: WeeklyTask[]
   events: WeeklyEvents | null
   seasonDungeons: SeasonDungeons | null
   /** Weekly quests the sources saw completed, offered in the settings. */
