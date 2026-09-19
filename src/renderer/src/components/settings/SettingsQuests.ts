@@ -1,6 +1,6 @@
 import { html, nothing } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
-import type { AppConfig, WeeklyQuestDef } from '../../../../shared/types'
+import type { AppConfig, SeasonDungeon, WeeklyQuestDef } from '../../../../shared/types'
 import type { CharacterSnapshot } from '../../../../shared/types'
 import { seasonCatalog, seasonQuestDefs } from '../../../../shared/seasonCatalog'
 import type { WtEvent } from '../../element'
@@ -33,6 +33,8 @@ export class WtSettingsQuests extends WtPanel {
   @property({ attribute: false }) accessor detectedQuests: WeeklyQuestDef[] = []
   /** The season's weeklies the companion learned from the game - rows of the season's group. */
   @property({ attribute: false }) accessor learnedQuests: WeeklyQuestDef[] = []
+  /** The season's dungeons: a learned weekly named after one is the dungeon pool's. */
+  @property({ attribute: false }) accessor seasonDungeons: SeasonDungeon[] = []
   /** The roster: with more than one character a hint says where the quest's character is picked. */
   @property({ attribute: false }) accessor characters: CharacterSnapshot[] = []
   @property({ type: Boolean }) accessor busy = false
@@ -51,7 +53,13 @@ export class WtSettingsQuests extends WtPanel {
   protected override willUpdate(): void {
     const tr = this.tr
     const quests = this.config.weeklyQuests
-    const choices = questChoices(quests, this.detectedQuests, this.learnedQuests, tr.compare)
+    const choices = questChoices(
+      quests,
+      this.detectedQuests,
+      this.learnedQuests,
+      this.seasonDungeons.map((dungeon) => dungeon.name),
+      tr.compare
+    )
     const columns = [
       { label: tr.t('settings.quests.quest'), className: 'col-quest' },
       { label: tr.t('settings.quests.id'), className: 'col-id' }

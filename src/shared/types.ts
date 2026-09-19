@@ -185,7 +185,7 @@ export interface WeeklyTask {
   label: string
   /** From the register's tag: the skill line of the profession the quest is for. */
   profession?: number | null
-  /** Copied from the definition: the ids the week's quest is one of. */
+  /** From the definition, grown from the register: the ids the week's quest is one of. */
   pool?: number[]
   done: boolean
   /** Objectives complete, quest not yet turned in. */
@@ -563,7 +563,8 @@ export interface WeeklyQuestDef {
   /**
    * The quest ids the game rotates through: one of them is the week's
    * quest, and the line stands for whichever it is (`questPool.ts`). The
-   * `id` is the line's own name and one of them.
+   * `id` is the line's own name and one of them. The stored ids are a
+   * seed; the register adds the ones the game added since.
    */
   pool?: number[]
 }

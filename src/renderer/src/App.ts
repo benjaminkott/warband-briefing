@@ -777,6 +777,7 @@ export class WtApp extends WtElement {
       .characters=${model.snapshots}
       .detectedQuests=${this.detectedQuests}
       .learnedQuests=${this.learnedQuests}
+      .seasonDungeons=${this.seasonDungeons?.list ?? NO_DUNGEONS}
       .hiddenKeys=${model.hiddenKeys}
       .accounts=${this.knownAccounts}
       .accountCharacters=${this.accountCharacters}

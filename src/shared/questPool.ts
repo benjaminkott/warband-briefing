@@ -11,6 +11,11 @@
  * first one it finds is the week's quest - its title, its progress, its
  * turn-in. The definition's own `id` names the line for the skips and the
  * settings whichever id the week draws.
+ *
+ * The pool's ids are a seed. The game adds a quest to the set with a
+ * patch - a new dungeon, a new "Midnight: ..." - and a list written down
+ * is behind from then on. So a pool grows from the register: a weekly the
+ * companion learned joins the pool whose shape it has (`growPools`).
  */
 
 import type { WeeklyQuestDef } from './types'
@@ -36,6 +41,42 @@ export function fromPool<T>(def: Pick<WeeklyQuestDef, 'id' | 'pool'>, lookup: (i
     if (found !== undefined) return found
   }
   return undefined
+}
+
+/** The part of a title before its colon ("Midnight: Delves" -> "Midnight:"), or null without one. */
+function prefixOf(title: string): string | null {
+  const colon = title.indexOf(':')
+  return colon > 0 ? title.slice(0, colon + 1) : null
+}
+
+/**
+ * The pools with the learned weeklies that have their shape. A pool learns
+ * its shape from the members the register knows: the prefix their titles
+ * share before the colon ("Midnight: Vaults" says "Midnight:"), or that
+ * their titles are the season's dungeons. A learned weekly no definition
+ * lists joins the first pool of its shape, in the learned order. Titles are
+ * in the client's language, and so are the dungeon names and the known
+ * members' titles, so the rule holds in every language. A pool with no
+ * known member has no shape and stays the seed.
+ */
+export function growPools(defs: readonly WeeklyQuestDef[], learned: readonly WeeklyQuestDef[], dungeons: readonly string[]): WeeklyQuestDef[] {
+  const listed = new Set(defs.flatMap((def) => questIdsOf(def)))
+  const free = learned.filter((quest) => !listed.has(quest.id))
+  return defs.map((def) => {
+    if (!def.pool || free.length === 0) return def
+    const known = learned.filter((quest) => inPool(def, quest.id))
+    const prefixes = new Set(known.map((quest) => prefixOf(quest.label)).filter((prefix): prefix is string => prefix !== null))
+    const ofDungeons = known.some((quest) => dungeons.includes(quest.label))
+    const joining: number[] = []
+    for (const quest of free) {
+      const prefix = prefixOf(quest.label)
+      const fits = (prefix !== null && prefixes.has(prefix)) || (ofDungeons && dungeons.includes(quest.label))
+      if (!fits || listed.has(quest.id)) continue
+      listed.add(quest.id)
+      joining.push(quest.id)
+    }
+    return joining.length === 0 ? def : { ...def, pool: [...def.pool, ...joining] }
+  })
 }
 
 /**

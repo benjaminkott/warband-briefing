@@ -1,6 +1,6 @@
 import { html, type TemplateResult } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import type { AppConfig, CharacterSnapshot, UpdateState, WeeklyQuestDef } from '../../../../shared/types'
+import type { AppConfig, CharacterSnapshot, SeasonDungeon, UpdateState, WeeklyQuestDef } from '../../../../shared/types'
 import type { SourceInfo } from '../../../../preload/index'
 import type { Locale } from '../../../../shared/i18n'
 import type { TranslationKey } from '../../../../shared/i18n'
@@ -57,6 +57,8 @@ export class WtSettings extends WtElement {
   @property({ attribute: false }) accessor detectedQuests: WeeklyQuestDef[] = []
   /** The season's weeklies the companion learned from the game. */
   @property({ attribute: false }) accessor learnedQuests: WeeklyQuestDef[] = []
+  /** The season's dungeons, for the dungeon weekly's pool. */
+  @property({ attribute: false }) accessor seasonDungeons: SeasonDungeon[] = []
   @property({ attribute: false }) accessor hiddenAccounts: Set<string> = new Set()
   @property({ attribute: 'resolved-locale' }) accessor resolvedLocale: Locale = 'en'
   @property({ attribute: false }) accessor sources: SourceInfo[] = []
@@ -91,6 +93,7 @@ export class WtSettings extends WtElement {
             .config=${config}
             .detectedQuests=${this.detectedQuests}
             .learnedQuests=${this.learnedQuests}
+            .seasonDungeons=${this.seasonDungeons}
             .characters=${characters}
             ?busy=${busy}
           ></wt-settings-quests>

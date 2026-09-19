@@ -22,7 +22,7 @@ import type {
 } from '../../shared/types'
 import { seasonCatalog, seasonCurrencyNames } from '../../shared/seasonCatalog'
 import { isOffered, mergeRegistries, questProfession, seasonWeeklies, seenThisWeek, type QuestRegistry } from '../../shared/questRegistry'
-import { fromPool, questIdsOf } from '../../shared/questPool'
+import { fromPool, growPools, questIdsOf } from '../../shared/questPool'
 import { mergeLexicons, type Lexicon } from '../../shared/lexicon'
 import { fullVault } from '../../shared/vault'
 import { applyEnchantSlots, learnEnchantSlots } from './enchants'
@@ -203,9 +203,37 @@ export interface ReadResult {
   lexicon: Lexicon
 }
 
+/**
+ * The configured weeklies with their pools grown from the register. A
+ * source resolves a pool against the log, the turn-ins and the flags as it
+ * reads a character, so a quest the game added to the pool since the seed
+ * must be in it by then - and the register is in the same files. They are
+ * parsed once and cached, so the second read below costs nothing. A file
+ * that fails here fails there too, where the status says so.
+ */
+async function grownWeeklies(wowPath: string, weeklyQuests: WeeklyQuestDef[], enabled: Record<string, boolean>, options: ReadOptions): Promise<WeeklyQuestDef[]> {
+  if (!weeklyQuests.some((quest) => quest.pool !== undefined)) return weeklyQuests
+  const registries: QuestRegistry[] = []
+  let dungeons: SeasonDungeons | null = null
+  for (const adapter of ADAPTERS) {
+    if (enabled[adapter.id] === false || !adapter.readAccount) continue
+    for (const file of await adapter.findFiles(wowPath)) {
+      try {
+        const account = await adapter.readAccount(file, options)
+        if (account.questRegistry) registries.push(account.questRegistry)
+        if (account.seasonDungeons && (!dungeons || account.seasonDungeons.updatedAt > dungeons.updatedAt)) dungeons = account.seasonDungeons
+      } catch {
+        // The read below reports it.
+      }
+    }
+  }
+  const names = (dungeons?.list ?? []).map((dungeon) => dungeon.name)
+  return growPools(weeklyQuests, seasonWeeklies(mergeRegistries(registries)), names)
+}
+
 export async function readSources(
   wowPath: string,
-  weeklyQuests: WeeklyQuestDef[],
+  configuredQuests: WeeklyQuestDef[],
   enabled: Record<string, boolean>,
   translator: Translator,
   /** Each source's records from its last clean read, for a file that fails now. */
@@ -241,6 +269,7 @@ export async function readSources(
   let events: WeeklyEvents | null = null
   let seasonDungeons: SeasonDungeons | null = null
   const weeklyResetAt: Partial<Record<Region, number>> = {}
+  const weeklyQuests = await grownWeeklies(wowPath, configuredQuests, enabled, { wowPath, weeklyQuests: configuredQuests, currencyNames, translator })
   const options: ReadOptions = { wowPath, weeklyQuests, currencyNames, translator }
 
   for (const adapter of ADAPTERS) {

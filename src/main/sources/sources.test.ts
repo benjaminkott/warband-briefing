@@ -390,6 +390,8 @@ WarbandBriefingDB = {
 	["93890"] = { ["title"] = "Mitternacht: Überfluss", ["frequency"] = "Weekly", ["classification"] = "Meta", ["expansion"] = 11, ["seenAt"] = ${endedWeek} },
 	-- The season's weekly on the log, not turned in yet.
 	["96400"] = { ["title"] = "Neue Wochenquest", ["frequency"] = "Weekly", ["classification"] = "Recurring", ["expansion"] = 11, ["seenAt"] = ${thisWeek - 120} },
+	-- A quest the game added to the season's pool after the seed: the prefix says which pool.
+	["98600"] = { ["title"] = "Mitternacht: Neu", ["frequency"] = "ResetByScheduler", ["classification"] = "Meta", ["expansion"] = 11, ["seenAt"] = ${thisWeek - 30} },
 },
 ["events"] = { ["updatedAt"] = ${thisWeek}, ["list"] = {
 	{ ["title"] = "Zeitwanderung: Wrath of the Lich King", ["startsAt"] = ${now - 86400}, ["endsAt"] = ${now + 3 * 86400} },
@@ -503,6 +505,7 @@ WarbandBriefingDB = {
 			{ ["id"] = 82897, ["title"] = "Wochenevent", ["ready"] = false, ["fulfilled"] = 2, ["required"] = 4, ["frequency"] = 2 },
 			{ ["id"] = 90001, ["title"] = "Alchemie-Dienste", ["ready"] = true, ["fulfilled"] = 1, ["required"] = 1 },
 			{ ["id"] = 96400, ["title"] = "Neue Wochenquest", ["ready"] = false, ["fulfilled"] = 0, ["required"] = 3, ["frequency"] = 2 },
+			{ ["id"] = 98600, ["title"] = "Mitternacht: Neu", ["ready"] = false, ["fulfilled"] = 1, ["required"] = 4, ["frequency"] = 3 },
 			-- A hidden tracker an older addon wrote to the log: the register knows it is hidden.
 			{ ["id"] = 96300, ["title"] = "Tracking Quest", ["ready"] = false, ["fulfilled"] = 0, ["required"] = 0, ["frequency"] = 2 },
 		},
@@ -814,9 +817,16 @@ it('a flag stamped before the reset does not', () => {
   expect(staleRead.bySource.get('companion')!.map((c) => c.weeklies![0].done)).toEqual([false, false])
 })
 
+/* A pool grows from the register before the sources read the week. */
+const poolRead = await readSources(wowRoot, [{ id: 93909, label: 'Midnight: Weekly', pool: [93909, 93890] }], {}, translator)
+const poolTask = mergeSources(poolRead, reset).find((c) => c.name === 'Doppelt')!.weeklies[0]!
+it("a learned weekly with the pool's prefix joins it, and the line is the one on the log", () => {
+  expect([poolTask.pool, poolTask.label, poolTask.onLog, poolTask.progress?.text]).toEqual([[93909, 93890, 98600, 93911], 'Mitternacht: Neu', true, '1/4'])
+})
+
 /* The register: the season's weeklies as the game itself describes them. */
 it('the learned season weeklies - weekly flag, schedule reset, profession, learned reset; the current expansion only; last done, then last seen first', () => {
-  expect(read.learnedQuests.map((quest) => quest.id)).toEqual([93909, 90001, 90002, 96101, 93911, 96400, 93890, 95520])
+  expect(read.learnedQuests.map((quest) => quest.id)).toEqual([93909, 90001, 90002, 96101, 98600, 93911, 96400, 93890, 95520])
 })
 it('the learned weekly carries the client title', () => {
   expect(read.learnedQuests.find((quest) => quest.id === 96101)).toEqual({ id: 96101, label: 'Alchemiedienste erbeten' })

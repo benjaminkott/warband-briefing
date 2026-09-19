@@ -6,7 +6,7 @@
 
 import type { AppConfig, Goal, WeeklyQuestDef } from '../../../../shared/types'
 import { seasonCatalog, seasonQuestDef } from '../../../../shared/seasonCatalog'
-import { inPool, questIdsOf } from '../../../../shared/questPool'
+import { growPools, inPool, questIdsOf } from '../../../../shared/questPool'
 import { DISPLAY_DEFAULTS, type DisplayFlag } from '../../../../shared/display'
 import type { IconName } from '../Icon'
 import type { GoalKind } from '../../../../shared/enums/goalKind'
@@ -61,13 +61,15 @@ export interface QuestChoices {
  * from three places any more. The client's title wins over the catalog's:
  * it is in the client's language. A pool keeps the catalog's name - the
  * client's title is one week's quest of it - and the quests of the pool
- * the game gave are its rows, not rows of their own. The catalog's order
- * comes first, the rest by name.
+ * the game gave are its rows, not rows of their own: the seed's, and the
+ * ones the register grew it by (`growPools`, with the season's dungeon
+ * names). The catalog's order comes first, the rest by name.
  */
 export function questChoices(
   watched: WeeklyQuestDef[],
   detected: WeeklyQuestDef[],
   learned: WeeklyQuestDef[],
+  dungeons: readonly string[],
   compare: (a: string, b: string) => number
 ): QuestChoices {
   const onList = new Map(watched.map((quest) => [quest.id, quest]))
@@ -83,7 +85,11 @@ export function questChoices(
     latest: latestOf(def)
   })
   const byName = (a: QuestChoice, b: QuestChoice): number => compare(a.label, b.label)
-  const season = seasonCatalog().quests.map((quest) => choice(seasonQuestDef(quest)))
+  const season = growPools(
+    seasonCatalog().quests.map((quest) => seasonQuestDef(quest)),
+    learned,
+    dungeons
+  ).map(choice)
   const inSeason = new Set(season.flatMap((quest) => questIdsOf(quest.def)))
   const learnedRows = learned
     .filter((quest) => !inSeason.has(quest.id))

@@ -107,7 +107,7 @@ export const QuestRow: StoryObj<Args> = {
       { label: 'Quest', className: 'col-quest' },
       { label: 'Quest-ID', className: 'col-id' }
     ]
-    const rows = questChoices(CONFIG.weeklyQuests, DATA_BUNDLE.detectedQuests, DATA_BUNDLE.learnedQuests, (a, b) => a.localeCompare(b))
+    const rows = questChoices(CONFIG.weeklyQuests, DATA_BUNDLE.detectedQuests, DATA_BUNDLE.learnedQuests, [], (a, b) => a.localeCompare(b))
     return html`<wt-table .columns=${columns}>
       ${rows.season.slice(0, 4).map((choice) => html`<wt-quest-row .choice=${choice} .config=${CONFIG} ?busy=${args.busy}></wt-quest-row>`)}
     </wt-table>`
