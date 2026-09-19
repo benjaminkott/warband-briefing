@@ -99,15 +99,17 @@ function forProfessions(weeklies: WeeklyTask[], registry: QuestRegistry, profess
  * this character's log has it or it is done. A pool stands as a whole: the
  * game offers one of it every week. Its line names the quest of the week
  * where any character saw one, so a character that has not picked it up
- * reads what to accept; the label of the log or the turn-in stays where
- * there is one.
+ * reads what to accept - and one that has it done reads the quest it did,
+ * not the member SavedInstances lists first: the client flags the whole
+ * pool with the week's turn-in, and that record names any of them. Only
+ * the log of the character itself says more.
  */
 function offeredThisWeek(weeklies: WeeklyTask[], registry: QuestRegistry, resetAt: number): WeeklyTask[] {
   if (registry.quests.length === 0) return weeklies
   return weeklies
     .filter((task) => task.done || task.onLog || task.pool !== undefined || questIdsOf(task).some((id) => hasQuest(registry, id)))
     .map((task) => {
-      if (task.pool === undefined || task.done || task.onLog) return task
+      if (task.pool === undefined || task.onLog) return task
       const week = weekQuest(registry, questIdsOf(task), resetAt)
       return week ? { ...task, label: week.title } : task
     })

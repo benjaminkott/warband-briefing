@@ -155,6 +155,8 @@ SavedInstancesDB = {
 			-- Completed dailies and weeklies, the only completion record there is.
 			["Quests"] = {
 				[76586] = { ["Title"] = "Weltboss", ["Expires"] = ${nextWeek} },
+				-- The client flags the whole pool with the week's turn-in: the record names a member that is not the week's.
+				[93890] = { ["Title"] = "Mitternacht: Überfluss", ["Expires"] = ${nextWeek} },
 				[70001] = { ["Title"] = "Gestern", ["Expires"] = ${now - 3600} },
 				-- A daily resets before the week does; it is no weekly suggestion.
 				[99001] = { ["Title"] = "Täglich", ["isDaily"] = true, ["Expires"] = ${nextWeek} },
@@ -827,9 +829,9 @@ const poolTask = mergeSources(poolRead, reset).find((c) => c.name === 'Doppelt')
 it("a learned weekly with the pool's prefix joins it, and the line is the one on the log", () => {
   expect([poolTask.pool, poolTask.label, poolTask.onLog, poolTask.progress?.text]).toEqual([[93909, 93890, 98600, 93911], 'Mitternacht: Neu', true, '1/4'])
 })
-it("a pool's line on a character without the quest names the one the register saw this week", () => {
-  const unseen = mergeSources(poolRead, reset).find((c) => c.name === 'Klöße')!.weeklies[0]!
-  expect([unseen.onLog, unseen.done, unseen.label]).toEqual([undefined, false, 'Mitternacht: Tiefen'])
+it("a pool's line done by SavedInstances' flag names the one the register saw this week, not the member the flag record names", () => {
+  const flagged = mergeSources(poolRead, reset).find((c) => c.name === 'Klöße')!.weeklies[0]!
+  expect([flagged.onLog, flagged.done, flagged.label]).toEqual([undefined, true, 'Mitternacht: Tiefen'])
 })
 
 /* The register: the season's weeklies as the game itself describes them. */
