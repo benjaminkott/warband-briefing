@@ -246,10 +246,11 @@ export class WtCharacterDetail extends WtElement {
         return html`<wt-detail-gear .character=${character} .flags=${flags}></wt-detail-gear>`
       case DetailSection.Professions:
         return html`<wt-detail-professions .character=${character}></wt-detail-professions>`
+      case DetailSection.Currencies:
+        return html`<wt-detail-currencies .character=${character} .tracked=${trackedCurrencies} span="12"></wt-detail-currencies>`
       case DetailSection.Inventory:
         return html`
-          <wt-detail-currencies .character=${character} .tracked=${trackedCurrencies}></wt-detail-currencies>
-          <wt-detail-supplies .character=${character} .minimums=${this.supplyMinimums}></wt-detail-supplies>
+          <wt-detail-supplies .character=${character} .minimums=${this.supplyMinimums} span="12"></wt-detail-supplies>
           <wt-detail-bags .character=${character} query=${this.query}></wt-detail-bags>
         `
     }

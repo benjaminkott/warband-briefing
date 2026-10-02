@@ -248,6 +248,7 @@ export const de = {
   'detail.section.season': 'Saison',
   'detail.section.gear': 'Ausrüstung',
   'detail.section.professions': 'Berufe',
+  'detail.section.currencies': 'Währungen',
   'detail.section.inventory': 'Inventar',
   'detail.ilvlHistory': 'Item-Level im Verlauf',
   'detail.ratingHistory': 'Wertung im Verlauf',

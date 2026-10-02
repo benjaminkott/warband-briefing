@@ -7,5 +7,6 @@ export enum DetailSection {
   Season = 'season',
   Gear = 'gear',
   Professions = 'professions',
+  Currencies = 'currencies',
   Inventory = 'inventory'
 }

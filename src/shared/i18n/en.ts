@@ -242,6 +242,7 @@ export const en: Record<TranslationKey, string> = {
   'detail.section.season': 'Season',
   'detail.section.gear': 'Gear',
   'detail.section.professions': 'Professions',
+  'detail.section.currencies': 'Currencies',
   'detail.section.inventory': 'Inventory',
   'detail.ilvlHistory': 'Item level over time',
   'detail.ratingHistory': 'Rating over time',

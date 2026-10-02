@@ -29,7 +29,6 @@ export class WtDetailSupplies extends WtDetailPanel {
     const tr = this.tr
     const stock = supplyStock(this.character, this.minimums)
     const short = (stock ?? []).filter((entry) => entry.short).length
-    this.span = 6
     this.icon = 'bag'
     this.heading = tr.t('detail.supplies.title')
     this.aside = short > 0 ? tr.plural('detail.supplies.short', short) : undefined

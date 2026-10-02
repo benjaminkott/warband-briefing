@@ -25,14 +25,15 @@ import { DetailSection } from '../../enums/detailSection'
 /**
  * The sections of the character page, in the order of its sub-navigation:
  * what resets this week, what the season built up, the equipped gear, the
- * professions, what the character carries. Eleven panels in one scroll were
- * too long to find anything in; one section is one screen.
+ * professions, the currencies, what the character carries. Eleven panels
+ * in one scroll were too long to find anything in; one section is one screen.
  */
 export const DETAIL_SECTIONS: Array<{ id: DetailSection; icon: IconName }> = [
   { id: DetailSection.Week, icon: 'calendar' },
   { id: DetailSection.Season, icon: 'flag' },
   { id: DetailSection.Gear, icon: 'shield' },
   { id: DetailSection.Professions, icon: 'anvil' },
+  { id: DetailSection.Currencies, icon: 'coins' },
   { id: DetailSection.Inventory, icon: 'bag' }
 ]
 

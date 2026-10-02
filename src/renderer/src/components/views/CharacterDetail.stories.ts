@@ -62,7 +62,10 @@ export const Gear: StoryObj<Args> = { args: { section: DetailSection.Gear } }
 /** The professions: skill, concentration, knowledge, cooldowns. */
 export const Professions: StoryObj<Args> = { args: { section: DetailSection.Professions } }
 
-/** What the character carries: currencies, supplies, the bags and the bank. */
+/** Every currency, the watched ones first. */
+export const Currencies: StoryObj<Args> = { args: { section: DetailSection.Currencies } }
+
+/** What the character carries: the supplies, the bags and the bank. */
 export const Inventory: StoryObj<Args> = { args: { section: DetailSection.Inventory } }
 
 /** A reward waiting, and hardly any history yet. */
