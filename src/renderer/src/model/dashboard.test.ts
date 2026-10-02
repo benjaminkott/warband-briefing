@@ -16,7 +16,8 @@ import {
   rewardScale,
   rosterRows,
   rowReward,
-  spread
+  spread,
+  weekTotals
 } from './dashboard'
 import { vaultRing } from '../components/dashboard/model'
 import { factionLists } from '../components/settings/model'
@@ -25,6 +26,7 @@ import { snapshot, vaultRow } from '../../../shared/testing'
 import { VaultCategory } from '../../../shared/enums/vaultCategory'
 import type { CharacterSnapshot, DungeonBest, MythicRun, Renown } from '../../../shared/types'
 import { GoalKind } from '../../../shared/enums/goalKind'
+import { DISPLAY_DEFAULTS } from '../../../shared/display'
 import { FactionGroup } from '../../../shared/enums/factionGroup'
 
 const tr = keysTranslator()
@@ -208,6 +210,16 @@ const rollup = goalRollups(
   ],
   [goal]
 )[0]
+// A character that met every goal counts as done, open quests or not: the card marks it so.
+it('the week counts the characters over the line', () => {
+  const quest = [{ id: 1, label: 'Weltboss', done: false }]
+  const totals = weekTotals(
+    [character('Ziel', { raid: 6, weeklies: quest }), character('Offen', { raid: 2, weeklies: quest })],
+    [goal],
+    DISPLAY_DEFAULTS
+  )
+  expect(totals.done).toEqual(1)
+})
 it('characters that met the goal', () => {
   expect([rollup.met, rollup.total]).toEqual([1, 2])
 })

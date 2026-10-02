@@ -16,7 +16,7 @@ import { seasonCatalog, defaultTrackedFactions } from '../../../shared/seasonCat
 import { bestGap, compareValue, planValue } from './plan'
 import { seasonDungeons } from './dungeons'
 import type { VaultGapStep } from '../../../shared/vault'
-import { characterState, hasUnclaimedVault, isMaxLevel, playedLastWeek, raidKills, weeklyProgress, type WeeklyProgress } from './overview'
+import { characterState, hasUnclaimedVault, isMaxLevel, overTheLine, playedLastWeek, raidKills, weeklyProgress, type WeeklyProgress } from './overview'
 import { RenownKind } from '../../../shared/enums/renownKind'
 import { FactionGroup } from '../../../shared/enums/factionGroup'
 import { classColor } from '../enums/classToken'
@@ -492,7 +492,9 @@ export function weekTotals(active: CharacterSnapshot[], goals: Goal[], flags: Di
   return {
     unlocked: progress.reduce((sum, p) => sum + p.vaultUnlocked, 0),
     slots: progress.reduce((sum, p) => sum + p.vaultTotal, 0),
-    done: progress.filter((p) => p.done).length,
+    // The line the cards mark: every goal met, or the week done where no goal is set.
+    // A weekly quest left over is not part of a goal and keeps no character from it.
+    done: progress.filter(overTheLine).length,
     runs: active.reduce((sum, c) => sum + c.mythicRuns.length, 0),
     bosses: active.reduce((sum, c) => sum + raidKills(c).defeated, 0),
     keyAvg: avg(keys)

@@ -59,7 +59,7 @@ export const en: Record<TranslationKey, string> = {
   'summary.runs': 'M+ runs',
   'summary.done': 'Characters done',
   'summary.doneHint': 'Done means: every weekly task cleared and the vault full.',
-  'summary.doneGoals': 'Done means: every weekly task cleared and every goal met.',
+  'summary.doneGoals': 'Done means: every goal met.',
   'summary.open': 'Tasks open',
   'summary.unclaimed.one': 'Vault to collect',
   'summary.unclaimed.other': 'Vaults to collect',

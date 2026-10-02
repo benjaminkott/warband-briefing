@@ -64,7 +64,7 @@ export const de = {
   'summary.runs': 'M+ Runs',
   'summary.done': 'Charaktere fertig',
   'summary.doneHint': 'Fertig heißt: alle Wochenaufgaben erledigt und die Schatzkammer voll.',
-  'summary.doneGoals': 'Fertig heißt: alle Wochenaufgaben erledigt und alle Ziele erfüllt.',
+  'summary.doneGoals': 'Fertig heißt: alle Ziele erfüllt.',
   'summary.open': 'Aufgaben offen',
   'summary.unclaimed.one': 'Vault abzuholen',
   'summary.unclaimed.other': 'Vaults abzuholen',
