@@ -16,20 +16,19 @@ const meta: Meta<Args> = {
   title: 'UI/Entry',
   component: 'wt-entry',
   args: { label: 'SavedInstances', off: false },
+  parameters: { frame: { width: 560 } },
   render: (args) =>
-    html`<div style="max-width: 560px">
-      <wt-entry
-        ?off=${args.off}
-        .control=${html`<wt-checkbox kind=${CheckboxKind.Plain} ?checked=${!args.off}></wt-checkbox>`}
-        label=${args.label}
-        .badge=${html`<wt-chip icon="check" label="Addon installed"></wt-chip>`}
-        .content=${html`<span class="muted tiny">44 characters · 4 files · last 2 h ago</span>
-          <p class="muted">A common community addon. It supplies every character it has seen.</p>
-          <div class="chips">
-            <wt-chip small icon="users" label="Character data"></wt-chip><wt-chip small icon="lock" label="Lockouts"></wt-chip>
-          </div>`}
-      ></wt-entry>
-    </div>`
+    html`<wt-entry
+      ?off=${args.off}
+      .control=${html`<wt-checkbox kind=${CheckboxKind.Plain} ?checked=${!args.off}></wt-checkbox>`}
+      label=${args.label}
+      .badge=${html`<wt-chip icon="check" label="Addon installed"></wt-chip>`}
+      .content=${html`<span class="muted tiny">44 characters · 4 files · last 2 h ago</span>
+        <p class="muted">A common community addon. It supplies every character it has seen.</p>
+        <div class="chips">
+          <wt-chip small icon="users" label="Character data"></wt-chip><wt-chip small icon="lock" label="Lockouts"></wt-chip>
+        </div>`}
+    ></wt-entry>`
 }
 
 export default meta
@@ -42,13 +41,12 @@ export const Off: StoryObj<Args> = { args: { off: true } }
 
 /** A head only, with a notice as the whole body. */
 export const HeadOnly: StoryObj<Args> = {
+  parameters: { frame: { width: 560 } },
   render: () =>
-    html`<div style="max-width: 560px">
-      <wt-entry label="Only a name"></wt-entry>
+    html`<wt-entry label="Only a name"></wt-entry>
       <wt-entry
         label="With a notice"
         .badge=${html`<wt-chip icon="close" label="Addon missing"></wt-chip>`}
         .content=${html`<wt-notice tone=${Severity.Danger}>${'The file could not be read.'}</wt-notice>`}
-      ></wt-entry>
-    </div>`
+      ></wt-entry>`
 }

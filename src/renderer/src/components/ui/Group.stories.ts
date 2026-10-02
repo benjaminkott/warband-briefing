@@ -15,9 +15,9 @@ export default meta
 
 /** Two groups in a column: the title line, a note, and an action at the right. */
 export const Groups: StoryObj = {
+  parameters: { frame: { width: 520 } },
   render: () =>
-    html`<div style="max-width: 520px">
-      <wt-group heading="Watched">
+    html`<wt-group heading="Watched">
         <wt-button slot="action" ghost size=${ControlSize.Sm} icon="refresh" label="Default"></wt-button>
         <wt-chips><wt-chip label="Delves"></wt-chip><wt-chip label="Raid"></wt-chip></wt-chips>
       </wt-group>
@@ -26,6 +26,5 @@ export const Groups: StoryObj = {
       </wt-group>
       <wt-group>
         <p class="muted" style="margin: 0">A group without a title is only the spacing.</p>
-      </wt-group>
-    </div>`
+      </wt-group>`
 }

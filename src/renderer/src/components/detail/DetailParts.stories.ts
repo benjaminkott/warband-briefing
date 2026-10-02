@@ -194,9 +194,9 @@ export const Progress: StoryObj = {
 
 /** The list of a panel in its two cuts: plain lines, and lines that carry a bar. */
 export const Lists: StoryObj = {
+  parameters: { frame: { width: 320 } },
   render: () =>
-    html`<div style="max-width: 320px">
-      <wt-detail-list>
+    html`<wt-detail-list>
         <wt-detail-entry><span>Companion</span><span class="tiny muted">vor 12 Minuten</span></wt-detail-entry>
         <wt-detail-entry><span>SavedInstances</span><span class="tiny muted">vor 2 Stunden</span></wt-detail-entry>
       </wt-detail-list>
@@ -207,8 +207,7 @@ export const Lists: StoryObj = {
           <wt-bar percent="72"></wt-bar>
           <span class="tiny muted">Konzentration 720 / 1000</span>
         </wt-detail-entry>
-      </wt-detail-list>
-    </div>`
+      </wt-detail-list>`
 }
 
 /** A run's result, in the colour of which it was. */

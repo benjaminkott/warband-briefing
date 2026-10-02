@@ -38,8 +38,6 @@ export const InAChip: StoryObj<Args> = {
 /** The xp bar of a levelling character: the rested band rides on the same track, the `xp-bar` class sizes it. */
 export const WithRested: StoryObj<Args> = {
   args: { percent: 42 },
-  render: (args) =>
-    html`<div style="max-width: 320px">
-      <wt-bar class="xp-bar" percent=${args.percent} rested="30"></wt-bar>
-    </div>`
+  parameters: { frame: { width: 320 } },
+  render: (args) => html`<wt-bar class="xp-bar" percent=${args.percent} rested="30"></wt-bar>`
 }

@@ -42,9 +42,9 @@ export const Plain: StoryObj<Args> = { args: { kind: CheckboxKind.Plain } }
 
 /** The roster rows of the settings: a mark, a name, a note, and the switch at the right; a head row above. */
 export const RosterRow: StoryObj<Args> = {
+  parameters: { frame: { width: 480 } },
   render: () =>
-    html`<div style="max-width: 480px">
-      <wt-toggle-row
+    html`<wt-toggle-row
         head
         .label=${html`<span class="faint tiny">Alle</span>`}
         .content=${html`<wt-checkbox kind=${CheckboxKind.CharSwitch} label="Übersicht" indeterminate></wt-checkbox>`}
@@ -63,21 +63,19 @@ export const RosterRow: StoryObj<Args> = {
             .content=${html`<span class="faint tiny">2 Charaktere</span>
               <wt-checkbox kind=${CheckboxKind.CharSwitch} label="Übersicht"></wt-checkbox>`}
           ></wt-toggle-row>`}
-      ></wt-toggle-list>
-    </div>`
+      ></wt-toggle-list>`
 }
 
 /** A list of boxes in as many columns as fit: the view flags of a settings group. */
 export const Grid: StoryObj<Args> = {
+  parameters: { frame: { width: 560 } },
   render: () =>
-    html`<div style="max-width: 560px">
-      <wt-check-grid>
-        ${['Trend unter den Figuren', 'Schatzkammer', 'Berufe', 'Währungen', 'Rufe'].map(
-          (label, index) =>
-            html`<wt-checkbox ?checked=${index % 2 === 0} .label=${html`<span class="input-grow">${label}</span>`}></wt-checkbox>`
-        )}
-      </wt-check-grid>
-    </div>`
+    html`<wt-check-grid>
+      ${['Trend unter den Figuren', 'Schatzkammer', 'Berufe', 'Währungen', 'Rufe'].map(
+        (label, index) =>
+          html`<wt-checkbox ?checked=${index % 2 === 0} .label=${html`<span class="input-grow">${label}</span>`}></wt-checkbox>`
+      )}
+    </wt-check-grid>`
 }
 
 /** The row of the stat picker's menu. */

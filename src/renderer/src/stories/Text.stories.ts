@@ -124,14 +124,13 @@ export const ClassColors: StoryObj = {
 
 /** Headings and body text as the stylesheet sets them. */
 export const Headings: StoryObj = {
+  parameters: { frame: { width: 640 } },
   render: () =>
-    html`<div style="max-width: 640px">
-      <h1>Überschrift 1</h1>
+    html`<h1>Überschrift 1</h1>
       <h2>Überschrift 2</h2>
       <h3>Überschrift 3</h3>
       <p>
         Fließtext in der Grundgröße. Ein Satz mit einem <a href="#">Link</a>, einem <code>Code</code> und einer
         <span class="muted">gedämpften Stelle</span>.
-      </p>
-    </div>`
+      </p>`
 }

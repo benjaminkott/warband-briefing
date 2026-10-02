@@ -65,9 +65,8 @@ export const Inline: StoryObj<Args> = {
 
 /** A line of help under a control. */
 export const Hint: StoryObj<Args> = {
+  parameters: { frame: { width: 560 } },
   render: () =>
-    html`<div style="max-width: 560px">
-      <wt-hint text="Die Region bestimmt den Reset-Countdown (EU: Mittwoch 06:00, US: Dienstag 08:00 Ortszeit)."></wt-hint>
-      <wt-hint icon="check" text="Auf dem neuesten Stand (GitHub)."></wt-hint>
-    </div>`
+    html`<wt-hint text="Die Region bestimmt den Reset-Countdown (EU: Mittwoch 06:00, US: Dienstag 08:00 Ortszeit)."></wt-hint>
+      <wt-hint icon="check" text="Auf dem neuesten Stand (GitHub)."></wt-hint>`
 }

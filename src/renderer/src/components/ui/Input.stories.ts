@@ -72,10 +72,9 @@ export const Sizes: StoryObj<Args> = {
 
 /** A labelled field of the settings, with the number field for a level. */
 export const InField: StoryObj<Args> = {
+  parameters: { frame: { width: 320 } },
   render: () =>
-    html`<div style="max-width: 320px">
-      <wt-field-group icon="users" label="Mindeststufe">
-        <wt-input control-id="story-min-level" type=${InputType.Number} value="70" min="1" max="90"></wt-input>
-      </wt-field-group>
-    </div>`
+    html`<wt-field-group icon="users" label="Mindeststufe">
+      <wt-input control-id="story-min-level" type=${InputType.Number} value="70" min="1" max="90"></wt-input>
+    </wt-field-group>`
 }

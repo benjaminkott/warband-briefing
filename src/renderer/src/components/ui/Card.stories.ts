@@ -13,12 +13,11 @@ const meta: Meta<Args> = {
   component: 'wt-card',
   args: { link: false, color: '' },
   argTypes: { color: { control: 'select', options: ['', ...Object.values(ClassToken)] } },
+  parameters: { frame: { width: 320 } },
   render: (args) =>
-    html`<div style="max-width: 320px">
-      <wt-card ?link=${args.link} color=${args.color || nothing}
-        ><p class="muted" style="margin: var(--s3)">Der Inhalt der Karte.</p></wt-card
-      >
-    </div>`
+    html`<wt-card ?link=${args.link} color=${args.color || nothing}
+      ><p class="muted" style="margin: var(--s3)">Der Inhalt der Karte.</p></wt-card
+    >`
 }
 
 export default meta
