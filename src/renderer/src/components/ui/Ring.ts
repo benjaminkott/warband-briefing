@@ -15,6 +15,14 @@ function polar(centre: number, radius: number, degrees: number): [number, number
   return [centre + radius * Math.cos(radians), centre + radius * Math.sin(radians)]
 }
 
+/**
+ * A whole circle, as degrees. Not 360: a path whose ends meet exactly draws
+ * nothing, and two round caps that butt against each other leave a hairline
+ * where they meet. A hair under a full turn makes the caps overlap, and the
+ * ring closes.
+ */
+const WHOLE = 359.9
+
 /** The arc from `from` to `to`, as an SVG path for a stroke. */
 function arc(centre: number, radius: number, from: number, to: number): string {
   const [x1, y1] = polar(centre, radius, from)
@@ -29,6 +37,15 @@ function arc(centre: number, radius: number, from: number, to: number): string {
  * ring, so all rings look the same.
  */
 const GAP = 1.5
+
+/**
+ * The gap between the groups and the outer ring, in stroke widths. Half of
+ * the gap along the ring: two arcs side by side need to be told apart, two
+ * rings one inside the other are told apart by being rings. The air the
+ * groups keep from the content in the middle is worth more than the air
+ * between the two, so this is where it is taken from.
+ */
+const RING_GAP = 0.75
 
 /**
  * A ring of groups around a content in the middle.
@@ -46,6 +63,17 @@ const GAP = 1.5
  * own stylesheet. The colour comes from `--ring-color`,
  * `--ring-color-bright`, and `--ring-glow` on the host or on a parent. The
  * default is the accent.
+ *
+ * With `outer`, one more arc runs around all of them: a single fill of one
+ * percent, with the groups moved inward to make room. The groups say where
+ * the work stands, the outer ring says how far that is towards the line the
+ * reader works to.
+ *
+ * It is drawn to be read second: a shade lighter than the groups, one flat
+ * quiet colour, no gradient and no glow. A board of a dozen of them must
+ * still be the characters, not a wall of rings. The one moment it speaks up
+ * is the line crossed - then it closes, takes the `ok` green every finished
+ * thing in the app wears, and glows.
  */
 @customElement('wt-ring')
 export class WtRing extends WtElement {
@@ -169,6 +197,28 @@ export class WtRing extends WtElement {
       filter: drop-shadow(0 0 3px var(--ring-glow, var(--accent-line)));
     }
 
+    /* The outer ring: one flat colour held back, so it frames the groups
+       instead of competing with them. No gradient - a closed ring has
+       nowhere to run one to - and no glow until it is closed. */
+    .arc.on.outer {
+      stroke: var(--ring-color, var(--accent));
+      opacity: 0.45;
+      transition:
+        stroke-dashoffset 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+        opacity 0.2s;
+    }
+
+    /* The line crossed. A group's own full arc keeps the accent - whether
+       one row of three is finished is not what the tile is scanned for -
+       but the ring around them all takes the green every other finished
+       thing in the app wears, and is the one part of the drawing that is
+       meant to catch the eye. */
+    .arc.on.outer.done {
+      stroke: var(--ok);
+      opacity: 1;
+      filter: drop-shadow(0 0 4px var(--ok-line));
+    }
+
     .hit {
       fill: none;
       stroke: transparent;
@@ -203,6 +253,8 @@ export class WtRing extends WtElement {
   `
 
   @property({ attribute: false }) accessor groups: RingGroup[] = []
+  /** One thin fill around the groups; null leaves the ring as its groups alone. */
+  @property({ attribute: false }) accessor outer: RingGroup | null = null
   @property({ type: Number }) accessor size = 84
   /** Draws a dark plate under the ring, with a rim outside the arcs. */
   @property({ type: Boolean, reflect: true }) accessor disc = false
@@ -211,6 +263,8 @@ export class WtRing extends WtElement {
 
   /** The index of the group under the pointer, or undefined. */
   @state() accessor hovered: number | undefined = undefined
+  /** Whether the pointer is on the outer ring, which has a tip of its own. */
+  @state() accessor hoveredOuter = false
   /** False for the first frame, so the fills can animate from empty. */
   @state() accessor drawn = false
 
@@ -246,8 +300,17 @@ export class WtRing extends WtElement {
     // scale. The ring of a tile and the ring of a row are one shape in two sizes.
     const stroke = Math.max(4, Math.round(size / 14))
     const centre = size / 2
+    // A shade lighter than the groups: present, but not the first thing the
+    // eye meets on a board full of tiles.
+    const outer = this.outer
+    const outerStroke = Math.max(3, Math.round(stroke * 0.72))
+    const outerRadius = (size - outerStroke) / 2 - (this.disc ? 2.5 : 0)
+    // The groups move in by the outer ring and the air between the two. The
+    // air is the gap the groups already keep from each other, so the whole
+    // drawing is on one rhythm.
+    const inset = outer ? outerStroke + RING_GAP * stroke : 0
     // On the plate, the arcs move in from the edge, so the rim stays visible.
-    const radius = (size - stroke) / 2 - (this.disc ? 2.5 : 0)
+    const radius = (size - stroke) / 2 - (this.disc ? 2.5 : 0) - inset
     // All values below are in degrees along the centre line of the stroke.
     const degreesPerPx = 360 / (2 * Math.PI * radius)
     const gap = GAP * stroke * degreesPerPx
@@ -268,9 +331,11 @@ export class WtRing extends WtElement {
 
     this.groups.forEach((group, index) => {
       const share = Math.max(0, Math.min(group.percent, 100)) / 100
-      // An arc that is too short for its caps becomes a dot, not a reversed arc.
-      const from = at + cap
-      const to = Math.max(at + per - cap, from + 0.01)
+      // One group is the whole circle and closes; several keep their caps
+      // out of each other's gaps. An arc too short for its caps becomes a
+      // dot, not a reversed arc.
+      const from = count === 1 ? 0 : at + cap
+      const to = count === 1 ? WHOLE : Math.max(at + per - cap, from + 0.01)
       // The id is local to the shadow root, so two rings on a page do not meet.
       const id = `arc-${index}`
       // The fill becomes brighter along the arc, so a group that is further
@@ -310,7 +375,16 @@ export class WtRing extends WtElement {
       at += per + spacing
     })
 
-    const hovered = this.hovered === undefined ? undefined : this.groups[this.hovered]?.label
+    // One arc, so no gap: it would only show where the ring starts.
+    const outerPath = arc(centre, outerRadius, 0, WHOLE)
+    const outerShare = outer ? Math.max(0, Math.min(outer.percent, 100)) / 100 : 0
+    const outerDone = outerShare >= 1
+    // The outer ring answers first where it is drawn: its tip beats a group's.
+    const hovered = this.hoveredOuter
+      ? outer?.label
+      : this.hovered === undefined
+        ? undefined
+        : this.groups[this.hovered]?.label
     // The hit band is four strokes wide around the centre line of the stroke.
     // It extends inside and outside the ring, but not to the content in the
     // middle.
@@ -322,11 +396,38 @@ export class WtRing extends WtElement {
           cx=${centre}
           cy=${centre}
           r=${radius}
-          stroke-width=${stroke * 4}
+          stroke-width=${outer ? stroke * 3 : stroke * 4}
           @pointermove=${this.track}
           @pointerleave=${() => (this.hovered = undefined)}
         ></circle>
         ${arcs}
+        ${
+          outer
+            ? svg`<g class="outer">
+                <path class="arc" d=${outerPath} stroke-width=${outerStroke}></path>
+                ${
+                  outerShare > 0
+                    ? svg`<path
+                        class=${outerDone ? 'arc on outer done' : 'arc on outer'}
+                        d=${outerPath}
+                        pathLength="100"
+                        stroke-width=${outerStroke}
+                        style=${`stroke-dashoffset: ${this.drawn ? 100 - outerShare * 100 : 100}`}
+                      ></path>`
+                    : nothing
+                }
+                <circle
+                  class="hit"
+                  cx=${centre}
+                  cy=${centre}
+                  r=${outerRadius}
+                  stroke-width=${outerStroke * 3}
+                  @pointermove=${() => (this.hoveredOuter = true)}
+                  @pointerleave=${() => (this.hoveredOuter = false)}
+                ></circle>
+              </g>`
+            : nothing
+        }
       </svg>
       <div class="body"><slot></slot></div>
       ${this.badge !== undefined ? html`<span class="badge">${this.badge}</span>` : nothing}

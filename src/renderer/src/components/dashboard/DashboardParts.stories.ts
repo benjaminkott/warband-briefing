@@ -20,6 +20,7 @@ import {
 } from '../../stories/fixtures'
 import { vaultRing } from './model'
 import { GoldRange } from '../../enums/goldRange'
+import { GoalKind } from '../../../../shared/enums/goalKind'
 import { AnyAccount } from '../../../../shared/enums/anyAccount'
 import './BestMatrix'
 import './CharacterTile'
@@ -104,6 +105,25 @@ export const Tiles: StoryObj = {
         ${rows(translatorFor(context)).map((row) => html`<wt-character-tile .row=${row} show-realm></wt-character-tile>`)}
       </div>
     </div>`
+}
+
+/**
+ * The goals met: the outer ring closes and turns green, which is what the
+ * board is scanned for. The goal here asks for one slot, so every character
+ * that has one is over the line.
+ */
+export const TilesGoalsMet: StoryObj = {
+  render: (_args, context) => {
+    const tr = translatorFor(context)
+    const goals = [{ id: 'slot', kind: GoalKind.VaultSlots, target: 1 }]
+    return html`<div class="dash">
+      <div class="tile-grid">
+        ${rosterRows(ROSTER, goals, MAX_LEVEL, RESET_AT, tr, flags, SEASON_DUNGEONS).map(
+          (row) => html`<wt-character-tile .row=${row} show-realm></wt-character-tile>`
+        )}
+      </div>
+    </div>`
+  }
 }
 
 /** The evening: the characters worth logging into first, each with its step and the reason in words; a short evening, where the steps that do not fit follow a caption; and the panel with nothing. */

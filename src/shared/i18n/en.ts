@@ -331,6 +331,8 @@ export const en: Record<TranslationKey, string> = {
   'goal.vaultWorld': 'Vault: world',
   'goal.mythicRuns': 'M+ runs',
   'goal.raidBosses': 'Raid bosses',
+  'dash.ring.goals': 'Your weekly goals',
+  'dash.ring.vault': 'Vault: {unlocked} of {total} slots',
   'goal.progress': '{goal}: {current} of {target}',
 
   /* ---- settings: goals ---- */

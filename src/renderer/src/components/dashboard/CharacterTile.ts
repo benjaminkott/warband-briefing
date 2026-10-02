@@ -6,7 +6,7 @@ import { nextStep, type NextStep } from '../../model/plan'
 import { tokenFigure } from '../../model/overview'
 import { IconKind } from '../../../../shared/enums/iconKind'
 import { WtButton } from '../ui/Button'
-import { rosterClasses, vaultRing } from './model'
+import { goalRing, rosterClasses, vaultRing } from './model'
 import { classColor } from '../../enums/classToken'
 import { FormatKind } from '../../enums/formatKind'
 import './VaultCount'
@@ -69,7 +69,10 @@ export class WtCharacterTile extends WtButton {
             </span>`
           : nothing
       }
-      <wt-ring .groups=${vaultRing(tr, this.row.vault)} size="96">
+      <!-- The three rows inside, the line the player drew around them: a
+           closed outer ring is the one shape that says "what I asked for is
+           done" before a figure is read. -->
+      <wt-ring .groups=${vaultRing(tr, this.row.vault)} .outer=${goalRing(tr, this.row)} size="120">
         <wt-class-medallion .character=${character} size="54"></wt-class-medallion>
       </wt-ring>
 

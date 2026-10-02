@@ -31,6 +31,26 @@ export default meta
 /** One arc for each group, each filled to its percent. Move the pointer on an arc to see its label. */
 export const Groups: StoryObj<Args> = {}
 
+/**
+ * One thin fill around the groups: how far the whole thing is towards the
+ * line the reader works to. The groups move in to make room; the outer ring
+ * closes and glows at a hundred.
+ */
+export const WithOuter: StoryObj<Args> = {
+  render: (args) =>
+    html`<wt-ring .groups=${GROUPS} .outer=${{ percent: 68, label: 'Deine Wochenziele' }} size=${args.size}
+      ><span class="num">5/9</span></wt-ring
+    >`
+}
+
+/** The line crossed: the outer ring is closed. */
+export const OuterFull: StoryObj<Args> = {
+  render: (args) =>
+    html`<wt-ring .groups=${GROUPS} .outer=${{ percent: 100, label: 'Alle Ziele erreicht' }} size=${args.size}
+      ><span class="num">6/9</span></wt-ring
+    >`
+}
+
 /** A single group is a closed progress ring. */
 export const OneGroup: StoryObj<Args> = {
   render: (args) => html`<wt-ring .groups=${[{ percent: 62, label: '62 %' }]} size=${args.size}><span class="num">62 %</span></wt-ring>`

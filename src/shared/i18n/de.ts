@@ -337,6 +337,8 @@ export const de = {
   'goal.vaultWorld': 'Vault: Welt',
   'goal.mythicRuns': 'M+ Runs',
   'goal.raidBosses': 'Raid-Bosse',
+  'dash.ring.goals': 'Deine Wochenziele',
+  'dash.ring.vault': 'Vault: {unlocked} von {total} Fächern',
   'goal.progress': '{goal}: {current} von {target}',
 
   /* ---- settings: goals ---- */
