@@ -54,7 +54,7 @@ export const Tones: StoryObj = {
       ></wt-step-note>
       <wt-step-note
         class="card-step"
-        .step=${{ text: '3 weekly quests open', detail: null, reason: null, tone: StepTone.Extra, icon: 'scroll' }}
+        .step=${{ text: '3 quests open', detail: null, reason: null, tone: StepTone.Extra, icon: 'scroll' }}
       ></wt-step-note>
       <wt-step-note
         class="card-step"
