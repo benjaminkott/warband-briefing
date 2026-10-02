@@ -287,6 +287,25 @@ it('a goal still open keeps the slot on the plan', () => {
     ).map((entry) => entry.character.name)
   ).toEqual(['Short'])
 })
+it('a character with its goals met waits behind the open goals, its quests included', () => {
+  const short = [{ ...met[0], current: 2, done: false }]
+  expect(
+    eveningPlan(
+      [
+        planRow('Met', { goals: met, weeklies: 3 }),
+        planRow('Owed', { goals: met, unclaimed: true }),
+        planRow('Short', { vault: open, goals: short })
+      ],
+      tr,
+      undefined,
+      60
+    ).map((entry) => [entry.character.name, entry.fits])
+  ).toEqual([
+    ['Owed', true],
+    ['Short', true],
+    ['Met', false]
+  ])
+})
 it('the sum counts only what fits', () => {
   expect(planMinutes(eveningPlan([planRow('Keys', { vault: open }), planRow('Quests', { weeklies: 2 })], tr, undefined, 35))).toEqual(30)
 })

@@ -285,8 +285,10 @@ const takesStep = (step: NextStep | null): step is NextStep =>
  * slot that takes four dungeons is passed over for the two raid bosses
  * beside it, or for the next character's turn-in. Skipped altogether is
  * what has no step to take: a character done for the week, one describing
- * last week, one still levelling. Below three lines the plan goes on with
- * what does not fit, marked so - the evening is short, the week is not.
+ * last week, one still levelling. A character that met its goals waits
+ * behind the ones that did not: what is left over on it is not what the
+ * user asked for. Below three lines the plan goes on with what does not
+ * fit, marked so - the evening is short, the week is not.
  */
 export function eveningPlan(
   rows: PlanRow[],
@@ -297,7 +299,10 @@ export function eveningPlan(
   const plan: PlanEntry[] = []
   const passed: PlanRow[] = []
   let left = budget
-  for (const row of rows) {
+  // A reward waiting stays in front: the reset takes it, goals or not.
+  const behind = (row: PlanRow): boolean => row.progress.goalsMet && !hasUnclaimedVault(row.character)
+  const ordered = [...rows.filter((row) => !behind(row)), ...rows.filter(behind)]
+  for (const row of ordered) {
     if (row.levelling || row.character.stale) continue
     if (plan.length >= EVENING_LINES) break
     const step = stepWithin(row.character, row.progress, row.levelling, tr, flags, left, row.dungeons)
