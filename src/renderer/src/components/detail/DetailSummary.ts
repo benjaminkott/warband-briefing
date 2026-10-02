@@ -37,19 +37,19 @@ export class WtDetailSummary extends WtDetailPanel {
           ? html`<wt-panel-empty text=${this.empty}></wt-panel-empty>`
           : html`<wt-detail-list>
               ${this.lines.map(
-              (line) =>
-                html`<wt-detail-entry data-tip=${line.tip ?? nothing}>
-                  <wt-icon name=${line.icon} size=${IconSize.Xs} class="detail-row-icon"></wt-icon>
-                  <span class="detail-summary-label">${line.label}</span>
-                  <span
-                    class=${classMap({
-                      'detail-summary-value': true,
-                      [`${line.tone}-text`]: line.tone !== Severity.Info
-                    })}
-                    >${line.value}</span
-                  >
-                </wt-detail-entry>`
-            )}
+                (line) =>
+                  html`<wt-detail-entry data-tip=${line.tip ?? nothing}>
+                    <wt-icon name=${line.icon} size=${IconSize.Xs} class="detail-row-icon"></wt-icon>
+                    <span class="detail-summary-label">${line.label}</span>
+                    <span
+                      class=${classMap({
+                        'detail-summary-value': true,
+                        [`${line.tone}-text`]: line.tone !== Severity.Info
+                      })}
+                      >${line.value}</span
+                    >
+                  </wt-detail-entry>`
+              )}
             </wt-detail-list>`
       }
       <div class="dash-foot detail-summary-foot">
