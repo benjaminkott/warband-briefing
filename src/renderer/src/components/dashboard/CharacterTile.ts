@@ -87,7 +87,7 @@ export class WtCharacterTile extends WtButton {
 
       <span class="tile-name" style=${color ? styleMap({ color }) : nothing}>${character.name}</span>
 
-      ${this.showRealm ? html`<span class="tile-realm faint">${character.realm}</span>` : nothing}
+      ${this.showRealm ? html`<span class="tile-realm">${character.realm}</span>` : nothing}
 
       <span class="tile-vault num"><wt-vault-count .row=${this.row}></wt-vault-count></span>
 

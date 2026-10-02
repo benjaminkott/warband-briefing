@@ -3148,6 +3148,7 @@ wt-group + wt-field-group {
 
 .tile-realm {
   font-size: var(--fs-micro);
+  color: var(--text-dim);
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3164,11 +3165,13 @@ wt-group + wt-field-group {
   align-items: baseline;
   gap: var(--s1);
   font-size: var(--fs-tiny);
-  color: var(--text-dim);
+  color: var(--text);
 }
 
+/* The figures are the smallest type on the tile and sit on a wash where the
+   goals are met: they take the full ink, the dots between them the dim one. */
 .tile-sep {
-  color: var(--text-faint);
+  color: var(--text-dim);
 }
 
 /* The season's tokens in the tile's top corners: the first on the left, the
@@ -3199,7 +3202,7 @@ wt-group + wt-field-group {
   align-items: center;
   gap: var(--s1);
   font-size: var(--fs-tiny);
-  color: var(--text-dim);
+  color: var(--text);
 }
 
 /* The tile is as narrow as the grid allows, so the initials sit tight against
