@@ -3210,7 +3210,8 @@ wt-group + wt-field-group {
 
 /* The one thing left to do, at the foot of the tile where the eye lands
    last. It is drawn as a pill, so it reads as the action the tile leads
-   to; a step that is done or quiet is only the text. */
+   to; a step that is done, quiet or optional past the goals is only the
+   text, so the green frame of a finished tile stays the one signal. */
 .tile-step {
   display: inline-flex;
   align-items: center;
@@ -3233,17 +3234,13 @@ wt-group + wt-field-group {
   background: var(--warn-soft);
 }
 
-.tile-step.step-extra {
-  border-color: var(--info-line);
-  background: var(--info-soft);
-}
-
 .tile-step.step-claim {
   border-color: var(--warn);
   background: var(--warn-soft);
 }
 
 .tile-step.step-done,
+.tile-step.step-extra,
 .tile-step.step-quiet {
   font-weight: 500;
 }
