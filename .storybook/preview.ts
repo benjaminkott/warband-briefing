@@ -3,6 +3,7 @@ import { withActions } from 'storybook/actions/decorator'
 import { themes } from 'storybook/theming'
 import { html } from 'lit'
 import { storySource, type SourceContext } from './lit-source'
+import { frameGlobalTypes, frameGlobals, frameStory, resolveFrame, type Frame } from './frame'
 import { applyTheme, resolveTheme } from '../src/renderer/src/theme'
 import '../src/renderer/src/styles.css'
 import '../src/renderer/src/i18n'
@@ -75,9 +76,10 @@ const preview: Preview = {
         ],
         dynamicTitle: true
       }
-    }
+    },
+    ...frameGlobalTypes
   },
-  initialGlobals: { theme: 'dark', locale: 'de' },
+  initialGlobals: { theme: 'dark', locale: 'de', ...frameGlobals },
   // The vitest browser mounts a story into a bare `div` of the body, not
   // into `#storybook-root`. The canvas takes the class of a docs block, so
   // the scoped stylesheet (scope-styles.ts) reaches the story there too.
@@ -85,6 +87,9 @@ const preview: Preview = {
     canvasElement.classList.add('sb-story')
   },
   decorators: [
+    // The size the story renders at: `parameters.frame`, or the width the
+    // toolbar picks (frame.ts).
+    (story, context) => frameStory(story(), resolveFrame(context.parameters.frame as Frame | undefined, context.globals)),
     // The theme is stamped on the root the way the app shell stamps it, so
     // the tokens - and so every element - switch with the toolbar.
     (story, context) => {
