@@ -1,6 +1,7 @@
 import { html, nothing, type TemplateResult } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { styleMap } from 'lit/directives/style-map.js'
+import { classMap } from 'lit/directives/class-map.js'
 import { ratingColor, ratingStyle, type RosterRow } from '../../model/dashboard'
 import { nextStep, type NextStep } from '../../model/plan'
 import { tokenFigures } from '../../model/overview'
@@ -61,12 +62,13 @@ export class WtCharacterTile extends WtButton {
     const tr = this.tr
     const { character } = this.row
     const color = classColor(character.classToken)
-    const tokens = tokenFigures(tr, character, this.row.levelling)
+    // A character still levelling holds none worth a count: its corners stay empty.
+    const tokens = this.row.levelling ? [] : tokenFigures(tr, character, false)
     return html`${
         tokens.length > 0
           ? html`<span class="tile-tokens">
               ${tokens.map(
-                (token) => html`<span class="tile-token" data-tip=${token.tip}>
+                (token) => html`<span class=${classMap({ 'tile-token': true, empty: !token.amount })} data-tip=${token.tip}>
                   <wt-game-icon kind=${IconKind.Currency} ref=${token.id} size="var(--icon-sm)"></wt-game-icon>
                   <wt-format kind=${FormatKind.Number} .value=${token.amount}></wt-format>
                 </span>`

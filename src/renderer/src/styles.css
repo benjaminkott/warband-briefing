@@ -3178,6 +3178,13 @@ wt-group + wt-field-group {
   pointer-events: auto;
 }
 
+/* None held, or a count no source reads: the corner fades, so the corners
+   that hold something stand out across the roster. */
+.tile-token.empty,
+.card-token.empty {
+  opacity: 0.45;
+}
+
 .tile-token {
   display: inline-flex;
   align-items: center;

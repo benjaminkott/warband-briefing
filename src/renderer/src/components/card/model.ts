@@ -18,7 +18,7 @@ export interface CardModel {
   step: NextStep
   ilvlTrend: TrendSeries | null
   ratingTrend: TrendSeries | null
-  /** The season's tokens in the card's corner; empty while the season names none. */
+  /** The season's tokens in the card's corner; none while the season names none or the character still levels. */
   tokens: TokenFigure[]
 }
 
@@ -45,5 +45,5 @@ export function cardModel(tr: Translator, inputs: CardInputs): CardModel {
   const ilvlTrend = flags.trend ? trend(history, (point) => point.itemLevel, TREND_DAYS, now) : null
   const ratingTrend = flags.trend ? trend(history, (point) => point.rating, TREND_DAYS, now) : null
 
-  return { progress, state, step, ilvlTrend, ratingTrend, tokens: tokenFigures(tr, character, state.levelling) }
+  return { progress, state, step, ilvlTrend, ratingTrend, tokens: state.levelling ? [] : tokenFigures(tr, character, false) }
 }

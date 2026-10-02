@@ -1,6 +1,7 @@
 import { html, nothing, type TemplateResult } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { styleMap } from 'lit/directives/style-map.js'
+import { classMap } from 'lit/directives/class-map.js'
 import type { CharacterPoint, CharacterSnapshot, Goal, SeasonDungeon } from '../../../shared/types'
 import { DISPLAY_DEFAULTS, TREND_DAYS, type DisplayFlags } from '../../../shared/display'
 import { WtCard } from './ui/Card'
@@ -169,7 +170,7 @@ export class WtCharacterCard extends WtCard {
         tokens.length > 0
           ? html`<span class="card-tokens">
               ${tokens.map(
-                (token) => html`<span class="card-token" data-tip=${token.tip}>
+                (token) => html`<span class=${classMap({ 'card-token': true, empty: !token.amount })} data-tip=${token.tip}>
                   <wt-game-icon kind=${IconKind.Currency} ref=${token.id} size="var(--icon-md)"></wt-game-icon>
                   <wt-format kind=${FormatKind.Number} .value=${token.amount}></wt-format>
                 </span>`
