@@ -167,6 +167,13 @@ export interface WeeklyProgress {
   /** How the character stands against the goals the user defined, the ones on a row it kept. */
   goals: GoalProgress[]
   /**
+   * The user set goals and the character has met every one of them. The
+   * finish line the user drew, on its own: the week can still hold an open
+   * weekly or a bare gear slot, and the roster says both - what was asked
+   * for is done, and what is left over is left over.
+   */
+  goalsMet: boolean
+  /**
    * Every goal met - or, with no goals defined, the vault filled. This is what
    * "done for the week" means, and the user gets to say what it takes.
    */
@@ -232,6 +239,8 @@ export function weeklyProgress(character: CharacterSnapshot, goals: Goal[] = [],
     gearIssues,
     weeklyCurrencies,
     goals: goalProgress,
+    // A stale snapshot describes last week, so nothing about it can be met.
+    goalsMet: !character.stale && goalProgress.length > 0 && openGoals === 0,
     // A stale snapshot describes last week, so nothing about it can be "done".
     done: !character.stale && openWeeklies === 0 && (goalProgress.length > 0 ? openGoals === 0 : missingSlots === 0)
   }
@@ -341,12 +350,16 @@ export function characterState(character: CharacterSnapshot, maxLevel: number, r
  * reset, or done. In that order - the first is the one that cannot wait, the
  * last is the only good news. Nothing at all for a character mid-week.
  */
-export function stateWord(state: CharacterState, done: boolean): StateWord | null {
+export function stateWord(state: CharacterState, done: boolean, goalsMet = false): StateWord | null {
   if (state.unclaimed) return StateWord.Claim
   if (state.levelling) return StateWord.Levelling
   if (state.inactive) return StateWord.Inactive
   if (state.betweenWeeks) return StateWord.BetweenWeeks
   if (done) return StateWord.Done
+  // The goals are met, but the week still holds something the user did not
+  // ask for. The word says the finish line was crossed; the step beside it
+  // goes on naming what is left.
+  if (goalsMet) return StateWord.GoalsMet
   return null
 }
 
@@ -355,8 +368,8 @@ export function stateWord(state: CharacterState, done: boolean): StateWord | nul
  * so the same character wears the same word on every view. A character
  * mid-week has no word, and then there is no chip.
  */
-export function stateChip(tr: Translator, state: CharacterState, done: boolean, level: number): ChipModel | null {
-  switch (stateWord(state, done)) {
+export function stateChip(tr: Translator, state: CharacterState, done: boolean, level: number, goalsMet = false): ChipModel | null {
+  switch (stateWord(state, done, goalsMet)) {
     case StateWord.Claim:
       return { tone: Tint.Accent, icon: 'vault', label: tr.t('card.unclaimed'), tip: tr.t('card.unclaimedHint') }
     case StateWord.Levelling:
@@ -365,6 +378,8 @@ export function stateChip(tr: Translator, state: CharacterState, done: boolean, 
       return { tone: Severity.Warn, icon: 'alert', label: tr.t('card.stale'), tip: tr.t('card.staleHint') }
     case StateWord.BetweenWeeks:
       return { icon: 'clock', label: tr.t('card.newWeek'), tip: tr.t('card.newWeekHint') }
+    case StateWord.GoalsMet:
+      return { tone: Severity.Ok, icon: 'check', label: tr.t('card.goalsMet'), tip: tr.t('card.goalsMetHint') }
     case StateWord.Done:
       return { tone: Severity.Ok, icon: 'check', label: tr.t('card.weekDone') }
     default:

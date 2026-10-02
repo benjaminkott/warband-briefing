@@ -4,5 +4,6 @@ export enum StateWord {
   Levelling = 'levelling',
   Inactive = 'inactive',
   BetweenWeeks = 'betweenWeeks',
+  GoalsMet = 'goalsMet',
   Done = 'done'
 }

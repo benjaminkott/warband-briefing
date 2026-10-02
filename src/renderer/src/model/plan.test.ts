@@ -118,7 +118,12 @@ it('a reward equal to the character is named as the reward', () => {
 
 // A character on the dungeon row with two bests: the step names the weaker key.
 /** The fields of the week the step reads. */
-const week = (fields: Partial<WeeklyProgress>) => fields as WeeklyProgress
+// A week as `weeklyProgress` builds one: the finish line follows from the
+// goals, so a fixture cannot say they are met and open at the same time.
+const week = (fields: Partial<WeeklyProgress>): WeeklyProgress => {
+  const goals = fields.goals ?? []
+  return { ...fields, goals, goalsMet: goals.length > 0 && goals.every((entry) => entry.done) } as WeeklyProgress
+}
 
 const runner = snapshot('Runner', {
   level: 90,

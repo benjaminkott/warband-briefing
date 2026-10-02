@@ -45,6 +45,7 @@ const STATE_OF: Record<StateWord, CharacterState> = {
   [StateWord.Levelling]: { unclaimed: false, levelling: true, inactive: false, betweenWeeks: false },
   [StateWord.Inactive]: { unclaimed: false, levelling: false, inactive: true, betweenWeeks: false },
   [StateWord.BetweenWeeks]: { unclaimed: false, levelling: false, inactive: false, betweenWeeks: true },
+  [StateWord.GoalsMet]: { unclaimed: false, levelling: false, inactive: false, betweenWeeks: false },
   [StateWord.Done]: { unclaimed: false, levelling: false, inactive: false, betweenWeeks: false }
 }
 
@@ -85,7 +86,13 @@ const SAMPLES: Record<string, (value: string, tr: Translator) => TemplateResult>
       mark
     ></wt-ext-link>`,
   StateWord: (v, tr) => {
-    const chip = stateChip(tr, STATE_OF[v as StateWord], v === StateWord.Done, v === StateWord.Levelling ? 63 : 80)
+    const chip = stateChip(
+      tr,
+      STATE_OF[v as StateWord],
+      v === StateWord.Done,
+      v === StateWord.Levelling ? 63 : 80,
+      v === StateWord.GoalsMet
+    )
     return chip
       ? html`<wt-chip
           tone=${chip.tone ?? nothing}

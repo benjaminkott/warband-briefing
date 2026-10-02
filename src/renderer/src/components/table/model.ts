@@ -161,8 +161,8 @@ export function tableRows(tr: Translator, inputs: TableInputs): TableRow[] {
             },
       gear,
       gearTip: gearHint(tr, gear),
-      word: stateWord(state, progress.done),
-      chip: stateChip(tr, state, progress.done, character.level),
+      word: stateWord(state, progress.done, progress.goalsMet),
+      chip: stateChip(tr, state, progress.done, character.level, progress.goalsMet),
       step: nextStep(character, progress, state.levelling, tr, flags, dungeons)
     }
   })

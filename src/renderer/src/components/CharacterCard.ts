@@ -92,7 +92,7 @@ export class WtCharacterCard extends WtCard {
     const { character, model } = this
     const { progress, state, step, token } = model
     const { levelling, inactive } = state
-    const word = stateChip(tr, state, progress.done, character.level)
+    const word = stateChip(tr, state, progress.done, character.level, progress.goalsMet)
 
     return html`
       <wt-class-medallion .character=${character} size="48"></wt-class-medallion>

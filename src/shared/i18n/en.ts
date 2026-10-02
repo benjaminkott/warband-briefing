@@ -134,6 +134,8 @@ export const en: Record<TranslationKey, string> = {
   'card.claimUnknownHint':
     'After the reset SavedInstances only records that the vault holds something, not what. Log in on this character once with the companion addon installed and the app knows the reward too.',
   'card.vaultLastWeek': 'Great Vault - last week',
+  'card.goalsMet': 'Goals met',
+  'card.goalsMetHint': 'Every weekly goal of this character is met. What is still open, you did not ask for.',
   'card.weekDone': 'Week done',
   'card.level': 'Level {level}',
   'card.unclaimed': 'Collect vault',

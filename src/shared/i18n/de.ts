@@ -139,6 +139,8 @@ export const de = {
   'card.claimUnknownHint':
     'SavedInstances merkt sich nach dem Reset nur noch, dass etwas in der Schatzkammer liegt, nicht was. Einmal auf diesem Charakter einloggen — mit installiertem Companion-Addon kennt die App dann auch die Belohnung.',
   'card.vaultLastWeek': 'Große Schatzkammer - Vorwoche',
+  'card.goalsMet': 'Ziele erreicht',
+  'card.goalsMetHint': 'Alle Wochenziele dieses Charakters sind erfüllt. Was noch offen steht, hast du dir nicht vorgenommen.',
   'card.weekDone': 'Woche erledigt',
   'card.level': 'Stufe {level}',
   'card.unclaimed': 'Vault abholen',

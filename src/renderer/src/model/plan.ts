@@ -204,8 +204,7 @@ export function stepWithin(
   // The user's goals are the finish line: a character that has met them
   // is not asked for another slot - the list still shows the rows, the
   // plan does not push them. With no goals, the vault itself is the line.
-  const goalsMet = progress.goals.length > 0 && progress.goals.every((goal) => goal.done)
-  const gap = goalsMet ? null : bestGap(progress.vaultRows, character.itemLevel, within)
+  const gap = progress.goalsMet ? null : bestGap(progress.vaultRows, character.itemLevel, within)
   if (gap) {
     // For the dungeon row the step can say which key: the one with the most
     // rating to gain fills the slot and lifts the score in one run.
@@ -245,7 +244,7 @@ export function stepWithin(
   // Something is open, but nothing of it fits the evening.
   if (
     within !== Infinity &&
-    ((!goalsMet && progress.vaultRows.some((row) => priceVaultRow(row, character.itemLevel))) ||
+    ((!progress.goalsMet && progress.vaultRows.some((row) => priceVaultRow(row, character.itemLevel))) ||
       progress.openWeeklies > 0 ||
       progress.gearIssues > 0)
   )

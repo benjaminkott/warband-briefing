@@ -152,6 +152,7 @@ export class WtCharacterDetail extends WtElement {
         .character=${character}
         .state=${state}
         ?done=${progress.done}
+        ?goals-met=${progress.goalsMet}
         region=${region}
         ?show-account=${showAccount}
       ></wt-detail-hero>

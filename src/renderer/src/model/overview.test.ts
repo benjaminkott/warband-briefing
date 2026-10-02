@@ -18,7 +18,8 @@ import {
   raidKills,
   concentrationFull,
   tokenAmount,
-  tokenFigure
+  tokenFigure,
+  stateWord
 } from './overview'
 import { checkGear, takesEnchant, gearHint } from './gear'
 import { whole, signed, untilReset, percentOf } from './format'
@@ -34,6 +35,7 @@ import type { ViewPrefs } from '../prefs'
 import { DISPLAY_DEFAULTS } from '../../../shared/display'
 import { GoalKind } from '../../../shared/enums/goalKind'
 import { Severity } from '../enums/severity'
+import { StateWord } from '../enums/stateWord'
 import { SortKey } from '../enums/sortKey'
 import { SortDirection } from '../enums/sortDirection'
 import { GoldRange } from '../enums/goldRange'
@@ -121,6 +123,34 @@ it('with goals, every goal', () => {
 })
 it('a stale snapshot is never done', () => {
   expect(weeklyProgress(character('Alt', { raid: 6, dungeon: 8, world: 8, stale: true })).done).toEqual(false)
+})
+
+/* ---- the finish line the user drew ---- */
+
+const GOAL = [{ id: 'g', kind: GoalKind.VaultDungeon, target: 2 }]
+it('the goals are met once every one of them is', () => {
+  expect([
+    weeklyProgress(character('Erreicht', { dungeon: 4 }), GOAL).goalsMet,
+    weeklyProgress(character('Noch nicht', { dungeon: 1 }), GOAL).goalsMet
+  ]).toEqual([true, false])
+})
+it('an open quest leaves the goals met and the week open', () => {
+  const met = weeklyProgress(character('Rest', { dungeon: 4, weeklies: [{ id: 1, label: 'A', done: false }] }), GOAL)
+  expect([met.goalsMet, met.done]).toEqual([true, false])
+})
+it('without goals there is no finish line of the user own', () => {
+  expect(weeklyProgress(character('Ohne', { raid: 6, dungeon: 8, world: 8 })).goalsMet).toEqual(false)
+})
+it('a stale snapshot has met nothing', () => {
+  expect(weeklyProgress(character('Alt', { dungeon: 4, stale: true }), GOAL).goalsMet).toEqual(false)
+})
+it('the goals met is a word of its own, under the week being done', () => {
+  const state = { unclaimed: false, levelling: false, inactive: false, betweenWeeks: false }
+  expect([stateWord(state, false, true), stateWord(state, true, true), stateWord(state, false, false)]).toEqual([
+    StateWord.GoalsMet,
+    StateWord.Done,
+    null
+  ])
 })
 it('a capped currency without a name is not one of the week', () => {
   expect(

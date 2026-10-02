@@ -30,6 +30,8 @@ export class WtDetailHero extends WtCard {
   @property({ attribute: false }) accessor state: CharacterState = NO_STATE
   /** Every weekly task cleared - the week's own tick, for the pill. */
   @property({ type: Boolean }) accessor done = false
+  /** Every goal the user set for this character is met; the week may still hold more. */
+  @property({ type: Boolean, attribute: 'goals-met' }) accessor goalsMet = false
   @property() accessor region: Region = Region.Eu
   @property({ type: Boolean, attribute: 'show-account' }) accessor showAccount = false
 
@@ -44,7 +46,7 @@ export class WtDetailHero extends WtCard {
     const { character, state } = this
     const color = classColor(character.classToken)
     const { levelling, inactive } = state
-    const word = stateChip(tr, state, this.done, character.level)
+    const word = stateChip(tr, state, this.done, character.level, this.goalsMet)
     return html`
       <!-- The bust with its backdrop, as the host renders it, once it is there; the medallion until then. -->
       <div class="detail-portrait">
