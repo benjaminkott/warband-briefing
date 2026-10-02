@@ -359,6 +359,7 @@ export const en: Record<TranslationKey, string> = {
   'vault.raid': 'Raids',
   'vault.dungeon': 'Dungeons',
   'vault.world': 'World',
+  'vault.rewardLevel': 'Reward {level} ilvl',
   'vault.slotProgress': '{progress} of {threshold}',
   'vault.slotReached': 'Threshold {threshold} reached',
   'vault.tier': 'Tier {level}',

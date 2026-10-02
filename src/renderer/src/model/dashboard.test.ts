@@ -5,7 +5,20 @@
  */
 
 import { expect, it } from 'vitest'
-import { activeRoster, classBreakdown, dungeonMatrix, goalRollups, playedRoster, renownGroups, rosterRows, spread } from './dashboard'
+import {
+  activeRoster,
+  classBreakdown,
+  dungeonMatrix,
+  goalRollups,
+  playedRoster,
+  renownGroups,
+  rewardColor,
+  rewardScale,
+  rosterRows,
+  rowReward,
+  spread
+} from './dashboard'
+import { vaultRing } from '../components/dashboard/model'
 import { factionLists } from '../components/settings/model'
 import { keysTranslator } from '../../../shared/i18n/testing'
 import { snapshot, vaultRow } from '../../../shared/testing'
@@ -377,4 +390,39 @@ it('a faction of a past season is not offered', () => {
 })
 it('the client name wins over the catalog', () => {
   expect(lists[0].factions.find((f) => f.id === 2772)!.name).toEqual("Zul'jarra's Forces")
+})
+
+/* ---- what the vault pays, as a colour ---- */
+
+const paying = (name: string, rewards: number[]): CharacterSnapshot =>
+  snapshot(name, { vault: [vaultRow(VaultCategory.Raid, [2, 4, 6], 6, rewards)] })
+const scale = rewardScale([paying('A', [658, 665, 671]), paying('B', [671, 678, 684])])
+it('the band is the lowest and the highest the board pays', () => {
+  expect(scale).toEqual({ lo: 658, hi: 684 })
+})
+it('a board that pays one figure has no band', () => {
+  expect(rewardScale([paying('A', [671, 671, 671])])).toEqual(null)
+})
+it('a board that reported no reward has no band', () => {
+  expect(rewardScale([paying('A', [])])).toEqual(null)
+})
+it('a row is worth the best of its slots', () => {
+  expect([rowReward(vaultRow(VaultCategory.Raid, [2, 4, 6], 6, [658, 671])), rowReward(vaultRow(VaultCategory.Raid, [2, 4, 6], 0))]).toEqual([
+    671,
+    null
+  ])
+})
+it('the bottom of the band is the cool end, the top the warm one', () => {
+  expect([rewardColor(658, scale), rewardColor(684, scale)]).toEqual(['140 70% 62%', '330 70% 62%'])
+})
+it('no figure and no band, no colour', () => {
+  expect([rewardColor(null, scale), rewardColor(671, null)]).toEqual([null, null])
+})
+it('the arc carries the colour and its tip names the figure', () => {
+  const [arc] = vaultRing(tr, [vaultRow(VaultCategory.Raid, [2, 4, 6], 6, [658])], scale)
+  expect([arc.color, arc.label]).toEqual(['140 70% 62%', 'vault.raid · vault.slotProgress(6,6) · vault.rewardLevel(658)'])
+})
+it('without a band the arc is the ring own colour and says nothing of it', () => {
+  const [arc] = vaultRing(tr, [vaultRow(VaultCategory.Raid, [2, 4, 6], 6, [658])])
+  expect([arc.color, arc.label]).toEqual([undefined, 'vault.raid · vault.slotProgress(6,6)'])
 })

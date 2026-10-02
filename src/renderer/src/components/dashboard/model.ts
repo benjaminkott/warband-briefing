@@ -1,6 +1,6 @@
 import type { Translator } from '../../../../shared/i18n'
 import type { VaultRow } from '../../../../shared/types'
-import type { RosterRow } from '../../model/dashboard'
+import { rewardColor, rowReward, type RosterRow } from '../../model/dashboard'
 import { GOAL_LABEL_KEYS, VAULT_LABEL_KEYS } from '../../model/labels'
 import type { RingGroup } from '../ui/Ring'
 
@@ -11,17 +11,33 @@ const TIP_BREAK = '\n'
  * The Great Vault as the groups of the ring: one group for each row (raid,
  * dungeon, world). Each group is filled to the progress of the row towards
  * its last slot. The label for the tip shows the progress.
+ *
+ * With a `scale`, the arc is drawn in the colour of what its row pays: the
+ * item level of the best reward the row reports, on the board's own band
+ * (`rewardScale`). Two things are then read off one arc - how far the row
+ * is, and what it is worth - and the tip names the figure the colour stands
+ * for, because a colour alone is not a number.
  */
-export function vaultRing(tr: Translator, rows: VaultRow[]): RingGroup[] {
+export function vaultRing(tr: Translator, rows: VaultRow[], scale: { lo: number; hi: number } | null = null): RingGroup[] {
   return rows.map((row) => {
     // The thresholds are cumulative, so the threshold of the last slot is the total of the row.
     const last = row.slots[row.slots.length - 1]
     const progress = last?.progress ?? 0
     const threshold = last?.threshold ?? 0
     const label = tr.t(VAULT_LABEL_KEYS[row.category])
+    const reward = rowReward(row)
+    const color = rewardColor(reward, scale)
     return {
       percent: threshold > 0 ? (Math.min(progress, threshold) / threshold) * 100 : 0,
-      label: threshold > 0 ? `${label} · ${tr.t('vault.slotProgress', { progress, threshold })}` : label
+      label: [
+        threshold > 0 ? `${label} · ${tr.t('vault.slotProgress', { progress, threshold })}` : label,
+        // Only where the colour means something: an uncoloured arc needs no
+        // figure to explain it.
+        color === null ? null : tr.t('vault.rewardLevel', { level: reward! })
+      ]
+        .filter(Boolean)
+        .join(' · '),
+      ...(color === null ? {} : { color })
     }
   })
 }

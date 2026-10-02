@@ -365,6 +365,7 @@ export const de = {
   'vault.raid': 'Raids',
   'vault.dungeon': 'Dungeons',
   'vault.world': 'Welt',
+  'vault.rewardLevel': 'Belohnung {level} ilvl',
   'vault.slotProgress': '{progress} von {threshold}',
   'vault.slotReached': 'Schwelle {threshold} erreicht',
   'vault.tier': 'Stufe {level}',

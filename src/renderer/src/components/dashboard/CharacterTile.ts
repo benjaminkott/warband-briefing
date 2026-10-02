@@ -72,7 +72,7 @@ export class WtCharacterTile extends WtButton {
       <!-- The three rows inside, the line the player drew around them: a
            closed outer ring is the one shape that says "what I asked for is
            done" before a figure is read. -->
-      <wt-ring .groups=${vaultRing(tr, this.row.vault)} .outer=${goalRing(tr, this.row)} size="120">
+      <wt-ring .groups=${vaultRing(tr, this.row.vault, this.row.rewards)} .outer=${goalRing(tr, this.row)} size="120">
         <wt-class-medallion .character=${character} size="54"></wt-class-medallion>
       </wt-ring>
 

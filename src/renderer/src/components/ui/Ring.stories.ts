@@ -56,6 +56,24 @@ export const OneGroup: StoryObj<Args> = {
   render: (args) => html`<wt-ring .groups=${[{ percent: 62, label: '62 %' }]} size=${args.size}><span class="num">62 %</span></wt-ring>`
 }
 
+/**
+ * A colour for each group: the arc then says two things at once - how far
+ * the group is, and what it is worth. The board paints the vault's rows this
+ * way, by the item level each one pays.
+ */
+export const ColouredGroups: StoryObj<Args> = {
+  render: (args) =>
+    html`<wt-ring
+      .groups=${[
+        { percent: 100, label: 'Raids · 6 von 6 · Belohnung 684 ilvl', color: '330 70% 62%' },
+        { percent: 50, label: 'Dungeons · 4 von 8 · Belohnung 671 ilvl', color: '215 70% 62%' },
+        { percent: 25, label: 'Welt · 2 von 8 · Belohnung 658 ilvl', color: '140 70% 62%' }
+      ]}
+      .outer=${{ percent: 58, label: 'Deine Wochenziele' }}
+      size=${args.size}
+    ></wt-ring>`
+}
+
 /** Five groups are still five arcs. The gap keeps its size in stroke widths. */
 export const ManyGroups: StoryObj<Args> = {
   render: (args) =>

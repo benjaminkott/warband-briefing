@@ -7,6 +7,13 @@ import './Tip'
 export interface RingGroup {
   percent: number
   label?: string
+  /**
+   * The fill of this one arc, as the app passes a heat colour: the three
+   * numbers of an `hsl()`, for example `142 70% 62%`. Without it the arc
+   * takes the ring's own colour, so a ring whose groups are not telling
+   * two things apart stays one colour.
+   */
+  color?: string
 }
 
 /** A point on a circle. 0 degrees is at the top. */
@@ -345,10 +352,14 @@ export class WtRing extends WtElement {
       // ring evenly.
       const [x1, y1] = polar(centre, radius, from)
       const [x2, y2] = polar(centre, radius, (from + to) / 2)
+      // A colour of its own still brightens along the arc, the way the
+      // ring's own does: the same shape, in another hue.
+      const stopFrom = group.color ? `hsl(${group.color})` : undefined
+      const stopTo = group.color ? `color-mix(in oklab, hsl(${group.color}), white 16%)` : undefined
       gradients.push(
         svg`<linearGradient id=${id} gradientUnits="userSpaceOnUse" x1=${x1} y1=${y1} x2=${x2} y2=${y2}>
-          <stop class="stop-from" offset="0"></stop>
-          <stop class="stop-to" offset="1"></stop>
+          <stop class="stop-from" offset="0" style=${stopFrom ? `stop-color: ${stopFrom}` : nothing}></stop>
+          <stop class="stop-to" offset="1" style=${stopTo ? `stop-color: ${stopTo}` : nothing}></stop>
         </linearGradient>`
       )
       // Use `svg`, not `html`. A path from an html template is an HTML

@@ -90,6 +90,12 @@ export interface RosterRow {
   cost: number
   /** What the next slot pays over the character's item level; null where no slot is priced. */
   gain: number | null
+  /**
+   * The band the whole board's vault rewards are painted on - the same on
+   * every row, so two tiles side by side mean the same thing by the same
+   * colour. Null where the board has no band to paint on.
+   */
+  rewards: { lo: number; hi: number } | null
 }
 
 /**
@@ -124,6 +130,9 @@ export function rosterRows(
   flags: DisplayFlags = DISPLAY_DEFAULTS,
   dungeons: SeasonDungeon[] = []
 ): RosterRow[] {
+  // One band for the whole board, not one per character: the colour of a row
+  // has to say the same thing on every tile.
+  const rewards = rewardScale(characters)
   const rows = characters.map((character): RosterRow => {
     const progress = weeklyProgress(character, goals, flags)
     const gearIssues = progress.gearIssues
@@ -152,6 +161,7 @@ export function rosterRows(
       inactive,
       unclaimed,
       done: progress.done,
+      rewards,
       ...planValue(character, progress, flags)
     }
   })
@@ -387,6 +397,42 @@ export function heatColor(heat: number): string {
   // short way at each step.
   const hue = t < 0.5 ? 140 + (215 - 140) * (t / 0.5) : 215 + (330 - 215) * ((t - 0.5) / 0.5)
   return `${Math.round(hue)} 70% 62%`
+}
+
+/**
+ * The band the vault's rewards are painted on: the lowest and the highest
+ * item level any slot on the board pays.
+ *
+ * Measured over the roster rather than against a table of the season's
+ * tracks, for the reason the key levels are: a table is wrong the week the
+ * next season starts, and the question the colour answers - "which of my
+ * rows pays the best" - is a question about this roster. A board whose
+ * slots all pay the same has no band and no colours; one figure is not a
+ * scale.
+ */
+export function rewardScale(characters: CharacterSnapshot[]): { lo: number; hi: number } | null {
+  const levels: number[] = []
+  for (const character of characters) {
+    for (const row of character.vault) {
+      for (const slot of row.slots) if (slot.rewardItemLevel !== null && slot.rewardItemLevel > 0) levels.push(slot.rewardItemLevel)
+    }
+  }
+  if (levels.length === 0) return null
+  const lo = Math.min(...levels)
+  const hi = Math.max(...levels)
+  return hi > lo ? { lo, hi } : null
+}
+
+/** The best item level a row pays, over the slots that reported one. */
+export function rowReward(row: VaultRow): number | null {
+  const levels = row.slots.map((slot) => slot.rewardItemLevel).filter((level): level is number => level !== null && level > 0)
+  return levels.length > 0 ? Math.max(...levels) : null
+}
+
+/** An item level on that band, as a heat colour; null where there is no band or no figure. */
+export function rewardColor(itemLevel: number | null, scale: { lo: number; hi: number } | null): string | null {
+  if (itemLevel === null || !scale) return null
+  return heatColor((itemLevel - scale.lo) / (scale.hi - scale.lo))
 }
 
 /** The rating scale's stops: green, then blue, pink at 3500, gold at 4000. */
