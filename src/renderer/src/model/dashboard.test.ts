@@ -319,12 +319,12 @@ it('a dungeon never run is the weakest', () => {
 it('otherwise the lowest key is', () => {
   expect(bests.rows[0].weakest).toEqual(1)
 })
-it('the highest key is the strongest', () => {
+it('the best-paying run is the strongest', () => {
   expect(bests.rows[0].strongest).toEqual(2)
 })
-it('a timed run wins a tie', () => {
+it('a timed key beats a higher overtime key that pays less', () => {
   expect(
-    dungeonMatrix([character('T', { dungeonBests: [best(1, 'A', 10, 100, false), best(2, 'B', 10, 110)] })], tr)!.rows[0].strongest
+    dungeonMatrix([character('T', { dungeonBests: [best(1, 'A', 13, 300, false), best(2, 'B', 12, 320)] })], tr)!.rows[0].strongest
   ).toEqual(2)
 })
 // The client's list adds the column nobody ran; the whole roster is weakest there.

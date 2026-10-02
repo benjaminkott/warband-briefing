@@ -314,7 +314,7 @@ export interface MatrixRow {
   total: number
   /** The dungeon with the lowest best, or the first one never run. */
   weakest: number | null
-  /** The dungeon with the highest best; a timed run wins a tie with an overtime one. */
+  /** The dungeon whose best pays the most score. */
   strongest: number | null
 }
 
@@ -359,7 +359,7 @@ export function dungeonMatrix(characters: CharacterSnapshot[], tr: Translator, l
     let weakest: number | null = null
     let weakestLevel = Infinity
     let strongest: number | null = null
-    let strongestRank = -1
+    let strongestScore = -1
     for (const column of columns) {
       const cell = cells.get(column.mapChallengeModeId)
       const level = cell ? cell.level : 0
@@ -367,11 +367,10 @@ export function dungeonMatrix(characters: CharacterSnapshot[], tr: Translator, l
         weakestLevel = level
         weakest = column.mapChallengeModeId
       }
-      // Two levels apart is always the higher key; at the same level the
-      // timed run is the better one.
-      const rank = cell ? cell.level * 2 + (cell.inTime ? 1 : 0) : -1
-      if (cell && rank > strongestRank) {
-        strongestRank = rank
+      // The best is what pays the most, not the highest key: a timed key can
+      // outscore an overtime one a level above it.
+      if (cell && cell.score > strongestScore) {
+        strongestScore = cell.score
         strongest = column.mapChallengeModeId
       }
     }
