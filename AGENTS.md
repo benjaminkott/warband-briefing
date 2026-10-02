@@ -312,7 +312,9 @@ The title is the folder: `UI/Chip`, `Shared/Notice` for the top of
 `components/`, `Card/Parts`, `Views/RosterView`; `.storybook/preview.ts`
 orders the groups. Fixture data is JSON under `stories/data/`, every
 timestamp an ISO string; `stories/fixtures.ts` loads and shifts it to
-today. The docs pages read `custom-elements.json`, written by `cem
+today. A story sets the size it renders at with `parameters: { frame:
+{ width, height } }` in pixels (`.storybook/frame.ts`), not with a wrapper
+`div`; the toolbar's width overrides it with a window width. The docs pages read `custom-elements.json`, written by `cem
 analyze` before every Storybook run; document events with `@fires` on the
 class.
 
