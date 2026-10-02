@@ -1149,7 +1149,8 @@ input[type='checkbox']:focus-visible {
 }
 
 /* On hover, the edge lights up in a sweep out of the top left corner. The
-   colour is the class colour when the card has one, or the accent. The
+   colour is `--edge-color` where the entry carries a tone of its own - a
+   reward waiting, the goals met - and the class colour otherwise. The
    sweep runs the full length of the top edge and the left edge alike: solid
    over the near part, thinned out but still that colour over the rest, gone
    at the far corners. It is an ellipse the size of the
@@ -1179,9 +1180,9 @@ input[type='checkbox']:focus-visible {
   padding: 1px;
   background: radial-gradient(
     ellipse 100% 100% at 0 0,
-    var(--class-color, var(--accent)) 0%,
-    var(--class-color, var(--accent)) 40%,
-    color-mix(in srgb, var(--class-color, var(--accent)) 50%, transparent) 80%,
+    var(--edge-color, var(--class-color, var(--accent))) 0%,
+    var(--edge-color, var(--class-color, var(--accent))) 40%,
+    color-mix(in srgb, var(--edge-color, var(--class-color, var(--accent))) 50%, transparent) 80%,
     transparent 100%
   );
   mask:
@@ -1785,10 +1786,19 @@ wt-field-group[inline][size='sm'] .select-trigger {
 /* The same mark on a row as on a tile. Only the three edges the class
    stripe does not own, so the stripe keeps its colour. */
 .char-card.goals-met {
+  --edge-color: var(--ok);
   border-top-color: var(--ok-line);
   border-right-color: var(--ok-line);
   border-bottom-color: var(--ok-line);
   background: var(--ok-soft);
+}
+
+.char-card.goals-met:hover:not(:disabled),
+.char-card.goals-met:focus-visible {
+  border-top-color: var(--ok);
+  border-right-color: var(--ok);
+  border-bottom-color: var(--ok);
+  background: color-mix(in srgb, var(--ok-soft), var(--ok) 8%);
 }
 
 /* The class stripe down the left edge stays the class's colour when the
@@ -1825,8 +1835,15 @@ wt-field-group[inline][size='sm'] .select-trigger {
 /* A reward already earned is lost at the next reset - the one card on the
    screen with something that cannot wait, so it is lit rather than dimmed. */
 .char-card.claim {
+  --edge-color: var(--warn);
   border-color: var(--warn-line);
   background: linear-gradient(var(--warn-soft), var(--warn-soft)), var(--bg-raised);
+}
+
+.char-card.claim:hover:not(:disabled),
+.char-card.claim:focus-visible {
+  border-color: var(--warn);
+  background: linear-gradient(var(--warn-soft), var(--warn-soft)), var(--bg-hover);
 }
 
 .card-titles {
@@ -3075,6 +3092,7 @@ wt-group + wt-field-group {
    read by words. Quiet on purpose - it marks what needs nothing, and must
    not outshout what does. */
 .tile-goals {
+  --edge-color: var(--ok);
   border-color: var(--ok-line);
   background: var(--ok-soft);
 }
@@ -3082,8 +3100,25 @@ wt-group + wt-field-group {
 /* A reward already earned is lost at the reset, which is the one thing on this
    board that is urgent rather than merely open. */
 .tile-claim {
+  --edge-color: var(--warn);
   border-color: var(--warn-line);
   background: var(--warn-soft);
+}
+
+/* An entry that carries a tone keeps it under the pointer: the wash lifts and
+   the edge goes to the full token, rather than falling back to the neutral
+   hover and the class colour. The tone is what the entry is about - a hover
+   that drops it says the opposite of what the colour said. */
+.tile-goals:hover:not(:disabled),
+.tile-goals:focus-visible {
+  border-color: var(--ok);
+  background: color-mix(in srgb, var(--ok-soft), var(--ok) 8%);
+}
+
+.tile-claim:hover:not(:disabled),
+.tile-claim:focus-visible {
+  border-color: var(--warn);
+  background: color-mix(in srgb, var(--warn-soft), var(--warn) 8%);
 }
 
 .tile-name {
