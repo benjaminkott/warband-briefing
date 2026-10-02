@@ -19,7 +19,8 @@ import {
   concentrationFull,
   tokenAmount,
   tokenFigure,
-  stateWord
+  stateWord,
+  overTheLine
 } from './overview'
 import { checkGear, takesEnchant, gearHint } from './gear'
 import { whole, signed, untilReset, percentOf } from './format'
@@ -143,6 +144,14 @@ it('without goals there is no finish line of the user own', () => {
 })
 it('a stale snapshot has met nothing', () => {
   expect(weeklyProgress(character('Alt', { dungeon: 4, stale: true }), GOAL).goalsMet).toEqual(false)
+})
+it('over the line: the goals met, or with none set the week done', () => {
+  expect([
+    overTheLine(weeklyProgress(character('Ziel', { dungeon: 4 }), GOAL)),
+    overTheLine(weeklyProgress(character('Offen', { dungeon: 1 }), GOAL)),
+    overTheLine(weeklyProgress(character('Voll', { raid: 6, dungeon: 8, world: 8 }))),
+    overTheLine(weeklyProgress(character('Halb', { raid: 6 })))
+  ]).toEqual([true, false, true, false])
 })
 it('the goals met is a word of its own, under the week being done', () => {
   const state = { unclaimed: false, levelling: false, inactive: false, betweenWeeks: false }

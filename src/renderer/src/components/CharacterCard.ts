@@ -5,7 +5,7 @@ import type { CharacterPoint, CharacterSnapshot, Goal, SeasonDungeon } from '../
 import { DISPLAY_DEFAULTS, TREND_DAYS, type DisplayFlags } from '../../../shared/display'
 import { WtCard } from './ui/Card'
 import { cardModel, type CardModel } from './card/model'
-import { accountsOf, stateChip } from '../model/overview'
+import { accountsOf, overTheLine, stateChip } from '../model/overview'
 import { ratingColor, ratingStyle } from '../model/dashboard'
 import { isClassToken, classColor } from '../enums/classToken'
 import { ControlSize } from '../enums/controlSize'
@@ -84,7 +84,8 @@ export class WtCharacterCard extends WtCard {
       stale: state.inactive,
       claim: state.unclaimed,
       levelling: state.levelling,
-      'week-done': progress.done
+      'week-done': progress.done,
+      'goals-met': overTheLine(progress) && !state.levelling && !state.unclaimed
     })
   }
 
@@ -126,7 +127,7 @@ export class WtCharacterCard extends WtCard {
         ></wt-identity-line>
         <!-- What the user asked of this character, with a tick on the ones
              it has: the step below names what is left, never what is met. -->
-        <wt-goal-strip small .goals=${levelling || inactive ? [] : progress.goals}></wt-goal-strip>
+        <wt-goal-strip small .goals=${levelling || character.stale ? [] : progress.goals}></wt-goal-strip>
       </div>
 
       <div class="card-figures">

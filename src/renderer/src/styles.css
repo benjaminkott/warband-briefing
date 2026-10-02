@@ -1782,6 +1782,15 @@ wt-field-group[inline][size='sm'] .select-trigger {
   overflow: hidden;
 }
 
+/* The same mark on a row as on a tile. Only the three edges the class
+   stripe does not own, so the stripe keeps its colour. */
+.char-card.goals-met {
+  border-top-color: var(--ok-line);
+  border-right-color: var(--ok-line);
+  border-bottom-color: var(--ok-line);
+  background: var(--ok-soft);
+}
+
 /* The class stripe down the left edge stays the class's colour when the
    card's hover recolours the rest of the edge. */
 .char-card,
@@ -3059,6 +3068,15 @@ wt-group + wt-field-group {
 .tile-levelling:hover:not(:disabled),
 .tile-done:hover:not(:disabled) {
   opacity: 1;
+}
+
+/* Over the line the user drew: the edge and a wash in the green every
+   finished thing in the app wears, so a board is read by colour before it is
+   read by words. Quiet on purpose - it marks what needs nothing, and must
+   not outshout what does. */
+.tile-goals {
+  border-color: var(--ok-line);
+  background: var(--ok-soft);
 }
 
 /* A reward already earned is lost at the reset, which is the one thing on this

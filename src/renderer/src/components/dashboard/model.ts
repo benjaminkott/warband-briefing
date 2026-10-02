@@ -1,6 +1,7 @@
 import type { Translator } from '../../../../shared/i18n'
 import type { VaultRow } from '../../../../shared/types'
 import { rewardColor, rowReward, type RosterRow } from '../../model/dashboard'
+import { overTheLine } from '../../model/overview'
 import { GOAL_LABEL_KEYS, VAULT_LABEL_KEYS } from '../../model/labels'
 import type { RingGroup } from '../ui/Ring'
 
@@ -54,10 +55,12 @@ export function vaultRing(tr: Translator, rows: VaultRow[], scale: { lo: number;
  * because the ring itself can only say how far, never which.
  *
  * Null for a character the line means nothing to: one still levelling, one
- * whose rows the player took off altogether.
+ * describing last week - a snapshot from before the reset cannot have met
+ * anything, and a closed ring on one would be a lie - and one whose rows the
+ * player took off altogether.
  */
 export function goalRing(tr: Translator, row: RosterRow): RingGroup | null {
-  if (row.levelling) return null
+  if (row.levelling || row.character.stale) return null
   const goals = row.progress.goals
   if (goals.length === 0) {
     if (row.vaultTotal === 0) return null
@@ -91,6 +94,9 @@ export function rosterClasses(base: string, row: RosterRow): string {
     row.inactive ? `${base}-stale` : '',
     row.levelling ? `${base}-levelling` : '',
     row.unclaimed ? `${base}-claim` : '',
+    // Over the line the user drew. A reward still waiting beats it: that one
+    // is lost at the reset, and no finished week makes it less urgent.
+    overTheLine(row.progress) && !row.levelling ? `${base}-goals` : '',
     // Done for the week: still on the board, at the end and dimmed, so the
     // open work stands out.
     row.done && !row.unclaimed && !row.levelling ? `${base}-done` : ''

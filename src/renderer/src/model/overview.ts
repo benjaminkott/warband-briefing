@@ -180,6 +180,16 @@ export interface WeeklyProgress {
   done: boolean
 }
 
+/**
+ * The character is over the line it works to: every goal the user set is
+ * met, or - with no goals set - the week itself is done. The roster marks
+ * these, so "what I asked for is finished" is read off the shape of an
+ * entry rather than off its words.
+ */
+export function overTheLine(progress: WeeklyProgress): boolean {
+  return progress.goalsMet || progress.done
+}
+
 /** What each goal reads, so a goal on a row the player took off is not one of the character's. */
 const GOAL_ROWS: Record<GoalKind, VaultCategory[]> = {
   vaultSlots: [VaultCategory.Raid, VaultCategory.Dungeon, VaultCategory.World],
