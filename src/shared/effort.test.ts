@@ -15,13 +15,13 @@ import type { Minutes } from './effort'
 
 it("the bundled catalog carries the season's figures", () => {
   const minutes = seasonMinutes()
-  expect(minutes.dungeon).toBe(40)
+  expect(minutes.dungeon).toBe(30)
   expect(minutes.claim).toBe(2)
   for (const key of Object.keys(DEFAULT_MINUTES) as (keyof Minutes)[]) expect(typeof minutes[key]).toBe('number')
 })
 
 it("a vault step is its missing units at the row's price", () => {
-  expect(vaultStepMinutes(VaultCategory.Dungeon, 1)).toBe(40)
+  expect(vaultStepMinutes(VaultCategory.Dungeon, 1)).toBe(30)
   expect(vaultStepMinutes(VaultCategory.Raid, 2)).toBe(30)
   expect(vaultStepMinutes(VaultCategory.World, 4)).toBe(40)
   expect(vaultStepMinutes(VaultCategory.Dungeon, 2, { ...DEFAULT_MINUTES, dungeon: 25 })).toBe(50)

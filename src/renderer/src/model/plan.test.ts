@@ -217,14 +217,14 @@ it('what fits into the default evening, in the order given; levelling, stale and
   ])
 })
 it('each step has its minutes: the vault, a dungeon, two quests', () => {
-  expect(evening.map((entry) => entry.step.minutes)).toEqual([2, 40, 30])
+  expect(evening.map((entry) => entry.step.minutes)).toEqual([2, 30, 30])
 })
 it('the plan takes the sum', () => {
-  expect(planMinutes(evening)).toEqual(72)
+  expect(planMinutes(evening)).toEqual(62)
 })
 it('a shorter evening passes a key over for the quests that fit, then names the key as what comes after', () => {
   expect(
-    eveningPlan([planRow('Keys', { vault: open }), planRow('Quests', { weeklies: 2 })], tr, undefined, 35).map((entry) => [
+    eveningPlan([planRow('Keys', { vault: open }), planRow('Quests', { weeklies: 1 })], tr, undefined, 20).map((entry) => [
       entry.character.name,
       entry.fits
     ])

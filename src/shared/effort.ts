@@ -3,7 +3,7 @@
  *
  * The plan prices a step in actions and item level (`plan.ts`); the player
  * with an evening of sixty minutes asks a third question - does it fit? A
- * key is forty minutes, a world boss ten, a weekly quest fifteen. The
+ * key is thirty minutes, a world boss ten, a weekly quest fifteen. The
  * figures are estimates: a key at +2 and one at +12 do not take the same
  * time, and a group takes its own. They are the season's, so they live in
  * the catalog like the quest ids; the ones here stand in where a catalog
@@ -40,7 +40,7 @@ export interface Minutes {
 export const DEFAULT_MINUTES: Minutes = {
   claim: 2,
   raidBoss: 15,
-  dungeon: 40,
+  dungeon: 30,
   worldActivity: 10,
   weekly: 15,
   activity: 15,

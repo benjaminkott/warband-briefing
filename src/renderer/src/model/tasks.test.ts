@@ -462,8 +462,8 @@ const minutesOn = (id: string) => timed.tasks.find((task) => task.id === id)!.mi
 it('the vault reward takes two minutes', () => {
   expect(minutesOn('claim')).toEqual(2)
 })
-it('a dungeon slot takes its missing dungeons at forty', () => {
-  expect(minutesOn('vault:dungeon')).toEqual(40)
+it('a dungeon slot takes its missing dungeons at thirty', () => {
+  expect(minutesOn('vault:dungeon')).toEqual(30)
 })
 it('a raid slot takes its missing bosses at fifteen', () => {
   expect(minutesOn('vault:raid')).toEqual(30)
