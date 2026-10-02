@@ -46,13 +46,16 @@ function arc(centre: number, radius: number, from: number, to: number): string {
 const GAP = 1.5
 
 /**
- * The gap between the groups and the outer ring, in stroke widths. Half of
- * the gap along the ring: two arcs side by side need to be told apart, two
- * rings one inside the other are told apart by being rings. The air the
- * groups keep from the content in the middle is worth more than the air
- * between the two, so this is where it is taken from.
+ * The gap between the groups and the outer ring, across the ring rather than
+ * along it, in stroke widths.
+ *
+ * Smaller than the gap between two groups: arcs side by side have to be told
+ * apart, two rings one inside the other are told apart by being rings. One
+ * stroke is also what the groups then leave the content in the middle at the
+ * sizes the board draws, so the drawing reads on one rhythm from the rim to
+ * the middle.
  */
-const RING_GAP = 0.75
+const RING_GAP = 1
 
 /**
  * A ring of groups around a content in the middle.
