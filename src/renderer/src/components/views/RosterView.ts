@@ -7,7 +7,7 @@ import { DEFAULT_PREFS, type ViewPrefs } from '../../prefs'
 import type { GoldSeries } from '../../model/gold'
 import { activeRoster, dungeonMatrix, rosterRows, weekTotals, type RosterRow } from '../../model/dashboard'
 import { openCount } from '../../model/tasks'
-import { goalChip, multiRealm } from '../../model/overview'
+import { multiRealm } from '../../model/overview'
 import type { CustomTaskState } from '../../../../shared/customTasks'
 import type { Translator } from '../../../../shared/i18n'
 import { WtElement } from '../../element'
@@ -17,6 +17,7 @@ import { ControlSize } from '../../enums/controlSize'
 import { ViewMode } from '../../enums/viewMode'
 import '../CharacterCard'
 import '../CharacterTable'
+import '../GoalStrip'
 import '../EmptyState'
 import '../RosterToolbar'
 import '../vault/VaultBlock'
@@ -272,23 +273,8 @@ export class WtRosterView extends WtElement {
         ${
           row.levelling
             ? html`<wt-panel-empty text=${tr.t('card.levellingHint')}></wt-panel-empty>`
-            : html`<wt-vault-block .character=${character} .progress=${row.progress} ?unclaimed=${row.unclaimed}></wt-vault-block> ${
-                  row.progress.goals.length > 0 && !character.stale
-                    ? html`<wt-chips class="goal-strip">
-                        ${row.progress.goals.map((goal) => {
-                          const chip = goalChip(tr, goal)
-                          return html`<wt-chip
-                            tone=${chip.tone ?? nothing}
-                            icon=${chip.icon ?? nothing}
-                            label=${chip.label}
-                            note=${chip.note ?? nothing}
-                            ?numeric-note=${chip.numericNote}
-                            data-tip=${chip.tip ?? nothing}
-                          ></wt-chip>`
-                        })}
-                      </wt-chips>`
-                    : nothing
-                }`
+            : html`<wt-vault-block .character=${character} .progress=${row.progress} ?unclaimed=${row.unclaimed}></wt-vault-block>
+                <wt-goal-strip .goals=${character.stale ? [] : row.progress.goals}></wt-goal-strip>`
         }
       </wt-card>
       <wt-detail-tasks

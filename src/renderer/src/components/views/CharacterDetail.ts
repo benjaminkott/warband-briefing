@@ -1,10 +1,10 @@
-import { html, nothing, type TemplateResult } from 'lit'
+import { html, type TemplateResult } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import type { AppConfig, CharacterPoint, CharacterSnapshot, Goal, SeasonDungeon } from '../../../../shared/types'
 import type { CustomTaskState } from '../../../../shared/customTasks'
 import { trend } from '../../../../shared/charHistory'
 import { DISPLAY_DEFAULTS, type DisplayFlags } from '../../../../shared/display'
-import { characterState, goalChip, weeklyProgress, type CharacterState, type WeeklyProgress } from '../../model/overview'
+import { characterState, weeklyProgress, type CharacterState, type WeeklyProgress } from '../../model/overview'
 import { WtElement, type WtEvent } from '../../element'
 import { Region } from '../../../../shared/enums/region'
 import { ControlSize } from '../../enums/controlSize'
@@ -33,6 +33,7 @@ import '../detail/DetailProfessions'
 import '../detail/DetailRaids'
 import '../detail/DetailRuns'
 import '../detail/DetailTasks'
+import '../GoalStrip'
 import '../ui/Button'
 import '../ui/Segmented'
 import '../ui/Chips'
@@ -190,23 +191,7 @@ export class WtCharacterDetail extends WtElement {
                 ></wt-detail-panel>`
               : html`<wt-card class="panel dash-panel dash-c6 dash-fit">
                   <wt-vault-block .character=${character} .progress=${progress} ?unclaimed=${state.unclaimed}></wt-vault-block>
-                  ${
-                    progress.goals.length > 0 && !character.stale
-                      ? html`<wt-chips class="goal-strip">
-                          ${progress.goals.map((goal) => {
-                            const chip = goalChip(tr, goal)
-                            return html`<wt-chip
-                              tone=${chip.tone ?? nothing}
-                              icon=${chip.icon ?? nothing}
-                              label=${chip.label}
-                              note=${chip.note ?? nothing}
-                              ?numeric-note=${chip.numericNote}
-                              data-tip=${chip.tip ?? nothing}
-                            ></wt-chip>`
-                          })}
-                        </wt-chips>`
-                      : nothing
-                  }
+                  <wt-goal-strip .goals=${character.stale ? [] : progress.goals}></wt-goal-strip>
                 </wt-card>`
           }
           <wt-detail-tasks

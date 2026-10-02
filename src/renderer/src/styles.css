@@ -4390,11 +4390,21 @@ wt-detail-list[kind='bars'] > wt-detail-entry > .tiny {
 }
 
 /* The goal strip under the vault keeps the card's hairline. */
+/* The goals of one character, as a strip of chips. Under a vault it is a
+   block of its own and takes a line above it; inside a roster entry it is
+   one more line of the entry and takes neither. */
 .goal-strip {
   margin-top: var(--s3);
   padding-top: var(--s3);
   border-top: 1px solid var(--border);
 }
+
+.card-titles > .goal-strip {
+  margin-top: var(--s2);
+  padding-top: 0;
+  border-top: none;
+}
+
 
 /* Half-width panels stack once there is no room for two side by side. A half
    has to hold the vault's nine tiles at their fixed width, plus the panel's

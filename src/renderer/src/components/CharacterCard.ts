@@ -19,6 +19,7 @@ import './ui/Format'
 import './card/CardFigure'
 import './GameIcon'
 import './StepNote'
+import './GoalStrip'
 import './Keystone'
 import { IconSize } from '../enums/iconSize'
 import { IconKind } from '../../../shared/enums/iconKind'
@@ -123,6 +124,9 @@ export class WtCharacterCard extends WtCard {
               : [])
           ]}
         ></wt-identity-line>
+        <!-- What the user asked of this character, with a tick on the ones
+             it has: the step below names what is left, never what is met. -->
+        <wt-goal-strip small .goals=${levelling || inactive ? [] : progress.goals}></wt-goal-strip>
       </div>
 
       <div class="card-figures">
