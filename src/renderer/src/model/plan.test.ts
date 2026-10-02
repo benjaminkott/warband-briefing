@@ -269,15 +269,17 @@ it('a character whose goals are met is not asked for another slot: the week is d
     nextStep(planRow('Met', { vault: open, goals: met }).character, planRow('Met', { vault: open, goals: met }).progress, false, tr).tone
   ).toEqual(StepTone.Done)
 })
-it('with the goals met an open weekly is still the step', () => {
-  expect(
-    nextStep(
-      planRow('Met', { vault: open, goals: met, weeklies: 1 }).character,
-      planRow('Met', { vault: open, goals: met, weeklies: 1 }).progress,
-      false,
-      tr
-    ).text
-  ).toEqual('dash.steps.weekly(1)')
+it('with the goals met an open weekly is still the step, but optional', () => {
+  const step = nextStep(
+    planRow('Met', { vault: open, goals: met, weeklies: 1 }).character,
+    planRow('Met', { vault: open, goals: met, weeklies: 1 }).progress,
+    false,
+    tr
+  )
+  expect([step.text, step.tone]).toEqual(['dash.steps.weekly(1)', StepTone.Extra])
+})
+it('with a goal open an open weekly is a chore', () => {
+  expect(nextStep(planRow('Open', { weeklies: 1 }).character, planRow('Open', { weeklies: 1 }).progress, false, tr).tone).toEqual(StepTone.Open)
 })
 it('a goal still open keeps the slot on the plan', () => {
   expect(

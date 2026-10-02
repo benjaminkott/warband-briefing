@@ -40,7 +40,7 @@ export const Roster: StoryObj = {
     </div>`
 }
 
-/** The four tones: a reward to claim, a chore open, the week done, nothing to say. */
+/** The five tones: a reward to claim, a chore open, a leftover past the goals, the week done, nothing to say. */
 export const Tones: StoryObj = {
   render: () =>
     html`<div style="display: flex; flex-direction: column; gap: var(--s2)">
@@ -51,6 +51,10 @@ export const Tones: StoryObj = {
       <wt-step-note
         class="card-step"
         .step=${{ text: '2 more dungeons', detail: 'Dungeons · slot 2 of 3 · reward item level 678, +2', reason: null, tone: StepTone.Open, icon: 'chevronUp' }}
+      ></wt-step-note>
+      <wt-step-note
+        class="card-step"
+        .step=${{ text: '3 weekly quests open', detail: null, reason: null, tone: StepTone.Extra, icon: 'scroll' }}
       ></wt-step-note>
       <wt-step-note
         class="card-step"

@@ -310,7 +310,7 @@ export const ENUMS: readonly EnumEntry[] = [
   { name: 'GoldChart', about: 'What the gold chart draws: the account, or each character.', module: 'enums/goldChart.ts', values: GoldChart },
   {
     name: 'StepTone',
-    about: 'How the next step reads on the tile: a reward to claim, a chore open, the week done, nothing to say.',
+    about: 'How the next step reads on the tile: a reward to claim, a chore open, a leftover past the goals, the week done, nothing to say.',
     module: 'enums/stepTone.ts',
     values: StepTone
   },

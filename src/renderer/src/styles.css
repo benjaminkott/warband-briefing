@@ -1503,8 +1503,17 @@ wt-field-group[inline][size='sm'] .select-trigger {
 }
 
 /* The next step's colours, shared by the card band, the tile and the roster
-   row: open and claim in the warning pair (see the text rules), done quiet
-   with a green mark, a levelling character out of the way. */
+   row: open and claim in the warning pair (see the text rules), a leftover
+   past the goals in the neutral pair, done quiet with a green mark, a
+   levelling character out of the way. */
+.step-extra {
+  color: var(--info-text);
+}
+
+.step-extra .icon {
+  color: var(--info);
+}
+
 .step-done {
   color: var(--text-dim);
 }
@@ -3222,6 +3231,11 @@ wt-group + wt-field-group {
 .tile-step.step-open {
   border-color: var(--warn-line);
   background: var(--warn-soft);
+}
+
+.tile-step.step-extra {
+  border-color: var(--info-line);
+  background: var(--info-soft);
 }
 
 .tile-step.step-claim {

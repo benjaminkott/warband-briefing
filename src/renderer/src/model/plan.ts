@@ -219,13 +219,16 @@ export function stepWithin(
       minutes: vaultStepMinutes(gap.category, gap.missing, minutes)
     }
   }
+  // With the goals met, what is left is optional: the step is still named,
+  // but in the neutral tone, not as a warning.
+  const leftover = progress.goalsMet ? StepTone.Extra : StepTone.Open
   const weeklies = progress.openWeeklies * minutes.weekly
   if (progress.openWeeklies > 0 && weeklies <= within) {
     return {
       text: tr.plural('dash.steps.weekly', progress.openWeeklies),
       detail: null,
       reason: null,
-      tone: StepTone.Open,
+      tone: leftover,
       icon: 'scroll',
       minutes: weeklies
     }
@@ -236,7 +239,7 @@ export function stepWithin(
       text: tr.plural('dash.steps.gear', progress.gearIssues),
       detail: null,
       reason: null,
-      tone: StepTone.Open,
+      tone: leftover,
       icon: 'shield',
       minutes: gear
     }
@@ -275,7 +278,7 @@ export const EVENING_LINES = 5
 const EVENING_LINES_MIN = 3
 
 const takesStep = (step: NextStep | null): step is NextStep =>
-  step !== null && (step.tone === StepTone.Claim || step.tone === StepTone.Open)
+  step !== null && (step.tone === StepTone.Claim || step.tone === StepTone.Open || step.tone === StepTone.Extra)
 
 /**
  * The evening's plan: the characters worth logging into, each with its
