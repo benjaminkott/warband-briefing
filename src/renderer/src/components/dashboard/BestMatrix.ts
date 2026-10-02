@@ -126,7 +126,7 @@ export class WtBestMatrix extends WtElement {
       <!-- The marks sit in the cell's corners, so the level stands at the
            same spot in every cell whether or not there is a mark beside it. -->
       ${!best.inTime ? html`<wt-icon name="clock" size=${IconSize.Xs} class="matrix-clock"></wt-icon>` : nothing}
-      ${strongest ? html`<wt-icon name="star" size=${IconSize.Xs} class="matrix-star"></wt-icon>` : nothing}
+      ${strongest ? html`<wt-icon name="starFilled" size=${IconSize.Xs} class="matrix-star"></wt-icon>` : nothing}
       <span class="matrix-cell-inner">
         <span class="matrix-level">${best.level}</span>
         <!-- What the run is worth to the rating, under the level. -->

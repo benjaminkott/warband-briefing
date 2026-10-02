@@ -50,6 +50,7 @@ import receiptLong from '@material-symbols/svg-400/outlined/receipt_long.svg?raw
 import flag from '@material-symbols/svg-400/outlined/flag.svg?raw'
 import speed from '@material-symbols/svg-400/outlined/speed.svg?raw'
 import star from '@material-symbols/svg-400/outlined/star.svg?raw'
+import starFilled from '@material-symbols/svg-400/outlined/star-fill.svg?raw'
 import swapVert from '@material-symbols/svg-400/outlined/swap_vert.svg?raw'
 import filterAlt from '@material-symbols/svg-400/outlined/filter_alt.svg?raw'
 import visibility from '@material-symbols/svg-400/outlined/visibility.svg?raw'
@@ -114,6 +115,7 @@ export type IconName =
   | 'tasks'
   | 'pin'
   | 'star'
+  | 'starFilled'
   | 'sort'
   | 'filter'
   | 'eye'
@@ -182,6 +184,7 @@ const SYMBOLS: Record<IconName, string> = {
   tasks: checklist,
   pin: editNote,
   star,
+  starFilled,
   sort: swapVert,
   filter: filterAlt,
   eye: visibility,
