@@ -42,7 +42,7 @@ const page = (character: typeof MAIN, args: Args) =>
 const meta: Meta<Args> = {
   title: 'Views/CharacterDetail',
   component: 'wt-character-detail',
-  args: { section: DetailSection.Week, hasPrev: true, hasNext: true, showAccount: true },
+  args: { section: DetailSection.Overview, hasPrev: true, hasNext: true, showAccount: true },
   argTypes: { section: { control: 'inline-radio', options: Object.values(DetailSection) } },
   parameters: { layout: 'fullscreen' },
   render: (args) => page(MAIN, args)
@@ -50,8 +50,11 @@ const meta: Meta<Args> = {
 
 export default meta
 
-/** One character in full: the hero band, and under it the week - the vault, the tasks, every run and lockout. The bar switches the section. */
+/** One character in full: the hero band, and under it the overview - the vault, the open tasks, the key, the gear, the resources. The bar switches the section. */
 export const Main: StoryObj<Args> = {}
+
+/** The week: the vault, the tasks, every run and lockout. */
+export const Week: StoryObj<Args> = { args: { section: DetailSection.Week } }
 
 /** The season: the two histories, every best, the raids. */
 export const Season: StoryObj<Args> = { args: { section: DetailSection.Season } }

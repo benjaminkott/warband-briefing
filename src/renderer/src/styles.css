@@ -4076,6 +4076,39 @@ wt-detail-list[kind='bars'] wt-bar {
   margin-top: var(--s0);
 }
 
+/* The overview's lines: the label takes the room, the value sits at the
+   end of the line. Either one cuts off with an ellipsis before it wraps. */
+.detail-summary-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail-summary-value {
+  flex: 0 1 auto;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A value without a tone is the quiet ink; a tone class sets its own. */
+.detail-summary-value:not(.ok-text, .warn-text, .danger-text) {
+  color: var(--text-dim);
+}
+
+/* The way to the section sits at the foot of the panel, at its end. */
+.detail-summary-foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: var(--s2);
+}
+
 /* ---- inventory ---- */
 
 /* The bank as the game lays it out: a strip of tabs, and below it the
@@ -4497,7 +4530,6 @@ wt-detail-list[kind='bars'] > wt-detail-entry > .tiny {
   padding-top: 0;
   border-top: none;
 }
-
 
 /* Half-width panels stack once there is no room for two side by side. A half
    has to hold the vault's nine tiles at their fixed width, plus the panel's

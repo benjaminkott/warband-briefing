@@ -15,7 +15,11 @@ import { FormatKind } from '../../enums/formatKind'
 import { GoldRange } from '../../enums/goldRange'
 import { characterGold } from '../../model/gold'
 import { DetailSection } from '../../enums/detailSection'
-import { DETAIL_SECTIONS } from '../detail/model'
+import { DETAIL_SECTIONS, gearLines, keyLines, resourceLines, taskLines } from '../detail/model'
+import { rosterRows, type RosterRow } from '../../model/dashboard'
+import { characterTasks } from '../../model/tasks'
+import { memoLast } from '../../memo'
+import type { Translator } from '../../../../shared/i18n'
 import type { TranslationKey } from '../../../../shared/i18n'
 import '../ui/Card'
 import '../ui/Chip'
@@ -32,6 +36,7 @@ import '../detail/DetailPanel'
 import '../detail/DetailProfessions'
 import '../detail/DetailRaids'
 import '../detail/DetailRuns'
+import '../detail/DetailSummary'
 import '../detail/DetailTasks'
 import '../GoalStrip'
 import '../ui/Button'
@@ -83,6 +88,18 @@ export class WtCharacterDetail extends WtElement {
   @property() accessor section: DetailSection = DetailSection.Week
   /** The place's search text, from the top bar; the inventory narrows by it. */
   @property() accessor query = ''
+
+  // The overview's lines, once per change of what they read; the clock is
+  // an input of the tasks, so a cooldown that runs out gets its line.
+  private rowOf = memoLast(
+    (character: CharacterSnapshot, goals: Goal[], maxLevel: number, resetAt: number, tr: Translator, flags: DisplayFlags): RosterRow =>
+      rosterRows([character], goals, maxLevel, resetAt, tr, flags)[0]!
+  )
+  private tasksOf = memoLast(characterTasks)
+  private taskLinesOf = memoLast(taskLines)
+  private keyLinesOf = memoLast(keyLines)
+  private gearLinesOf = memoLast(gearLines)
+  private resourceLinesOf = memoLast(resourceLines)
 
   // The keyboard walks the roster the way the buttons do; Escape is the
   // back button. The table in shortcuts.ts holds the keys: a field that has
@@ -175,25 +192,65 @@ export class WtCharacterDetail extends WtElement {
     `
   }
 
+  /** The vault with the goals under it; a character below the cap has no vault yet. */
+  private vault(state: CharacterState, progress: WeeklyProgress): TemplateResult {
+    const { character } = this
+    return state.levelling
+      ? html`<wt-detail-panel
+          icon="vault"
+          heading=${this.tr.t('card.vault')}
+          .content=${html`<wt-panel-empty text=${this.tr.t('card.levellingHint')}></wt-panel-empty>`}
+        ></wt-detail-panel>`
+      : html`<wt-card class="panel dash-panel dash-c6 dash-fit">
+          <wt-vault-block .character=${character} .progress=${progress} ?unclaimed=${state.unclaimed}></wt-vault-block>
+          <wt-goal-strip .goals=${character.stale ? [] : progress.goals}></wt-goal-strip>
+        </wt-card>`
+  }
+
   /** The panels of the open section, each row of the grid full. */
   private panels(state: CharacterState, progress: WeeklyProgress): TemplateResult {
     const tr = this.tr
     const { character, flags, goals, trackedCurrencies } = this
     switch (this.section) {
+      case DetailSection.Overview: {
+        const row = this.rowOf(character, goals, this.maxLevel, this.resetAt, tr, flags)
+        const tasks = this.tasksOf(tr, row, flags, this.custom, this.supplyMinimums, this.clock)
+        return html`
+          ${this.vault(state, progress)}
+          <wt-detail-summary
+            icon="tasks"
+            heading=${tr.t('detail.tasks.title')}
+            section=${DetailSection.Week}
+            .lines=${this.taskLinesOf(tr, tasks)}
+            empty=${tr.t(state.levelling ? 'card.levellingHint' : 'tasks.nothingOpen')}
+          ></wt-detail-summary>
+          <wt-detail-summary
+            icon="keystone"
+            heading=${tr.t('detail.overview.keys')}
+            section=${DetailSection.Season}
+            .lines=${this.keyLinesOf(tr, character, this.dungeons)}
+            empty=${tr.t('detail.overview.keysEmpty')}
+          ></wt-detail-summary>
+          <wt-detail-summary
+            icon="shield"
+            heading=${tr.t('detail.section.gear')}
+            section=${DetailSection.Gear}
+            .lines=${this.gearLinesOf(tr, character, flags)}
+            empty=${tr.t('detail.overview.gearEmpty')}
+          ></wt-detail-summary>
+          <wt-detail-summary
+            icon="coins"
+            heading=${tr.t('detail.overview.resources')}
+            section=${DetailSection.Currencies}
+            .lines=${this.resourceLinesOf(tr, character, trackedCurrencies, this.supplyMinimums)}
+            empty=${tr.t('detail.overview.resourcesEmpty')}
+            span="12"
+          ></wt-detail-summary>
+        `
+      }
       case DetailSection.Week:
         return html`
-          ${
-            state.levelling
-              ? html`<wt-detail-panel
-                  icon="vault"
-                  heading=${tr.t('card.vault')}
-                  .content=${html`<wt-panel-empty text=${tr.t('card.levellingHint')}></wt-panel-empty>`}
-                ></wt-detail-panel>`
-              : html`<wt-card class="panel dash-panel dash-c6 dash-fit">
-                  <wt-vault-block .character=${character} .progress=${progress} ?unclaimed=${state.unclaimed}></wt-vault-block>
-                  <wt-goal-strip .goals=${character.stale ? [] : progress.goals}></wt-goal-strip>
-                </wt-card>`
-          }
+          ${this.vault(state, progress)}
           <wt-detail-tasks
             .character=${character}
             .goals=${goals}

@@ -4,6 +4,7 @@
  */
 
 import type {
+  AppConfig,
   CharacterSnapshot,
   CurrencyAmount,
   DungeonBest,
@@ -17,18 +18,26 @@ import type { DisplayFlags } from '../../../../shared/display'
 import { difficultyLabel, type Translator } from '../../../../shared/i18n'
 import type { ListTip } from '../../model/listTip'
 import { Severity } from '../../enums/severity'
-import { checkGear, type GearCheck } from '../../model/gear'
+import { checkGear, slotLabel, slotList, type GearCheck } from '../../model/gear'
 import { keyToRun, type KeyToRun } from '../../model/dungeons'
+import { supplyStock } from '../../../../shared/supplies'
+import { concentrationFull } from '../../model/overview'
+import { supplyLabel } from '../../model/labels'
+import { counted, type Task } from '../../model/tasks'
+import { TaskKind } from '../../enums/taskKind'
+import { TaskState } from '../../enums/taskState'
 import type { IconName } from '../Icon'
 import { DetailSection } from '../../enums/detailSection'
 
 /**
  * The sections of the character page, in the order of its sub-navigation:
- * what resets this week, what the season built up, the equipped gear, the
- * professions, the currencies, what the character carries. Eleven panels
- * in one scroll were too long to find anything in; one section is one screen.
+ * a summary of the others, what resets this week, what the season built
+ * up, the equipped gear, the professions, the currencies, what the
+ * character carries. Eleven panels in one scroll were too long to find
+ * anything in; one section is one screen.
  */
 export const DETAIL_SECTIONS: Array<{ id: DetailSection; icon: IconName }> = [
+  { id: DetailSection.Overview, icon: 'gauge' },
   { id: DetailSection.Week, icon: 'calendar' },
   { id: DetailSection.Season, icon: 'flag' },
   { id: DetailSection.Gear, icon: 'shield' },
@@ -157,4 +166,188 @@ export function currencyRows(character: CharacterSnapshot, tracked: Set<number>)
 /** A currency's weekly cap is reached. */
 export function capReached(currency: CurrencyAmount): boolean {
   return currency.weeklyMax !== null && (currency.earnedThisWeek ?? 0) >= currency.weeklyMax
+}
+
+/*
+ * The overview section: the lines of its summary panels. Each panel says in
+ * a few lines what its section says in full, and only what needs a look.
+ */
+
+/** One line of a summary panel: what, how much, in which tone. */
+export interface SummaryLine {
+  icon: IconName
+  label: string
+  value: string
+  tone: Severity
+  tip?: string
+}
+
+/** The open weekly tasks the week's summary lists; the rest is a count under them. */
+export const SUMMARY_TASKS = 5
+
+/**
+ * The week: the first open tasks in the list's order, and a count of the
+ * rest. The vault rows stay out, because the vault block stands beside the
+ * panel. A reward to claim is in the done tone: it waits only for a visit.
+ */
+export function taskLines(tr: Translator, tasks: Task[]): SummaryLine[] {
+  const open = counted(tasks).filter((task) => task.kind !== TaskKind.Vault && task.state !== TaskState.Done)
+  const lines: SummaryLine[] = open.slice(0, SUMMARY_TASKS).map((task) => ({
+    icon: task.icon,
+    label: task.label,
+    value: task.note ?? '',
+    tone: task.state === TaskState.Ready ? Severity.Ok : Severity.Info,
+    tip: typeof task.tip === 'string' ? task.tip : undefined
+  }))
+  const rest = open.length - lines.length
+  if (rest > 0) lines.push({ icon: 'tasks', label: tr.plural('detail.overview.moreTasks', rest), value: '', tone: Severity.Info })
+  return lines
+}
+
+/** The step of an upgrade track, from the tooltip's "Champion 4/8"; null without one. */
+export function trackStep(track: string | null): { step: number; max: number } | null {
+  const match = track?.match(/(\d+)\s*\/\s*(\d+)\s*$/)
+  return match ? { step: Number(match[1]), max: Number(match[2]) } : null
+}
+
+/**
+ * The item to upgrade next: of the items with steps left on their track,
+ * the lowest item level, because a step there lifts the average the most.
+ */
+export function nextUpgrade(gear: GearItem[]): GearItem | null {
+  let next: GearItem | null = null
+  for (const item of gear) {
+    const step = trackStep(item.track)
+    if (!step || step.step >= step.max) continue
+    if (!next || (item.itemLevel ?? Infinity) < (next.itemLevel ?? Infinity)) next = item
+  }
+  return next
+}
+
+/** The gear: the slots to fix, the weakest slot, the next upgrade. Empty without a source for the gear. */
+export function gearLines(tr: Translator, character: CharacterSnapshot, flags: DisplayFlags): SummaryLine[] {
+  const check = checkGear(character, flags)
+  if (!check.known) return []
+  const lines: SummaryLine[] = []
+  if (check.missingEnchants.length > 0)
+    lines.push({ icon: 'wand', label: tr.t('gear.row.enchant'), value: slotList(tr, check.missingEnchants), tone: Severity.Warn })
+  if (check.emptySockets.length > 0) {
+    lines.push({
+      icon: 'gem',
+      label: tr.plural('gear.row.sockets', check.emptySockets.length),
+      value: slotList(tr, check.emptySockets),
+      tone: Severity.Warn
+    })
+  }
+  if (check.issues === 0) lines.push({ icon: 'check', label: tr.t('detail.overview.gearDone'), value: '', tone: Severity.Ok })
+  if (check.weakest) {
+    lines.push({
+      icon: 'target',
+      label: tr.t('gear.row.weakest'),
+      value: `${slotLabel(tr, check.weakest.slot)} ${tr.formatNumber(Math.round(check.weakest.itemLevel ?? 0))}`,
+      tone: Severity.Info
+    })
+  }
+  const upgrade = nextUpgrade(character.gear)
+  if (upgrade) {
+    lines.push({
+      icon: 'trendUp',
+      label: tr.t('detail.overview.upgrade'),
+      value: `${slotLabel(tr, upgrade.slot)} · ${upgrade.track}`,
+      tone: Severity.Info,
+      tip: upgrade.name
+    })
+  }
+  return lines
+}
+
+/**
+ * Mythic+ and the raid: the key that lifts the rating the most, and the
+ * newest raid with a line for each difficulty that has a kill.
+ */
+export function keyLines(tr: Translator, character: CharacterSnapshot, dungeons: SeasonDungeon[]): SummaryLine[] {
+  const lines: SummaryLine[] = []
+  const key = keyToRun(character.dungeonBests ?? [], dungeons)
+  if (key) {
+    lines.push({
+      icon: 'dungeon',
+      label: tr.t('detail.overview.keyToRun'),
+      value: key.best ? `${key.dungeon.name} +${key.best.level}` : `${key.dungeon.name} · ${tr.t('detail.overview.unrun')}`,
+      tone: Severity.Info,
+      tip: tr.t(key.best ? 'detail.bests.weakest' : 'detail.bests.unrun')
+    })
+  }
+  const raid = raidRows(character.raidProgress ?? [])[0]
+  if (raid) {
+    const started = raid.cells.filter((cell) => cell.killed > 0)
+    if (started.length === 0)
+      lines.push({ icon: 'raid', label: raid.raid.name, value: tr.t('detail.overview.raidNone'), tone: Severity.Info })
+    for (const cell of started) {
+      lines.push({
+        icon: 'raid',
+        label: `${raid.raid.name} · ${difficultyLabel(tr, cell.difficultyId, '')}`,
+        value: `${cell.killed}/${cell.total}`,
+        tone: cell.killed === cell.total ? Severity.Ok : Severity.Info
+      })
+    }
+  }
+  return lines
+}
+
+/**
+ * What the character holds that needs a look: the watched currencies, the
+ * supplies under their minimum, the professions with concentration or
+ * unspent knowledge. A supply that is not short is no line.
+ */
+export function resourceLines(
+  tr: Translator,
+  character: CharacterSnapshot,
+  tracked: Set<number>,
+  minimums: AppConfig['supplyMinimums']
+): SummaryLine[] {
+  const lines: SummaryLine[] = []
+  for (const currency of character.currencies) {
+    if (!tracked.has(currency.id)) continue
+    const week =
+      currency.weeklyMax !== null
+        ? ` · ${tr.t('detail.overview.week', { earned: tr.formatNumber(currency.earnedThisWeek ?? 0), max: tr.formatNumber(currency.weeklyMax) })}`
+        : ''
+    lines.push({
+      icon: 'coins',
+      label: currency.name || tr.t('currency.unknown', { id: currency.id }),
+      value: `${tr.formatNumber(currency.quantity)}${week}`,
+      tone: capReached(currency) ? Severity.Ok : Severity.Info
+    })
+  }
+  for (const entry of supplyStock(character, minimums) ?? []) {
+    if (!entry.short) continue
+    lines.push({
+      icon: 'bag',
+      label: supplyLabel(tr, entry.group),
+      value: `${tr.formatNumber(entry.inBags)}/${tr.formatNumber(entry.needed)}`,
+      tone: Severity.Warn
+    })
+  }
+  for (const profession of character.professions ?? []) {
+    const parts: string[] = []
+    if (profession.concentration) {
+      parts.push(
+        tr.t('profession.concentration', {
+          current: tr.formatNumber(profession.concentration.current),
+          max: tr.formatNumber(profession.concentration.max)
+        })
+      )
+    }
+    if (profession.knowledge) parts.push(tr.plural('profession.knowledgePoints', profession.knowledge))
+    if (parts.length === 0) continue
+    const full = concentrationFull(profession)
+    lines.push({
+      icon: 'anvil',
+      label: profession.name,
+      value: parts.join(' · '),
+      tone: full || profession.knowledge ? Severity.Warn : Severity.Info,
+      tip: full ? tr.t('profession.concentrationFull') : undefined
+    })
+  }
+  return lines
 }

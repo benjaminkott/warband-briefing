@@ -22,6 +22,8 @@ import { Tint } from '../../enums/tint'
 import { FormatKind } from '../../enums/formatKind'
 import { GoldRange } from '../../enums/goldRange'
 import { characterGold } from '../../model/gold'
+import { DetailSection } from '../../enums/detailSection'
+import { gearLines, keyLines, resourceLines } from './model'
 import './DetailBags'
 import './DetailBests'
 import './DetailCurrencies'
@@ -37,6 +39,7 @@ import './RunResult'
 import './DetailRaids'
 import './DetailRuns'
 import './DetailSupplies'
+import './DetailSummary'
 import './DetailTasks'
 import '../StatTile'
 import './DetailEntry'
@@ -161,6 +164,43 @@ export const TasksAndCurrencies: StoryObj = {
         ></wt-detail-tasks>
         <wt-detail-currencies .character=${LEVELLING} .tracked=${tracked}></wt-detail-currencies>`
     )
+}
+
+/** The overview's panels: a few lines of a section, the way to it in full at the foot; a panel without a line says why. */
+export const Summary: StoryObj = {
+  render: (_args, context) => {
+    const tr = translatorFor(context)
+    return grid(
+      html`<wt-detail-summary
+          icon="keystone"
+          heading=${tr.t('detail.overview.keys')}
+          section=${DetailSection.Season}
+          .lines=${keyLines(tr, MAIN, SEASON_DUNGEONS)}
+          empty=${tr.t('detail.overview.keysEmpty')}
+        ></wt-detail-summary>
+        <wt-detail-summary
+          icon="shield"
+          heading=${tr.t('detail.section.gear')}
+          section=${DetailSection.Gear}
+          .lines=${gearLines(tr, MAIN, flags)}
+          empty=${tr.t('detail.overview.gearEmpty')}
+        ></wt-detail-summary>
+        <wt-detail-summary
+          icon="coins"
+          heading=${tr.t('detail.overview.resources')}
+          section=${DetailSection.Currencies}
+          .lines=${resourceLines(tr, MAIN, tracked, {})}
+          empty=${tr.t('detail.overview.resourcesEmpty')}
+        ></wt-detail-summary>
+        <wt-detail-summary
+          icon="shield"
+          heading=${tr.t('detail.section.gear')}
+          section=${DetailSection.Gear}
+          .lines=${gearLines(tr, LEVELLING, flags)}
+          empty=${tr.t('detail.overview.gearEmpty')}
+        ></wt-detail-summary>`
+    )
+  }
 }
 
 /** The season's consumables against the bags: the main's stock, a minimum of the player's own that leaves it short, a character no bag source knows. */

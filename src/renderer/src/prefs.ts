@@ -51,7 +51,7 @@ export const DEFAULT_PREFS: ViewPrefs = {
   goldRange: GoldRange.Month,
   goldChart: GoldChart.Total,
   settingsSection: SettingsSection.Setup,
-  detailSection: DetailSection.Week,
+  detailSection: DetailSection.Overview,
   // The whole week, the done lines ticked: a list that only shows what is
   // left does not show that anything got done.
   tasksFilter: TaskFilter.All,
