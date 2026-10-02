@@ -49,7 +49,8 @@ export class WtCharacterTile extends WtButton {
     const tr = this.tr
     const row = this.row
     const step = nextStep(row.character, row.progress, row.levelling, tr, row.flags, row.dungeons)
-    this.hostTip(tr.t('dash.openCharacter'))
+    // No tooltip of its own: the whole tile is the way in, which the pointer
+    // already says, and a bubble over it only covers the arcs it sits on.
     // The host is `contents`, so the variable reaches the button inside. The
     // edge of the card lights up in the class colour on hover.
     this.hostVar('--class-color', classColor(row.character.classToken))
