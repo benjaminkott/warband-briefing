@@ -82,8 +82,8 @@ const RING_GAP = 1
  * It is drawn to be read second: a shade lighter than the groups, one flat
  * quiet colour, no gradient and no glow. A board of a dozen of them must
  * still be the characters, not a wall of rings. The one moment it speaks up
- * is the line crossed - then it closes, takes the `ok` green every finished
- * thing in the app wears, and glows.
+ * is the line crossed - then it closes and takes the `ok` green every
+ * finished thing in the app wears.
  */
 @customElement('wt-ring')
 export class WtRing extends WtElement {
@@ -209,7 +209,7 @@ export class WtRing extends WtElement {
 
     /* The outer ring: one flat colour held back, so it frames the groups
        instead of competing with them. No gradient - a closed ring has
-       nowhere to run one to - and no glow until it is closed. */
+       nowhere to run one to - and no glow. */
     .arc.on.outer {
       stroke: var(--ring-color, var(--accent));
       opacity: 0.45;
@@ -221,12 +221,11 @@ export class WtRing extends WtElement {
     /* The line crossed. A group's own full arc keeps the accent - whether
        one row of three is finished is not what the tile is scanned for -
        but the ring around them all takes the green every other finished
-       thing in the app wears, and is the one part of the drawing that is
-       meant to catch the eye. */
+       thing in the app wears. The full green is mark enough: a glow on a
+       board of closed rings only blurs them. */
     .arc.on.outer.done {
       stroke: var(--ok);
       opacity: 1;
-      filter: drop-shadow(0 0 4px var(--ok-line));
     }
 
     .hit {

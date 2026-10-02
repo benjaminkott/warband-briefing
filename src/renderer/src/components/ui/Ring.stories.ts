@@ -34,7 +34,7 @@ export const Groups: StoryObj<Args> = {}
 /**
  * One thin fill around the groups: how far the whole thing is towards the
  * line the reader works to. The groups move in to make room; the outer ring
- * closes and glows at a hundred.
+ * closes and turns green at a hundred.
  */
 export const WithOuter: StoryObj<Args> = {
   render: (args) =>
