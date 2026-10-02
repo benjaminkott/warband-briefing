@@ -8,8 +8,8 @@ import type { AppConfig, CharacterHistory, CharacterSnapshot, Goal, SeasonDungeo
 import type { CustomTaskState } from '../../../shared/customTasks'
 import type { TranslationKey } from '../../../shared/i18n'
 import { DISPLAY_DEFAULTS, TREND_DAYS, type DisplayFlags } from '../../../shared/display'
-import { accountsOf, defaultDirection, keystoneShort, multiRealm, tokenAmount } from '../model/overview'
-import { seasonToken, type SeasonCurrency } from '../../../shared/seasonCatalog'
+import { accountsOf, defaultDirection, keystoneShort, multiRealm, tokenFigures } from '../model/overview'
+import { seasonTokens } from '../../../shared/seasonCatalog'
 import { memoLast } from '../memo'
 import { WtCard } from './ui/Card'
 import type { IconName } from './Icon'
@@ -36,8 +36,9 @@ import { IconSize } from '../enums/iconSize'
 
 interface Column {
   id: string
-  /** The head's word; the token column takes the catalog's instead. */
+  /** The head's word; a token column takes the catalog's as `label` instead. */
   key?: TranslationKey
+  label?: string
   /** Columns without a sort key are context only. */
   sort?: SortKey
   numeric?: boolean
@@ -50,7 +51,7 @@ const COLUMNS: Column[] = [
   { id: 'score', key: 'table.score', sort: SortKey.Score, numeric: true },
   { id: 'key', key: 'table.key', sort: SortKey.Key },
   { id: 'vault', key: 'table.vault', sort: SortKey.Vault },
-  /** The season's token: how many a character holds, under the catalog's word. */
+  /** The season's tokens, one column each: how many a character holds, under the catalog's word. */
   { id: 'token', numeric: true },
   { id: 'runs', key: 'table.runs', numeric: true },
   { id: 'raids', key: 'table.raids' },
@@ -149,8 +150,10 @@ export class WtCharacterTable extends WtCard {
     )
     // On a single-realm roster the realm is the same word on every row - noise.
     const showRealm = multiRealm(characters)
-    const token = seasonToken()
-    const columns = COLUMNS.filter((column) => (column.id !== 'account' || showAccount) && (column.id !== 'token' || token !== null))
+    const tokens = seasonTokens()
+    const columns = COLUMNS.filter((column) => column.id !== 'account' || showAccount).flatMap((column) =>
+      column.id === 'token' ? tokens.map((token) => ({ ...column, id: `token-${token.id}`, label: token.figure })) : [column]
+    )
 
     return html`<table class="char-table">
       <thead>
@@ -162,7 +165,7 @@ export class WtCharacterTable extends WtCard {
         ${repeat(
           rows,
           (row) => row.character.key,
-          (row) => this.row(row, showRealm, token)
+          (row) => this.row(row, showRealm)
         )}
       </tbody>
     </table>`
@@ -173,7 +176,7 @@ export class WtCharacterTable extends WtCard {
     const tr = this.tr
     const sorted = column.sort === this.sort
     const ascending = this.direction === SortDirection.Asc
-    const inner = html`${column.key ? tr.t(column.key) : (seasonToken()?.figure ?? '')}${
+    const inner = html`${column.key ? tr.t(column.key) : (column.label ?? '')}${
       sorted
         ? html`<wt-icon name=${ascending ? 'chevronUp' : 'chevronDown'} size=${IconSize.Xs} class="sort-caret"></wt-icon>`
         : column.sort
@@ -218,13 +221,12 @@ export class WtCharacterTable extends WtCard {
       : html`<wt-icon class="ok-text" name="check" size=${IconSize.Xs} data-tip=${okTip ?? nothing}></wt-icon>`
   }
 
-  private row(row: TableRow, showRealm: boolean, token: SeasonCurrency | null): TemplateResult {
+  private row(row: TableRow, showRealm: boolean): TemplateResult {
     const tr = this.tr
     const { character, state, progress, kills, tasks, gear, word, chip, step } = row
     const { levelling, unclaimed, inactive } = state
     const { region, showAccount } = this
-    // A character still levelling holds none worth a count.
-    const amount = levelling ? null : tokenAmount(character)
+    const tokens = tokenFigures(tr, character, levelling)
     return html`<tr class=${classMap({ stale: inactive, claim: unclaimed, levelling, 'hidden-char': row.hidden })}>
       <td>
         <!-- A flex row, so the mark, the name and the trailing notes
@@ -273,13 +275,11 @@ export class WtCharacterTable extends WtCard {
               </div>`
         }
       </td>
-      ${
-        token
-          ? html`<td class="num" data-tip=${token.name}>
-              ${amount === null ? html`<wt-format class="faint"></wt-format>` : html`<wt-format .value=${amount}></wt-format>`}
-            </td>`
-          : nothing
-      }
+      ${tokens.map(
+        (token) => html`<td class="num" data-tip=${token.tip}>
+          ${token.amount === null ? html`<wt-format class="faint"></wt-format>` : html`<wt-format .value=${token.amount}></wt-format>`}
+        </td>`
+      )}
       <td class="num">
         ${character.mythicRuns.length > 0 ? html`<wt-format .value=${character.mythicRuns.length}></wt-format>` : html`<wt-format class="faint"></wt-format>`}
       </td>

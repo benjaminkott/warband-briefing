@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { ratingColor, ratingStyle, type RosterRow } from '../../model/dashboard'
 import { nextStep, type NextStep } from '../../model/plan'
-import { tokenFigure } from '../../model/overview'
+import { tokenFigures } from '../../model/overview'
 import { IconKind } from '../../../../shared/enums/iconKind'
 import { WtButton } from '../ui/Button'
 import { goalRing, rosterClasses, vaultRing } from './model'
@@ -25,8 +25,8 @@ import '../GameIcon'
  * two questions the roster is scanned for - who is this, and how far along are
  * they - are answered by the shape alone, before a single figure is read. The
  * numbers are the ones a player compares between characters; the step is the
- * one thing left to do, at the foot. The season's token sits in the corner,
- * as on the card: a count, not a figure.
+ * one thing left to do, at the foot. The season's tokens sit in the corner,
+ * as on the card: counts, not figures.
  *
  * @fires wt-open-character - A click, with the character's key.
  */
@@ -61,12 +61,16 @@ export class WtCharacterTile extends WtButton {
     const tr = this.tr
     const { character } = this.row
     const color = classColor(character.classToken)
-    const token = tokenFigure(character, this.row.levelling)
+    const tokens = tokenFigures(tr, character, this.row.levelling)
     return html`${
-        token
-          ? html`<span class="tile-token" data-tip=${`${token.tip} · ${token.label}`}>
-              <wt-game-icon kind=${IconKind.Currency} ref=${token.id} size="var(--icon-sm)"></wt-game-icon>
-              <wt-format kind=${FormatKind.Number} .value=${token.amount}></wt-format>
+        tokens.length > 0
+          ? html`<span class="tile-tokens">
+              ${tokens.map(
+                (token) => html`<span class="tile-token" data-tip=${token.tip}>
+                  <wt-game-icon kind=${IconKind.Currency} ref=${token.id} size="var(--icon-sm)"></wt-game-icon>
+                  <wt-format kind=${FormatKind.Number} .value=${token.amount}></wt-format>
+                </span>`
+              )}
             </span>`
           : nothing
       }

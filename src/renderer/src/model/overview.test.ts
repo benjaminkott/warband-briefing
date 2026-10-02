@@ -18,7 +18,7 @@ import {
   raidKills,
   concentrationFull,
   tokenAmount,
-  tokenFigure,
+  tokenFigures,
   stateWord,
   overTheLine
 } from './overview'
@@ -29,6 +29,7 @@ import { normalizePrefs } from '../prefs'
 import { splitDuration, DAY_MS } from '../../../shared/time'
 import { appendReading, compactByDay } from '../../../shared/series'
 import { keysTranslator } from '../../../shared/i18n/testing'
+import { seasonTokens } from '../../../shared/seasonCatalog'
 import { VaultCategory } from '../../../shared/enums/vaultCategory'
 import { snapshot, vaultRow } from '../../../shared/testing'
 import type { CharacterPoint, CharacterSnapshot, GearItem, GoldPoint } from '../../../shared/types'
@@ -63,22 +64,33 @@ const character = (name: string, options: Partial<CharacterSnapshot> & { raid?: 
     ...options
   })
 
-/* ---- the season's token ---- */
+/* ---- the season's tokens ---- */
 
 const voidcore = { id: 3418, name: 'Nebulöser Leerenkern', quantity: 2, max: null, earnedThisWeek: null, weeklyMax: null }
 const crest = { ...voidcore, id: 3446, name: 'Myth', quantity: 40 }
-it('the count of the token is what the character holds', () => {
-  expect(tokenAmount({ currencies: [crest, voidcore] })).toEqual(2)
+const keys = { ...voidcore, id: 3028, name: 'Restaurierter Kastenschlüssel', quantity: 3 }
+const shards = { ...voidcore, id: 3310, name: 'Kastenschlüsselsplitter', quantity: 222 }
+const [voidcoreToken, keyToken] = seasonTokens()
+it('the count of a token is what the character holds', () => {
+  expect(tokenAmount({ currencies: [crest, voidcore] }, voidcoreToken)).toEqual(2)
 })
 it('none among other currencies is 0: a source lists only what is held', () => {
-  expect(tokenAmount({ currencies: [crest] })).toEqual(0)
-})
-it('the token figure carries the id, the word and the count; a levelling character has no count', () => {
-  expect(tokenFigure({ currencies: [crest, voidcore] }, false)).toMatchObject({ id: voidcore.id, label: 'Voidcores', amount: 2 })
-  expect(tokenFigure({ currencies: [crest, voidcore] }, true)?.amount).toEqual(null)
+  expect(tokenAmount({ currencies: [crest] }, voidcoreToken)).toEqual(0)
 })
 it('no currencies at all is a source that reads none: unknown', () => {
-  expect(tokenAmount({ currencies: [] })).toEqual(null)
+  expect(tokenAmount({ currencies: [] }, voidcoreToken)).toEqual(null)
+})
+it('every hundred shards count as one more coffer key, the rest does not', () => {
+  expect(tokenAmount({ currencies: [keys, shards] }, keyToken)).toEqual(5)
+  expect(tokenAmount({ currencies: [shards] }, keyToken)).toEqual(2)
+  expect(tokenAmount({ currencies: [{ ...shards, quantity: 99 }] }, keyToken)).toEqual(0)
+})
+it('a token figure carries the id, the word and the count; a levelling character has no count', () => {
+  const [core, key] = tokenFigures(tr, { currencies: [crest, voidcore, keys, shards] }, false)
+  expect(core).toMatchObject({ id: voidcore.id, label: 'Voidcores', amount: 2, tip: 'Nebulöser Leerenkern · Voidcores' })
+  expect(key).toMatchObject({ id: keys.id, label: 'Coffer Keys', amount: 5 })
+  expect(key.tip).toEqual('Restaurierter Kastenschlüssel · Coffer Keys\ntoken.parts(222,Kastenschlüsselsplitter,2)')
+  expect(tokenFigures(tr, { currencies: [crest, voidcore] }, true).map((figure) => figure.amount)).toEqual([null, null])
 })
 
 /* ---- the week of one character ---- */

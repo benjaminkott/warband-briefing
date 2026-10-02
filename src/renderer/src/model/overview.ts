@@ -12,7 +12,7 @@ import type { Translator } from '../../../shared/i18n'
 import { gearChores } from './gear'
 import { DISPLAY_DEFAULTS, visibleActivities, type DisplayFlags } from '../../../shared/display'
 import { goalsFor } from '../../../shared/assign'
-import { seasonToken } from '../../../shared/seasonCatalog'
+import { seasonTokens, type SeasonCurrency } from '../../../shared/seasonCatalog'
 import { activityChoreId, vaultChoreId, wantsChore, weeklyChoreId } from '../../../shared/skips'
 import { isOwed } from '../../../shared/weeklyTask'
 import type { Region } from '../../../shared/enums/region'
@@ -265,17 +265,27 @@ export function accountsOf(character: CharacterSnapshot): string[] {
 }
 
 /**
- * How many of the season's token the character holds. A source lists a
- * currency only while some of it is held, so none among the others is 0;
- * no currencies at all is a source that does not read them, and null.
+ * How many of a token the character holds, the whole ones of its parts
+ * included. A source lists a currency only while some of it is held, so
+ * none among the others is 0; no currencies at all is a source that does
+ * not read them, and null.
  */
-export function tokenAmount(character: Pick<CharacterSnapshot, 'currencies'>): number | null {
-  const token = seasonToken()
-  if (!token || character.currencies.length === 0) return null
-  return character.currencies.find((currency) => currency.id === token.id)?.quantity ?? 0
+export function tokenAmount(character: Pick<CharacterSnapshot, 'currencies'>, token: SeasonCurrency): number | null {
+  if (character.currencies.length === 0) return null
+  const held = character.currencies.find((currency) => currency.id === token.id)?.quantity ?? 0
+  return held + tokenParts(character, token).whole
 }
 
-/** The season's token in a card's or a tile's corner: its id for the icon, the count, the word and the name for the tip. */
+/** The parts of a token the character holds, and how many whole ones they make. */
+function tokenParts(character: Pick<CharacterSnapshot, 'currencies'>, token: SeasonCurrency): { count: number; whole: number; name: string | null } {
+  if (!token.parts) return { count: 0, whole: 0, name: null }
+  const { id, per } = token.parts
+  const parts = character.currencies.find((currency) => currency.id === id)
+  const count = parts?.quantity ?? 0
+  return { count, whole: Math.floor(count / per), name: parts?.name ?? null }
+}
+
+/** A season token in a card's or a tile's corner: its id for the icon, the count, the word and the tip. */
 export interface TokenFigure {
   id: number
   label: string
@@ -283,11 +293,21 @@ export interface TokenFigure {
   tip: string
 }
 
-/** The token figure of a character; null while the season names no token. A character still levelling holds none worth a count. */
-export function tokenFigure(character: Pick<CharacterSnapshot, 'currencies'>, levelling: boolean): TokenFigure | null {
-  const season = seasonToken()
-  if (!season) return null
-  return { id: season.id, label: season.figure!, amount: levelling ? null : tokenAmount(character), tip: season.name }
+/**
+ * The token figures of a character, one for each token the season names.
+ * A character still levelling holds none worth a count. The tip names the
+ * currency in the client's words and, where parts count, how many.
+ */
+export function tokenFigures(tr: Translator, character: Pick<CharacterSnapshot, 'currencies'>, levelling: boolean): TokenFigure[] {
+  return seasonTokens().map((token) => {
+    const name = character.currencies.find((currency) => currency.id === token.id)?.name ?? token.name
+    const parts = tokenParts(character, token)
+    const lines = [`${name} · ${token.figure!}`]
+    if (!levelling && parts.count > 0) {
+      lines.push(tr.t('token.parts', { count: tr.formatNumber(parts.count), name: parts.name ?? '', whole: parts.whole }))
+    }
+    return { id: token.id, label: token.figure!, amount: levelling ? null : tokenAmount(character, token), tip: lines.join('\n') }
+  })
 }
 
 /** Whether the roster spans realms: on a single realm the realm is the same word on every row - noise. */

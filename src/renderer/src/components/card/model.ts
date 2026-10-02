@@ -9,7 +9,7 @@ import { trend, type TrendSeries } from '../../../../shared/charHistory'
 import { TREND_DAYS, type DisplayFlags } from '../../../../shared/display'
 import type { Translator } from '../../../../shared/i18n'
 import { nextStep, type NextStep } from '../../model/plan'
-import { characterState, tokenFigure, weeklyProgress, type CharacterState, type TokenFigure, type WeeklyProgress } from '../../model/overview'
+import { characterState, tokenFigures, weeklyProgress, type CharacterState, type TokenFigure, type WeeklyProgress } from '../../model/overview'
 
 export interface CardModel {
   progress: WeeklyProgress
@@ -18,8 +18,8 @@ export interface CardModel {
   step: NextStep
   ilvlTrend: TrendSeries | null
   ratingTrend: TrendSeries | null
-  /** The season's token in the card's corner; null while the season names none. */
-  token: TokenFigure | null
+  /** The season's tokens in the card's corner; empty while the season names none. */
+  tokens: TokenFigure[]
 }
 
 export interface CardInputs {
@@ -45,5 +45,5 @@ export function cardModel(tr: Translator, inputs: CardInputs): CardModel {
   const ilvlTrend = flags.trend ? trend(history, (point) => point.itemLevel, TREND_DAYS, now) : null
   const ratingTrend = flags.trend ? trend(history, (point) => point.rating, TREND_DAYS, now) : null
 
-  return { progress, state, step, ilvlTrend, ratingTrend, token: tokenFigure(character, state.levelling) }
+  return { progress, state, step, ilvlTrend, ratingTrend, tokens: tokenFigures(tr, character, state.levelling) }
 }

@@ -1975,13 +1975,20 @@ wt-field-group[inline][size='sm'] .select-trigger {
   text-overflow: ellipsis;
 }
 
-/* The season's token in the band's top right corner: the game's icon and
-   the count, in the quiet ink - a thing to glance at, not one of the four
-   figures the player compares. */
-.card-token {
+/* The season's tokens in the band's top right corner, one under the other:
+   the game's icon and the count, in the quiet ink - a thing to glance at,
+   not one of the four figures the player compares. */
+.card-tokens {
   position: absolute;
   top: var(--s3);
   right: var(--s4);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s1);
+}
+
+.card-token {
   display: inline-flex;
   align-items: center;
   gap: var(--s1);
@@ -3155,11 +3162,23 @@ wt-group + wt-field-group {
   color: var(--text-faint);
 }
 
-/* The season's token in the tile's corner, the way the card carries it. */
-.tile-token {
+/* The season's tokens in the tile's top corners: the first on the left, the
+   next on the right. The ring in the middle leaves both corners free. */
+.tile-tokens {
   position: absolute;
   top: var(--s3);
+  left: var(--s3);
   right: var(--s3);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.tile-tokens > .tile-token {
+  pointer-events: auto;
+}
+
+.tile-token {
   display: inline-flex;
   align-items: center;
   gap: var(--s1);

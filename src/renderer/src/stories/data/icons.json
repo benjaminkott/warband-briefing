@@ -41,7 +41,8 @@
     "3509": "inv_misc_dust_02",
     "3356": "inv_misc_gem_diamond_01",
     "3008": "inv_valorstone_base",
-    "3418": "inv_misc_gem_diamond_01"
+    "3418": "inv_misc_gem_diamond_01",
+    "3028": "inv_misc_key_14"
   },
   "recipe": {
     "430619": "inv_alchemy_70_flask01",

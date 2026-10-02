@@ -523,6 +523,7 @@ export const en: Record<TranslationKey, string> = {
   'settings.factions.none': 'No faction reported yet. This needs the companion addon.',
   'settings.factions.allHint': 'No selection: the dashboard shows the default set of the season.',
   'card.currencies': 'Currencies',
+  'token.parts': '+{whole} from {count} {name}',
 
   /* ---- settings: accounts ---- */
   'settings.accounts.title': 'Accounts',

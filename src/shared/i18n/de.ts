@@ -532,6 +532,7 @@ export const de = {
   'settings.factions.none': 'Noch keine Fraktion gemeldet — dafür braucht es das Companion-Addon.',
   'settings.factions.allHint': 'Keine Auswahl: das Dashboard zeigt die Vorauswahl der Season.',
   'card.currencies': 'Währungen',
+  'token.parts': '+{whole} aus {count} {name}',
 
   /* ---- settings: accounts ---- */
   'settings.accounts.title': 'Konten',

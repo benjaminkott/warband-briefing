@@ -59,10 +59,17 @@ export interface SeasonCurrency {
   core: boolean
   /**
    * The roster shows how many of it a character holds, under this word: a
-   * figure on the card, a column of the table. One currency a season - the
-   * one a player counts before every raid night, the Voidcores.
+   * count in the corner of the card and the tile, a column of the table.
+   * Only the currencies a player counts before a raid night or a delve run
+   * (the Voidcores, the Coffer Keys).
    */
   figure?: string
+  /**
+   * A second currency that the game turns into this one: `per` of it make
+   * one. The roster adds the whole ones to the count, because a player
+   * combines them before the next use.
+   */
+  parts?: { id: number; per: number }
 }
 
 /** A major faction of the season. The client reports all factions of the expansion; the board shows only these. */
@@ -130,9 +137,9 @@ export function seasonCurrencyNames(): Record<number, string> {
   return names
 }
 
-/** The currency the roster shows a count of, if the season names one. */
-export function seasonToken(): SeasonCurrency | null {
-  return seasonCatalog().currencies.find((currency) => Boolean(currency.figure)) ?? null
+/** The currencies the roster shows a count of, in catalog order. */
+export function seasonTokens(): SeasonCurrency[] {
+  return seasonCatalog().currencies.filter((currency) => Boolean(currency.figure))
 }
 
 /** The currencies a fresh install watches. */

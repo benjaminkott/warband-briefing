@@ -188,6 +188,22 @@
       ],
       "currencies": [
         {
+          "id": 3028,
+          "name": "Restored Coffer Key",
+          "quantity": 3,
+          "max": null,
+          "earnedThisWeek": null,
+          "weeklyMax": null
+        },
+        {
+          "id": 3310,
+          "name": "Coffer Key Shards",
+          "quantity": 222,
+          "max": null,
+          "earnedThisWeek": null,
+          "weeklyMax": null
+        },
+        {
           "id": 3444,
           "name": "Champion Mistcrest",
           "quantity": 62,

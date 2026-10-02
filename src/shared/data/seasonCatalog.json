@@ -185,6 +185,8 @@
     { "id": 3509, "name": "Tidal Spark Dust", "core": true },
     { "id": 3356, "name": "Untainted Mana-Crystals", "core": true },
     { "id": 3418, "name": "Nebulous Voidcore", "core": true, "figure": "Voidcores" },
+    { "id": 3028, "name": "Restored Coffer Key", "core": false, "figure": "Coffer Keys", "parts": { "id": 3310, "per": 100 } },
+    { "id": 3310, "name": "Coffer Key Shards", "core": false },
     { "id": 3316, "name": "Voidlight Marl", "core": false },
     { "id": 3448, "name": "Corrosive Coin", "core": false }
   ],

@@ -92,7 +92,7 @@ export class WtCharacterCard extends WtCard {
   protected override render(): TemplateResult {
     const tr = this.tr
     const { character, model } = this
-    const { progress, state, step, token } = model
+    const { progress, state, step, tokens } = model
     const { levelling, inactive } = state
     const word = stateChip(tr, state, progress.done, character.level, progress.goalsMet)
 
@@ -162,14 +162,18 @@ export class WtCharacterCard extends WtCard {
         ></wt-card-figure>
       </div>
 
-      <!-- The season's token in the corner: a count, not a figure - none in
-           the bag is a 0, not a dash - so it stands apart from the four the
+      <!-- The season's tokens in the corner: counts, not figures - none in
+           the bag is a 0, not a dash - so they stand apart from the four the
            player compares. -->
       ${
-        token
-          ? html`<span class="card-token" data-tip=${`${token.tip} · ${token.label}`}>
-              <wt-game-icon kind=${IconKind.Currency} ref=${token.id} size="var(--icon-md)"></wt-game-icon>
-              <wt-format kind=${FormatKind.Number} .value=${token.amount}></wt-format>
+        tokens.length > 0
+          ? html`<span class="card-tokens">
+              ${tokens.map(
+                (token) => html`<span class="card-token" data-tip=${token.tip}>
+                  <wt-game-icon kind=${IconKind.Currency} ref=${token.id} size="var(--icon-md)"></wt-game-icon>
+                  <wt-format kind=${FormatKind.Number} .value=${token.amount}></wt-format>
+                </span>`
+              )}
             </span>`
           : nothing
       }
