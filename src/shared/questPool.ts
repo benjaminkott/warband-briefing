@@ -111,3 +111,27 @@ export function foldIntoPools(watched: readonly WeeklyQuestDef[], pools: readonl
   }
   return out
 }
+
+/**
+ * A stored list with the season's new core quests joined. A patch adds a
+ * weekly to the season and the catalog lists it as core, but a config from
+ * before the patch does not have it. A core quest the list was never
+ * offered, and none of whose ids the list holds, joins at the end, once:
+ * `offered` are the core ids the list was offered before, and a quest the
+ * player took off after that stays off. An empty list is the player's
+ * choice, not a list behind the season, and stays empty. Returns the list
+ * and the ids now offered.
+ */
+export function joinSeasonQuests(
+  watched: readonly WeeklyQuestDef[],
+  offered: readonly number[],
+  core: readonly WeeklyQuestDef[]
+): { quests: WeeklyQuestDef[]; offered: number[] } {
+  if (watched.length === 0) return { quests: [...watched], offered: [...offered] }
+  const listed = new Set(watched.flatMap((quest) => questIdsOf(quest)))
+  const joining = core.filter((quest) => !offered.includes(quest.id) && !questIdsOf(quest).some((id) => listed.has(id)))
+  return {
+    quests: [...watched, ...joining.map((quest) => ({ ...quest, ...(quest.pool ? { pool: [...quest.pool] } : {}) }))],
+    offered: core.map((quest) => quest.id)
+  }
+}

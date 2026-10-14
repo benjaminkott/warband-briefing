@@ -4,7 +4,7 @@
  */
 
 import { expect, it } from 'vitest'
-import { foldIntoPools, fromPool, growPools, inPool, poolDefFor, questIdsOf } from './questPool'
+import { foldIntoPools, fromPool, growPools, inPool, joinSeasonQuests, poolDefFor, questIdsOf } from './questPool'
 
 const meta = { id: 93909, label: 'Midnight: Weekly', pool: [93766, 93909, 98232] }
 const single = { id: 95520, label: 'Purging the Vaults' }
@@ -85,4 +85,28 @@ it('a quest that fits two pools joins the first', () => {
 })
 it('nothing learned, nothing grown', () => {
   expect(growPools([meta], [], dungeons)).toEqual([meta])
+})
+
+/* The season's new core quests join a stored list once. */
+const chain = { id: 98951, label: 'Labyrinth', pool: [98951, 98959] }
+const core = [meta, single, chain]
+
+it("a core quest the list was never offered joins at the end, with a copy of its pool; the offered ids are the catalog's", () => {
+  const joined = joinSeasonQuests([meta, single], [], core)
+  expect(joined.quests.map((quest) => quest.id)).toEqual([93909, 95520, 98951])
+  expect(joined.quests[2].pool).toEqual([98951, 98959])
+  expect(joined.quests[2].pool).not.toBe(chain.pool)
+  expect(joined.offered).toEqual([93909, 95520, 98951])
+})
+
+it('a core quest offered before and taken off stays off', () => {
+  expect(joinSeasonQuests([meta], [93909, 95520, 98951], core).quests.map((quest) => quest.id)).toEqual([93909])
+})
+
+it('a core quest the list holds by one of its pool ids is on the list', () => {
+  expect(joinSeasonQuests([{ id: 98959, label: 'Zuflucht' }], [], core).quests.map((quest) => quest.id)).toEqual([98959, 93909, 95520])
+})
+
+it('an empty list stays empty, and what it was offered stays as it was', () => {
+  expect(joinSeasonQuests([], [95520], core)).toEqual({ quests: [], offered: [95520] })
 })

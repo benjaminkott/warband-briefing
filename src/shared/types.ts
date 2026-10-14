@@ -189,9 +189,10 @@ export interface WeeklyTask {
   pool?: number[]
   done: boolean
   /**
-   * The client flags the quest completed on the account: it pays once for
-   * the warband, and some character did it this week. Only the companion
-   * knows; absent means "not flagged" or "unknown".
+   * The quest pays once for the warband - the register's account flag -
+   * and the client flags it completed on the account: some character did
+   * it this week. Only the companion knows; absent means "not flagged",
+   * "each character's own" or "unknown".
    */
   doneOnAccount?: boolean
   /**
@@ -615,6 +616,8 @@ export interface AppConfig {
   autoRefreshMinutes: number
   /** Weekly quests the addon should watch, written into its config file. */
   weeklyQuests: WeeklyQuestDef[]
+  /** The catalog's core quest ids the list was offered; a core quest not among them joins the list once (`questPool.ts`). */
+  seasonQuestsOffered: number[]
   /** Currency ids the cards show, whether or not they carry a weekly cap. */
   trackedCurrencies: number[]
   /** Faction ids the board shows. Empty shows every faction the client reports. */

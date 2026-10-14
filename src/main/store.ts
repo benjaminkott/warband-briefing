@@ -22,11 +22,11 @@ import type {
 import { recordCharacters } from '../shared/charHistory'
 import { DEFAULT_EVENING_MINUTES } from '../shared/effort'
 import { recordGold } from '../shared/goldHistory'
-import { defaultTrackedCurrencies, defaultTrackedFactions, seasonCatalog } from '../shared/seasonCatalog'
+import { defaultTrackedCurrencies, defaultTrackedFactions, seasonCatalog, seasonQuestDefs } from '../shared/seasonCatalog'
 import { fullVault } from '../shared/vault'
 import { emptyLexicon, mergeLexicons, type Lexicon } from '../shared/lexicon'
 import { vaultChoreId, weeklyChoreId, withSkip } from '../shared/skips'
-import { foldIntoPools } from '../shared/questPool'
+import { foldIntoPools, joinSeasonQuests } from '../shared/questPool'
 import type { WindowPlacement } from './windowFrame'
 import { GoalKind } from '../shared/enums/goalKind'
 import { VaultCategory } from '../shared/enums/vaultCategory'
@@ -45,6 +45,9 @@ const DEFAULT_CONFIG: AppConfig = {
   // that cannot be watched.
   autoRefreshMinutes: 0,
   weeklyQuests: [],
+  // Nothing offered yet: the first load after the list is filled notes the
+  // catalog's core quests, and a later patch's quest joins the list once.
+  seasonQuestsOffered: [],
   // The season's crests and tokens; the settings screen edits the list.
   trackedCurrencies: defaultTrackedCurrencies(),
   trackedFactions: defaultTrackedFactions(),
@@ -261,6 +264,18 @@ function migrate(state: PersistedState): PersistedState {
       state.config.weeklyQuests,
       seasonCatalog().quests.filter((quest) => quest.pool !== undefined)
     )
+  }
+  // A patch adds a weekly to the season, and the catalog of the next app
+  // version lists it as core; a list from before the patch takes it once
+  // (`questPool.ts`).
+  if (Array.isArray(state.config.weeklyQuests)) {
+    const joined = joinSeasonQuests(
+      state.config.weeklyQuests,
+      Array.isArray(state.config.seasonQuestsOffered) ? state.config.seasonQuestsOffered : [],
+      seasonQuestDefs()
+    )
+    state.config.weeklyQuests = joined.quests
+    state.config.seasonQuestsOffered = joined.offered
   }
   // The account's quests were a list of their own, once; they are marks on
   // the characters' lines now.
