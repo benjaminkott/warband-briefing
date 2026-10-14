@@ -55,18 +55,22 @@ function legacyAddonInstalled(wowPath: string): boolean {
   return existsSync(path.join(legacyAddonDir(wowPath), `${LEGACY_ADDON_FOLDER}.toc`))
 }
 
-/** Whether the installed Lua differs from the included one, byte for byte. */
+/** Whether an installed file differs from the included one, byte for byte. */
 async function addonDiffers(wowPath: string): Promise<boolean> {
-  const file = `${ADDON_FOLDER}.lua`
-  try {
-    const [bundled, installed] = await Promise.all([
-      readFile(path.join(bundledAddonDir(), file)),
-      readFile(path.join(installedAddonDir(wowPath), file))
-    ])
-    return !bundled.equals(installed)
-  } catch {
-    return true
+  // The toc counts too: a patch of the game changes the interface version
+  // and nothing else, and the game drops an addon whose toc is behind.
+  for (const file of [`${ADDON_FOLDER}.lua`, `${ADDON_FOLDER}.toc`]) {
+    try {
+      const [bundled, installed] = await Promise.all([
+        readFile(path.join(bundledAddonDir(), file)),
+        readFile(path.join(installedAddonDir(wowPath), file))
+      ])
+      if (!bundled.equals(installed)) return true
+    } catch {
+      return true
+    }
   }
+  return false
 }
 
 /** Copies the included addon into the game and removes the old folder, if there is one. */
@@ -124,8 +128,8 @@ export async function updateAddon(wowPath: string | null): Promise<AddonVersions
   if (installed === null && !legacyAddonInstalled(wowPath)) return null
   if (installed !== null) {
     const order = compareVersions(installed, bundled)
-    // A newer copy stays; the same version is replaced only where its code
-    // differs - a development build changes the addon without a new number.
+    // A newer copy stays; the same version is replaced only where its files
+    // differ - a development build changes the addon without a new number.
     if (order > 0) return null
     if (order === 0 && !(await addonDiffers(wowPath))) return null
   }
