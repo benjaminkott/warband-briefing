@@ -1,5 +1,5 @@
 {
-  "patch": "12.1",
+  "patch": "12.1.5",
   "label": "Midnight — Season 2",
   "expansion": "Midnight",
   "minutes": {
@@ -163,6 +163,12 @@
     },
     { "id": 95520, "label": "Purging the Vaults", "core": true },
     { "id": 96995, "label": "Turn Back the Surge", "core": true },
+    {
+      "id": 98951,
+      "label": "Labyrinth of Kindo'jan",
+      "pool": [98951, 98959, 98960, 98961, 98962, 98963],
+      "core": true
+    },
     { "id": 94385, "label": "Void Assaults", "pool": [94385, 94386], "core": false },
     { "id": 94446, "label": "A Nightmarish Task", "core": false },
     { "id": 94790, "label": "Research Console: Exploring the Void", "core": false },
@@ -195,6 +201,7 @@
     { "id": 2796, "name": "Delves: Season 2", "group": "season", "core": true },
     { "id": 2808, "name": "Preyhunter's Journey", "group": "season", "core": true },
     { "id": 2770, "name": "Slayer's Duellum", "group": "season", "core": true },
+    { "id": 2836, "name": "The Labyrinth of Kindo'jan", "group": "season", "core": true },
     { "id": 2710, "name": "Silvermoon Court", "group": "expansion", "core": true },
     { "id": 2696, "name": "Amani Tribe", "group": "expansion", "core": true },
     { "id": 2704, "name": "Hara'ti", "group": "expansion", "core": true },

@@ -9,9 +9,12 @@
  *
  * The ids were read off a live client (build 12.1.0.69587, Midnight
  * season 2). The two pools - the season's meta weekly, the dungeon weekly -
- * are the client's quest labels 6072 and 4887 on build 12.1.0.69814
- * (wago.tools, 17 September 2026): the game offers one quest of each pool
- * a week, so each is one line (`questPool.ts`). The lists are a seed: a
+ * are the client's quest labels 6072 and 4887, unchanged on build
+ * 12.1.5.70391 (wago.tools, 14 October 2026): the game offers one quest
+ * of each pool a week, so each is one line (`questPool.ts`). The Labyrinth
+ * of Kindo'jan (patch 12.1.5) is a pool too: its quest line 6385 holds the
+ * six chamber quests Wah'du hands out one a week. Its renown faction 2836
+ * was read off the companion's register. The lists are a seed: a
  * quest a patch adds to a pool joins it from the companion's register, by
  * the prefix of its title or the name of a season dungeon. The Coiled Isle weeklies
  * and the rest were read off the companion's register of a live roster.
