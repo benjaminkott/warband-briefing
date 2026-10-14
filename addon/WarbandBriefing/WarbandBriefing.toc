@@ -1,4 +1,4 @@
-## Interface: 110200, 110205, 110207, 120000
+## Interface: 110200, 110205, 110207, 120000, 120105
 ## Title: Warband Briefing Companion
 ## Notes: Writes the Great Vault with its rewards, the realm's weekly reset, dungeon bests, gear, renown, the quest log, the bags and banks, gold, auctions and mail into SavedVariables for the Warband Briefing desktop app. Does nothing on its own: the app reads the file.
 ## Author: Benjamin Kott
