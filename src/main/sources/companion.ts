@@ -108,7 +108,7 @@ import type {
   WorldBossLockout
 } from '../../shared/types'
 import { seasonCatalog } from '../../shared/seasonCatalog'
-import type { QuestRegistry, RegisteredQuest } from '../../shared/questRegistry'
+import { isWeekly, type QuestRegistry, type RegisteredQuest } from '../../shared/questRegistry'
 import { fromPool, questIdsOf } from '../../shared/questPool'
 import { characterIdOf, emptyLexicon, type Lexicon } from '../../shared/lexicon'
 import { LexiconKind } from '../../shared/enums/lexiconKind'
@@ -594,17 +594,38 @@ function readFlagged(entry: LuaValue, key: 'questsFlagged' | 'questsFlaggedOnAcc
  * The configured weeklies from the log, the turn-ins and the client's
  * completion flags alone. Below SavedInstances, which has the longer memory
  * of completions; on a roster without it this is what keeps the list alive.
+ *
+ * A completion flag ticks a quest that comes back every week: the client
+ * clears the flag at the reset, so a flag is this week's. A one-time quest
+ * keeps its flag for good, so in a pool of them - a chain the game hands
+ * out one quest a week, the Labyrinth's chambers - the flag of one says
+ * nothing about this week: the pool is done on this week's turn-in, or
+ * when every quest of it is flagged. A quest the register does not know
+ * is taken as weekly. The account flag marks only a quest the register
+ * says pays once for the warband: the client flags every quest some
+ * character did, the ones each character does for itself too.
  */
 function readWeeklies(
   options: ReadOptions,
   log: QuestLogEntry[],
   done: WeeklyQuestDef[],
   flagged: Set<number>,
-  onAccount: Set<number>
+  onAccount: Set<number>,
+  registry: ReadonlyMap<number, RegisteredQuest>
 ): WeeklyTask[] | undefined {
   if (options.weeklyQuests.length === 0) return undefined
   const onLog = new Map(log.map((quest) => [quest.id, quest]))
   const turnedIn = new Map(done.map((quest) => [quest.id, quest]))
+  const comesBack = (id: number): boolean => {
+    const quest = registry.get(id)
+    return quest === undefined || isWeekly(quest)
+  }
+  const flaggedDone = (def: WeeklyQuestDef): boolean => {
+    const ids = questIdsOf(def)
+    const marked = ids.filter((id) => flagged.has(id))
+    return marked.some((id) => comesBack(id)) || (marked.length > 0 && marked.length === ids.length)
+  }
+  const paysOnce = (id: number): boolean => registry.get(id)?.account === true
   // A pool's line is whichever of its quests the week offers: the one on
   // the log, turned in or flagged - the others are not on the board.
   return options.weeklyQuests.map((def) => {
@@ -614,10 +635,10 @@ function readWeeklies(
       id: def.id,
       label: finished?.label || entry?.title || def.label,
       ...(def.pool ? { pool: def.pool } : {}),
-      done: finished !== undefined || questIdsOf(def).some((id) => flagged.has(id)),
-      // The client's account flag: some character did it, and the warband's
-      // one reward is gone. Written only where it says so.
-      ...(questIdsOf(def).some((id) => onAccount.has(id)) ? { doneOnAccount: true } : {}),
+      done: finished !== undefined || flaggedDone(def),
+      // The client's account flag on a quest that pays once: some character
+      // did it, and the warband's one reward is gone. Written only where it says so.
+      ...(questIdsOf(def).some((id) => onAccount.has(id) && paysOnce(id)) ? { doneOnAccount: true } : {}),
       onLog: entry !== undefined,
       ready: entry?.ready ?? false,
       progress: entry?.progress ?? null
@@ -770,6 +791,8 @@ export const companionAdapter: SourceAdapter = {
     const chars = tGet(db, 'chars')
     if (!isTable(chars)) return []
     const tooltips = readTooltips(db)
+    // The register's word on each quest: whether a flag is this week's.
+    const registry = new Map(readQuestRegistry(db).quests.map((quest) => [quest.id, quest]))
 
     const out: SourceCharacter[] = []
     for (const entry of Object.values(chars.map)) {
@@ -819,7 +842,7 @@ export const companionAdapter: SourceAdapter = {
         vault: readVault(entry),
         mythicRuns: readRuns(entry, options),
         lockouts: readLockouts(entry),
-        weeklies: readWeeklies(options, questLog, questsDone, flagged, flaggedOnAccount),
+        weeklies: readWeeklies(options, questLog, questsDone, flagged, flaggedOnAccount, registry),
         questLog,
         questsDone: questsDone.map(({ id, label }) => ({ id, label })),
         // A weekly on the log is a suggestion before anyone turns it in: the

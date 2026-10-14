@@ -396,6 +396,9 @@ WarbandBriefingDB = {
 	["95438"] = { ["title"] = "Verlorene Tiere", ["frequency"] = "Weekly", ["classification"] = "Recurring", ["expansion"] = 11, ["account"] = true, ["seenAt"] = ${thisWeek} },
 	-- A quest the game added to the season's pool after the seed: the prefix says which pool.
 	["98600"] = { ["title"] = "Mitternacht: Neu", ["frequency"] = "ResetByScheduler", ["classification"] = "Meta", ["expansion"] = 11, ["seenAt"] = ${thisWeek - 30} },
+	-- The Labyrinth's chain: one-time quests the game hands out one a week. The flag of one stays for good.
+	["98951"] = { ["title"] = "Akil'zons Horst", ["frequency"] = "Default", ["classification"] = "Normal", ["expansion"] = 11, ["seenAt"] = ${thisWeek}, ["doneAt"] = ${thisWeek} },
+	["98959"] = { ["title"] = "Jan'alais Zuflucht", ["frequency"] = "Default", ["classification"] = "Normal", ["expansion"] = 11, ["seenAt"] = ${thisWeek} },
 },
 ["events"] = { ["updatedAt"] = ${thisWeek}, ["list"] = {
 	{ ["title"] = "Zeitwanderung: Wrath of the Lich King", ["startsAt"] = ${now - 86400}, ["endsAt"] = ${now + 3 * 86400} },
@@ -525,14 +528,18 @@ WarbandBriefingDB = {
 			["90501"] = { ["title"] = "Vorwoche", ["at"] = ${endedWeek} },
 		},
 		-- The client's completion flags for the registered quests, stamped
-		-- for this week: a turn-in the addon was not there to see.
-		["questsFlagged"] = { ["93909"] = true },
-		["questsFlaggedOnAccount"] = { ["93909"] = true },
+		-- for this week: a turn-in the addon was not there to see. The
+		-- chain's first quest is flagged too, from a week before.
+		["questsFlagged"] = { ["93909"] = true, ["98951"] = true },
+		-- The client flags every quest some character did, each character's
+		-- own included: only the register says which pays once.
+		["questsFlaggedOnAccount"] = { ["93909"] = true, ["98951"] = true },
 		["flaggedWeek"] = ${nextWeek},
 	},
-	-- A second character of the companion: nothing done, but the client says
-	-- the season's weekly is completed on the account - the twin's turn-in
-	-- took the warband's one reward.
+	-- A second character of the companion: nothing done this week, the
+	-- whole chain flagged, and the client says the season's weekly is
+	-- completed on the account - the twin did it; the quest is each
+	-- character's own, so that is no mark.
 	["Zweitling-turalyon"] = {
 		["name"] = "Zweitling",
 		["realm"] = "Turalyon",
@@ -543,8 +550,8 @@ WarbandBriefingDB = {
 		["updatedAt"] = ${thisWeek},
 		["nextResetAt"] = ${nextWeek},
 		["questLog"] = {},
-		["questsFlagged"] = {},
-		["questsFlaggedOnAccount"] = { ["93909"] = true, ["93890"] = true },
+		["questsFlagged"] = { ["98951"] = true, ["98959"] = true },
+		["questsFlaggedOnAccount"] = { ["93909"] = true, ["93890"] = true, ["98951"] = true },
 		["flaggedWeek"] = ${nextWeek},
 	},
 },
@@ -845,6 +852,16 @@ it('a flag stamped before the reset does not', () => {
   expect(staleRead.bySource.get('companion')!.map((c) => c.weeklies![0].done)).toEqual([false, false])
 })
 
+/* A chain of one-time quests, one a week: the flag of one is not this week's. */
+const chainRead = await readSources(wowRoot, [{ id: 98951, label: 'Labyrinth', pool: [98951, 98959] }], {}, translator)
+const chainOf = (name: string) => chainRead.bySource.get('companion')!.find((c) => c.name === name)!.weeklies![0]
+it("one quest of the chain flagged, none turned in this week: not done; and no account mark, the chain is each character's own", () => {
+  expect([chainOf('Doppelt').done, chainOf('Doppelt').doneOnAccount]).toEqual([false, undefined])
+})
+it('every quest of the chain flagged: the chain is done', () => {
+  expect(chainOf('Zweitling').done).toEqual(true)
+})
+
 /* A pool grows from the register before the sources read the week. */
 const poolRead = await readSources(wowRoot, [{ id: 93909, label: 'Midnight: Weekly', pool: [93909, 93890] }], {}, translator)
 const poolTask = mergeSources(poolRead, reset).find((c) => c.name === 'Doppelt')!.weeklies[0]!
@@ -973,13 +990,13 @@ it('a quest only the account record has done is marked without a name', () => {
 it("a character's own quest carries no mark", () => {
   expect(rewardOf('Doppelt', 90001)?.rewardTaken).toEqual(undefined)
 })
-it('a quest the client flags completed on the account names the character whose record has it done, whichever source read that', () => {
+it("the client's account flag alone is no mark: it flags every quest some character did, each character's own included", () => {
   const marked = withAccountRewards(read, merged).find((c) => c.name === 'Zweitling')!.weeklies
   expect(marked.map((task) => [task.id, task.done, task.rewardTaken])).toEqual([
     [90001, false, undefined],
     [90002, false, undefined],
-    [93909, false, { by: 'Doppelt' }],
-    [93890, false, { by: 'Klöße' }]
+    [93909, false, undefined],
+    [93890, false, undefined]
   ])
 })
 
